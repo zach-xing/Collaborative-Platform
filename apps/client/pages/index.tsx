@@ -1,12 +1,7 @@
-import { Button } from "@chakra-ui/react";
+import type { NextPage } from "next";
 
-export default function Web() {
-  return (
-    <div>
-      <h1>Web</h1>
-      <Button variant="solid">
-        Button
-      </Button>
-    </div>
-  );
-}
+const Home: NextPage = () => {
+  return <>sdf</>;
+};
+
+export default Home;
