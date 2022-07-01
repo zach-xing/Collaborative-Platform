@@ -16,7 +16,7 @@ import {
 /**
  * 导航信息
  */
-const Navigation = () => {
+const Header = () => {
   return (
     <Box>
       <AppBar position="static">
@@ -58,4 +58,4 @@ const Navigation = () => {
   );
 };
 
-export default Navigation;
+export default Header;
