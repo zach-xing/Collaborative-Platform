@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  MdAccountBalance,
+  MdSpaceDashboard,
   MdEmojiPeople,
   MdOutlineNotifications,
 } from "react-icons/md";
@@ -28,7 +28,7 @@ const Navigation = () => {
             aria-label="open drawer"
             sx={{ mr: 2 }}
           >
-            <MdAccountBalance />
+            <MdSpaceDashboard />
           </IconButton>
           <Typography
             variant="h5"
