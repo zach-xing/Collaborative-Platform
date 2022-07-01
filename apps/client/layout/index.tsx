@@ -1,6 +1,8 @@
 import React from "react";
-import Navigation from "./Navigation";
 import Head from "next/head";
+import { Box } from "@mui/material";
+import Navigation from "./Navigation";
+import Sidebar from "./Sidebar";
 
 /**
  * 布局作用
@@ -14,7 +16,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       </Head>
 
       <Navigation />
-      {children}
+      <Sidebar />
+      <Box sx={{ position: "absolute", top: 0, left: 360 }}>{children}</Box>
     </>
   );
 };
