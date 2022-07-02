@@ -12,7 +12,7 @@ const Chat = () => {
           sx={{
             flex: 1,
             borderRadius: 1,
-            border: "1px solid black",
+            // border: "1px solid black",
             height: "100%",
             overflow: "auto",
           }}

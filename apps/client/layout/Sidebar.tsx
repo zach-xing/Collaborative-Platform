@@ -57,7 +57,7 @@ const Sidebar = () => {
         bottom: 0,
         width: 64,
         pt: 5,
-        backgroundColor: "#eee",
+        backgroundColor: "white",
         borderRadius: "0 10px 10px 0",
       }}
     >
