@@ -1,6 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { Box, Container } from "@mui/material";
+import Redirect from "../pages/redirect";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import useAuth from "../utils/auth";
@@ -26,8 +27,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     // '/chat'、'/task' 等
     if (!isLogin()) {
       // 在需要鉴权的页面 and 未登录
-      router.replace("/");
-      return <>{children}</>;
+      return <Redirect url="/login" />;
     } else {
       // 在需要鉴权的页面 and 已登录
       return (
