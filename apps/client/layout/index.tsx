@@ -3,19 +3,36 @@ import { useRouter } from "next/router";
 import { Box, Container } from "@mui/material";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import useAuth from "../utils/auth";
+
+// 不需要鉴权的页面
+const notAuthArr = ["/", "/login", "/register"];
 
 /**
  * 布局作用
  */
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
+  const { isLogin } = useAuth();
 
-  return (
-    <>
-      <Header />
-
-      {router.route !== "/" ? (
+  if (notAuthArr.indexOf(router.route) !== -1) {
+    return (
+      <>
+        {router.route === "/" && <Header />}
+        <Container>{children}</Container>
+      </>
+    );
+  } else {
+    // '/chat'、'/task' 等
+    if (!isLogin()) {
+      // 在需要鉴权的页面 and 未登录
+      router.replace("/");
+      return <>{children}</>;
+    } else {
+      // 在需要鉴权的页面 and 已登录
+      return (
         <>
+          <Header />
           <Sidebar />
           <Box
             sx={{
@@ -30,11 +47,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             {children}
           </Box>
         </>
-      ) : (
-        <Container>{children}</Container>
-      )}
-    </>
-  );
+      );
+    }
+  }
 };
 
 export default Layout;

@@ -1,6 +1,8 @@
 import type { NextPage } from "next";
 
 const Home: NextPage = () => {
+  console.log("index.tsx - rerender");
+
   return (
     <>
       <h1>Welcome!!!</h1>
