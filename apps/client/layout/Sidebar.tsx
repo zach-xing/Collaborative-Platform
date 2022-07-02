@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "next/router";
 import { Box, Stack, Tooltip, IconButton } from "@mui/material";
 import {
   MdMessage,
@@ -12,31 +13,31 @@ const navArr = [
   {
     id: 1,
     title: "消息",
-    url: "",
+    url: "/chat",
     iconComp: <MdMessage size="25" />,
   },
   {
     id: 2,
     title: "任务",
-    url: "",
+    url: "/task",
     iconComp: <MdToc size="25" />,
   },
   {
     id: 3,
     title: "工作台",
-    url: "",
+    url: "/workbench",
     iconComp: <MdDashboard size="25" />,
   },
   {
     id: 4,
-    title: "文档",
-    url: "",
+    title: "云文档",
+    url: "/clouddocument",
     iconComp: <MdFolderOpen size="25" />,
   },
   {
     id: 5,
     title: "日历",
-    url: "",
+    url: "/calendar",
     iconComp: <MdCalendarToday size="25" />,
   },
 ];
@@ -45,6 +46,8 @@ const navArr = [
  * 侧边栏
  */
 const Sidebar = () => {
+  const router = useRouter();
+
   return (
     <Box
       sx={{
@@ -61,7 +64,9 @@ const Sidebar = () => {
       <Stack spacing={2}>
         {navArr.map((nav) => (
           <Tooltip key={nav.id} title={nav.title} placement="right">
-            <IconButton>{nav.iconComp}</IconButton>
+            <IconButton onClick={() => router.push(nav.url)}>
+              {nav.iconComp}
+            </IconButton>
           </Tooltip>
         ))}
       </Stack>
