@@ -12,17 +12,13 @@ const Chat = () => {
           sx={{
             flex: 1,
             borderRadius: 1,
-            // border: "1px solid black",
-            height: "100%",
-            overflow: "auto",
+            backgroundColor: "white",
           }}
         >
           <MsgList />
         </ScrollBox>
 
-        <Box
-          sx={{ flex: 3, ml: 1, borderRadius: 1, border: "1px solid black" }}
-        >
+        <Box sx={{ flex: 3, ml: 1, borderRadius: 1, backgroundColor: "white" }}>
           <MsgShow />
         </Box>
       </Box>

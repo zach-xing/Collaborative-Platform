@@ -1,7 +1,8 @@
+import React from "react";
 import styled from "@emotion/styled";
 import { Box } from "@mui/material";
 
-const ScrollBox = styled(Box)`
+const ScrollStyleBox = styled(Box)`
   ::-webkit-scrollbar,
   ::-webkit-scrollbar-thumb {
     width: 16px;
@@ -15,5 +16,15 @@ const ScrollBox = styled(Box)`
     box-shadow: inset 0 0 0 10px #eee;
   }
 `;
+
+const ScrollBox: React.FC<{ sx?: object; children: React.ReactNode }> = (
+  props
+) => {
+  return (
+    <ScrollStyleBox sx={{ height: "100%", overflow: "auto", ...props.sx }}>
+      {props.children}
+    </ScrollStyleBox>
+  );
+};
 
 export default ScrollBox;
