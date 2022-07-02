@@ -85,7 +85,7 @@ const Header = () => {
 
   return (
     <Box>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <IconButton
             size="large"
