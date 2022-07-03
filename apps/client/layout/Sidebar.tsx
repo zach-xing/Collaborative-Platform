@@ -64,7 +64,14 @@ const Sidebar = () => {
       <Stack spacing={2}>
         {navArr.map((nav) => (
           <Tooltip key={nav.id} title={nav.title} placement="right">
-            <IconButton onClick={() => router.push(nav.url)}>
+            <IconButton
+              onClick={() => router.push(nav.url)}
+              sx={
+                router.route === nav.url
+                  ? { backgroundColor: "primary.light" }
+                  : null
+              }
+            >
               {nav.iconComp}
             </IconButton>
           </Tooltip>
