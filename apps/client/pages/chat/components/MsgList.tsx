@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Badge,
   Box,
   List,
   ListItem,
@@ -28,7 +29,9 @@ const MsgList = () => {
           <ListItem key={idx} alignItems="center">
             <ListItemButton>
               <ListItemAvatar>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                <Badge badgeContent={0} color="primary">
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                </Badge>
               </ListItemAvatar>
               <ListItemText
                 primary={

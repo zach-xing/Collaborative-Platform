@@ -3,12 +3,14 @@ import {
   Button,
   ButtonGroup,
   Divider,
+  Paper,
   TextField,
   Typography,
 } from "@mui/material";
 import React from "react";
 import { MdInsertPhoto, MdOutlineFolderOpen, MdSend } from "react-icons/md";
 import ScrollBox from "../../../components/ScrollBox";
+import MsgBubbleList from "./MsgBubbleList";
 
 interface IProps {
   chatId: string;
@@ -41,9 +43,10 @@ const MsgShow = () => {
         </Typography>
       </Box>
 
-      <ScrollBox sx={{ flex: 7 }}>sdf</ScrollBox>
+      <ScrollBox sx={{ flex: 7 }}>
+        <MsgBubbleList />
+      </ScrollBox>
 
-      {/* <Divider /> */}
       <Box sx={{ flex: 2, display: "flex" }}>
         <Box sx={{ flex: 9 }}>
           <TextField
