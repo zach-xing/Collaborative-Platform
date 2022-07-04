@@ -1,16 +1,8 @@
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Divider,
-  Paper,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, ButtonGroup, TextField, Typography } from "@mui/material";
 import React from "react";
 import { MdInsertPhoto, MdOutlineFolderOpen, MdSend } from "react-icons/md";
-import ScrollBox from "../../../components/ScrollBox";
-import MsgBubbleList from "./MsgBubbleList";
+import ScrollBox from "../../components/ScrollBox";
+import MsgBubbleList from "./components/MsgBubbleList";
 
 interface IProps {
   chatId: string;
@@ -19,13 +11,15 @@ interface IProps {
 /**
  * 消息的展示处
  */
-const MsgShow = () => {
+const ChatRight = () => {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
       <Box
         sx={{
           flex: 1,
           borderRadius: 1,
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0,
           backgroundColor: "primary.light",
           display: "flex",
           alignItems: "center",
@@ -79,4 +73,4 @@ const MsgShow = () => {
   );
 };
 
-export default MsgShow;
+export default ChatRight;
