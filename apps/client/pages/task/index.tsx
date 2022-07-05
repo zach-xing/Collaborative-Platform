@@ -1,6 +1,16 @@
 import React from "react";
-import { Box, Paper, Card } from "@mui/material";
+import {
+  Box,
+  Paper,
+  Card,
+  Typography,
+  Button,
+  CardActions,
+  CardContent,
+  IconButton,
+} from "@mui/material";
 import { Container, Draggable } from "react-smooth-dnd";
+import { MdMoreHoriz } from "react-icons/md";
 
 const tmpList = [
   {
@@ -12,6 +22,9 @@ const tmpList = [
       },
       {
         label: "one-222",
+      },
+      {
+        label: "one-331",
       },
     ],
   },
@@ -106,17 +119,33 @@ const Task = () => {
   return (
     <Box sx={{ display: "flex" }}>
       {data.map((item: { id: number; name: string; children: any[] }) => (
-        <Paper key={item.id} sx={{ p: 3, pt: 0, mr: 3 }}>
+        <Paper key={item.id} sx={{ p: 3, pt: 0, flex: 1, ml: 1, mr: 1 }}>
           <ContainerBox
             onDrop={(e: any) => onDrop(item.id, e)}
             getChildPayload={(idx: number) => getCardPayload(item.id, idx)}
             groupName="col"
             dropPlaceholderAnimationDuration={200}
           >
-            <h3>{item.name}</h3>
+            <Typography variant="h5" sx={{ mt: 2, mb: 2 }}>
+              {item.name}
+            </Typography>
             {item.children.map((column: any) => (
               <DraggableBox key={column?.label}>
-                <Card>{column?.label}</Card>
+                <Card variant="outlined">
+                  <CardContent>
+                    <Box
+                      sx={{ display: "flex", justifyContent: "space-between" }}
+                    >
+                      <Typography variant="h6" component="div">
+                        {column?.label}
+                      </Typography>
+                      <IconButton>
+                        <MdMoreHoriz />
+                      </IconButton>
+                    </Box>
+                    <Typography color="text.secondary">adjective</Typography>
+                  </CardContent>
+                </Card>
               </DraggableBox>
             ))}
           </ContainerBox>
