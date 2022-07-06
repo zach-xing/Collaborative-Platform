@@ -1,27 +1,29 @@
 import React from "react";
-import { Box } from "@mui/material";
-import ChatLeft from "./ChatLeft";
-import ChatRight from "./ChatRight";
+import ChatLeft from "../../components/ChatLeft";
+import ChatRight from "../../components/ChatRight";
+import styles from "./index.module.scss";
 
+/**
+ * 消息 页面
+ */
 const Chat = () => {
   return (
-    <>
-      <Box sx={{ display: "flex", height: "100%" }}>
-        <Box
-          sx={{
-            flex: 1,
-            borderRadius: 1,
-            backgroundColor: "white",
-          }}
-        >
-          <ChatLeft />
-        </Box>
+    <div style={{ display: "flex", height: "100%" }}>
+      <div style={{ flex: 1, borderRadius: 1, backgroundColor: "white" }}>
+        <ChatLeft />
+      </div>
 
-        <Box sx={{ flex: 3, ml: 1, borderRadius: 1, backgroundColor: "white" }}>
-          <ChatRight />
-        </Box>
-      </Box>
-    </>
+      <div
+        style={{
+          flex: 3,
+          marginLeft: 1,
+          borderRadius: 1,
+          backgroundColor: "white",
+        }}
+      >
+        <ChatRight />
+      </div>
+    </div>
   );
 };
 

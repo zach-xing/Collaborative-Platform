@@ -1,27 +1,29 @@
 import React from "react";
 import { useRouter } from "next/router";
-import { Box, Container } from "@mui/material";
+import { Layout } from "@douyinfe/semi-ui";
 import Redirect from "../pages/redirect";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
+import HeaderBox from "./Header";
+import SiderBox from "./Sidebar";
 import useAuth from "../utils/auth";
 
 // 不需要鉴权的页面
 const notAuthArr = ["/", "/login", "/register"];
 
-/**
- * 布局作用
- */
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const LayoutComp = ({ children }: { children: React.ReactNode }) => {
+  const { Header, Sider, Content } = Layout;
   const router = useRouter();
   const { isLogin } = useAuth();
 
   if (notAuthArr.indexOf(router.route) !== -1) {
     return (
-      <>
-        {router.route === "/" && <Header />}
-        <Container>{children}</Container>
-      </>
+      <Layout style={{ height: "100%" }}>
+        {router.route === "/" && (
+          <Header>
+            <HeaderBox />
+          </Header>
+        )}
+        <Content>{children}</Content>
+      </Layout>
     );
   } else {
     // '/chat'、'/task' 等
@@ -31,25 +33,20 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     } else {
       // 在需要鉴权的页面 and 已登录
       return (
-        <>
-          <Header />
-          <Sidebar />
-          <Box
-            sx={{
-              position: "absolute",
-              top: 64,
-              left: 64,
-              right: 0,
-              bottom: 0,
-              p: 2,
-            }}
-          >
-            {children}
-          </Box>
-        </>
+        <Layout style={{ height: "100%" }}>
+          <Header>
+            <HeaderBox />
+          </Header>
+          <Layout style={{ height: "calc(100vh - 60px)" }}>
+            <Sider>
+              <SiderBox />
+            </Sider>
+            <Content>{children}</Content>
+          </Layout>
+        </Layout>
       );
     }
   }
 };
 
-export default Layout;
+export default LayoutComp;

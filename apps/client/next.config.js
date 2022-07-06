@@ -1,6 +1,9 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-}
+const semi = require('@douyinfe/semi-next').default({});
 
-module.exports = nextConfig
+/** @type {import('next').NextConfig} */
+const nextConfig = semi({
+  // your custom Next.js configuration
+  reactStrictMode: true,
+});
+
+module.exports = nextConfig;

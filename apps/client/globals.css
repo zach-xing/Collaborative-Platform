@@ -1,0 +1,33 @@
+@import "~@douyinfe/semi-ui/dist/css/semi.min.css";
+
+:root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #eee;
+  /* overflow: hidden; */
+}
+
+#__next {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  min-width: 320px;
+}
+
+::-webkit-scrollbar,
+::-webkit-scrollbar-thumb {
+  width: 16px;
+  border-radius: 0 10px 10px 0;
+  background-clip: padding-box;
+  border: 5px solid white;
+  background-color: white;
+}
+
+::-webkit-scrollbar-thumb {
+  box-shadow: inset 0 0 0 10px #eee;
+}
