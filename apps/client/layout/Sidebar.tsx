@@ -2,10 +2,11 @@ import React from "react";
 import { useRouter } from "next/router";
 import { Nav } from "@douyinfe/semi-ui";
 import {
-  IconHome,
-  IconHistogram,
-  IconLive,
-  IconSetting,
+  IconAppCenter,
+  IconCalendar,
+  IconCloud,
+  IconComment,
+  IconGallery,
 } from "@douyinfe/semi-icons";
 
 const navArr: Array<{ itemKey: string; text: string; icon: React.ReactNode }> =
@@ -13,27 +14,27 @@ const navArr: Array<{ itemKey: string; text: string; icon: React.ReactNode }> =
     {
       itemKey: "chat",
       text: "消息",
-      icon: <IconHome size="large" />,
+      icon: <IconComment size="large" />,
     },
     {
       itemKey: "task",
       text: "任务",
-      icon: <IconHistogram size="large" />,
+      icon: <IconGallery size="large" />,
     },
     {
       itemKey: "workbench",
       text: "工作台",
-      icon: <IconLive size="large" />,
+      icon: <IconAppCenter size="large" />,
     },
     {
       itemKey: "clouddocument",
       text: "云文档",
-      icon: <IconSetting size="large" />,
+      icon: <IconCloud size="large" />,
     },
     {
       itemKey: "calendar",
       text: "日历",
-      icon: <IconSetting size="large" />,
+      icon: <IconCalendar size="large" />,
     },
   ];
 
