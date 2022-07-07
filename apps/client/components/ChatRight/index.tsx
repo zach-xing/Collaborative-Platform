@@ -11,21 +11,25 @@ const ChatRight = () => {
     <Card
       title="Semi Design"
       style={{ width: "100%", height: "100%" }}
-      bodyStyle={{ height: "calc(100% - 64px)" }}
+      bodyStyle={{
+        display: "flex",
+        flexDirection: "column",
+        height: "calc(100% - 64px)",
+      }}
       headerExtraContent={<div>更多</div>}
     >
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <ScrollBox flex={7}>
-          <ChatMsgBubbleList />
-        </ScrollBox>
+      <ScrollBox flex={7}>
+        <ChatMsgBubbleList />
+      </ScrollBox>
 
-        <div style={{ flex: 2 }}>
-          <TextArea maxCount={100} showClear />
-        </div>
+      <div style={{ flex: 2 }}>
+        <TextArea maxCount={100} showClear />
+      </div>
 
-        <div style={{ flex: 1 }}>
-          <Button theme='solid' icon={<IconSend />}>Click</Button>
-        </div>
+      <div style={{ flex: 1 }}>
+        <Button theme="solid" icon={<IconSend />}>
+          Click
+        </Button>
       </div>
     </Card>
   );
