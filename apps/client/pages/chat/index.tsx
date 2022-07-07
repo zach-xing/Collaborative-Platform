@@ -18,7 +18,7 @@ const Chat = () => {
           flex: 3,
           marginLeft: 1,
           borderRadius: 1,
-          backgroundColor: "white",
+          // backgroundColor: "white",
         }}
       >
         <ChatRight />
