@@ -41,8 +41,6 @@ const ChatLeft = () => {
         <MoreOptions />
       </div>
 
-      {/* <Divider /> */}
-
       <ScrollBox flex={19}>
         <List
           dataSource={data}
