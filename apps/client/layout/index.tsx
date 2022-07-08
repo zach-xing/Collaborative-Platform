@@ -6,22 +6,17 @@ import HeaderBox from "./Header";
 import SiderBox from "./Sidebar";
 import useAuth from "../utils/auth";
 
-// 不需要鉴权的页面
-const notAuthArr = ["/", "/login", "/register"];
-
 const LayoutComp = ({ children }: { children: React.ReactNode }) => {
   const { Header, Sider, Content } = Layout;
   const router = useRouter();
   const { isLogin } = useAuth();
 
-  if (notAuthArr.indexOf(router.route) !== -1) {
+  if (router.route === "/") {
     return (
       <Layout style={{ height: "100%" }}>
-        {router.route === "/" && (
-          <Header>
-            <HeaderBox />
-          </Header>
-        )}
+        <Header>
+          <HeaderBox />
+        </Header>
         <Content>{children}</Content>
       </Layout>
     );
@@ -29,7 +24,7 @@ const LayoutComp = ({ children }: { children: React.ReactNode }) => {
     // '/chat'、'/task' 等
     if (!isLogin()) {
       // 在需要鉴权的页面 and 未登录
-      return <Redirect url="/login" />;
+      return <Redirect url="/" />;
     } else {
       // 在需要鉴权的页面 and 已登录
       return (

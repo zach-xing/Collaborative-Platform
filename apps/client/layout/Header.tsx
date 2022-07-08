@@ -3,10 +3,14 @@ import { useRouter } from "next/router";
 import { Avatar, Button, Nav } from "@douyinfe/semi-ui";
 import { IconSemiLogo, IconBell, IconHelpCircle } from "@douyinfe/semi-icons";
 import useAuth from "../utils/auth";
+import Login from "../components/Login";
+import Register from "../components/Register";
 
 const Header = () => {
   const { isLogin } = useAuth();
   const { route, push } = useRouter();
+  const [loginVisible, setLoginVisible] = React.useState(false);
+  const [registerVisible, setRegisterVisible] = React.useState(false);
 
   let renderComp;
   if (isLogin()) {
@@ -58,12 +62,25 @@ const Header = () => {
       // 未登录的情况下访问主页
       renderComp = (
         <>
-          <Button theme="borderless" type="primary" style={{ marginRight: 8 }}>
+          <Button
+            theme="borderless"
+            type="primary"
+            style={{ marginRight: 8 }}
+            onClick={() => setRegisterVisible(true)}
+          >
             注册
           </Button>
-          <Button theme="borderless" type="primary" style={{ marginRight: 8 }}>
+          <Button
+            theme="borderless"
+            type="primary"
+            style={{ marginRight: 8 }}
+            onClick={() => setLoginVisible(true)}
+          >
             登录
           </Button>
+
+          <Login visible={loginVisible} setVisible={setLoginVisible} />
+          <Register visible={registerVisible} setVisible={setRegisterVisible} />
         </>
       );
     } else {
