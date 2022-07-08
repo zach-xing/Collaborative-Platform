@@ -1,6 +1,6 @@
 import { List, Typography } from "@douyinfe/semi-ui";
 import React from "react";
-import StateTag from "./components/StateTag";
+import StateTag from "./StateTag";
 
 const data: any = [
   {
@@ -19,14 +19,10 @@ const data: any = [
   },
 ];
 
-interface IProps {
-  flag: string;
-}
-
 /**
- * TabPaneComp 组件
+ * 审批中心 组件
  */
-const TabPaneComp: React.FC<IProps> = (props) => {
+const ApprovalCenter = () => {
   return (
     <List
       dataSource={data}
@@ -54,4 +50,4 @@ const TabPaneComp: React.FC<IProps> = (props) => {
   );
 };
 
-export default TabPaneComp;
+export default ApprovalCenter;

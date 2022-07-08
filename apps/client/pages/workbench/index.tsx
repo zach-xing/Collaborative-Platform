@@ -7,7 +7,6 @@ import {
 } from "@douyinfe/semi-icons";
 import WorkbenchApprove from "../../components/WorkbenchApprove";
 import WorkbenchReport from "../../components/WorkbenchReport";
-import WorkbenchFeedback from "../../components/WorkbenchFeedback";
 
 import styles from "./index.module.scss";
 
@@ -25,9 +24,6 @@ const Workbench = () => {
         style={{ height: "100%" }}
         contentStyle={{ padding: "0 20px", height: "100%" }}
       >
-        <TabPane tab="反馈" icon={<IconColorPalette />} itemKey="1">
-          <WorkbenchFeedback />
-        </TabPane>
         <TabPane tab="审批" icon={<IconInherit />} itemKey="2">
           <WorkbenchApprove />
         </TabPane>
