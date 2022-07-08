@@ -1,7 +1,10 @@
-import { Tabs, Select, TabPane } from "@douyinfe/semi-ui";
+import { Tabs, Select, TabPane, List } from "@douyinfe/semi-ui";
 import React from "react";
 
 import styles from "./index.module.scss";
+import TabPaneComp from "./TabPaneComp";
+
+// agree reject pending
 
 /**
  * workbench 中的页面中的 “反馈”组件
@@ -10,9 +13,11 @@ const WorkbenchFeedback = () => {
   return (
     <Tabs
       type="line"
+      keepDOM={false}
       tabBarExtraContent={
         <Select
           style={{ width: 200 }}
+          defaultValue={"all"}
           optionList={[
             { value: "all", label: "全部" },
             { value: "unfinished", label: "处理中" },
@@ -23,13 +28,14 @@ const WorkbenchFeedback = () => {
         ></Select>
       }
     >
-      <TabPane tab="审批反馈" itemKey="1">
-        <h3>文档</h3>
-        搜索
+      <TabPane tab="请假反馈" itemKey="1">
+        <TabPaneComp flag={"leave"} />
       </TabPane>
-      <TabPane tab="汇报反馈" itemKey="2">
-        <h3>快速起步</h3>
-        sdf
+      <TabPane tab="加班反馈" itemKey="2">
+        <TabPaneComp flag={"overtime"} />
+      </TabPane>
+      <TabPane tab="外出反馈" itemKey="3">
+        <TabPaneComp flag={"outside"} />
       </TabPane>
     </Tabs>
   );
