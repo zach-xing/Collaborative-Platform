@@ -19,7 +19,9 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-query": "^3.39.1",
-    "react-smooth-dnd": "^0.11.1"
+    "react-smooth-dnd": "^0.11.1",
+    "ui": "*",
+    "types": "*"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.1.1",
