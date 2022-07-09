@@ -2,12 +2,14 @@ import React from "react";
 import { Container, Draggable } from "react-smooth-dnd";
 import { Typography, Card, Button } from "@douyinfe/semi-ui";
 import { IconMore, IconPlus } from "@douyinfe/semi-icons";
+import TaskCreateModal from "../../components/TaskCreateModal";
+import TaskUpdateModal from "../../components/TaskUpdateModal";
 
 import styles from "./index.module.scss";
 
 const tmpList = [
   {
-    id: 0,
+    id: "0",
     name: "重要且紧急",
     children: [
       {
@@ -22,7 +24,7 @@ const tmpList = [
     ],
   },
   {
-    id: 1,
+    id: "1",
     name: "重要不紧急",
     children: [
       {
@@ -34,7 +36,7 @@ const tmpList = [
     ],
   },
   {
-    id: 2,
+    id: "2",
     name: "紧急不重要",
     children: [
       {
@@ -43,7 +45,7 @@ const tmpList = [
     ],
   },
   {
-    id: 3,
+    id: "3",
     name: "不重要不紧急",
     children: [
       {
@@ -52,10 +54,6 @@ const tmpList = [
     ],
   },
 ];
-
-interface ITaskItem {
-  title: string;
-}
 
 const ContainerBox: any = Container;
 const DraggableBox: any = Draggable;
@@ -86,13 +84,17 @@ const applyDrag = (
  * 任务页面
  */
 const Task = () => {
+  const [visibleCreate, setVisibleCreate] = React.useState(false);
+  const [visibleUpdate, setVisibleUpdate] = React.useState(false);
+  const [createFlag, setCreateFlag] = React.useState("0");
+  const [updateFlag, setUpdateFlag] = React.useState("0");
   const [data, setData] = React.useState<any>(tmpList);
 
-  const onDrop = (id: number, dropResult: any) => {
+  const onDrop = (id: string, dropResult: any) => {
     let { removedIndex, addedIndex } = dropResult;
     if (removedIndex !== null || addedIndex !== null) {
       const tmpArr: Array<{
-        id: number;
+        id: string;
         name: string;
         children: Array<{ label: string }>;
       }> = [...data];
@@ -105,44 +107,73 @@ const Task = () => {
     }
   };
 
-  const getCardPayload = (id: number, index: number) => {
+  const getCardPayload = (id: string, index: number) => {
     return data.filter((p: any) => p.id === id)[0].children[index - 1];
   };
 
-  return (
-    <Card bodyStyle={{ display: "flex" }}>
-      {data.map((item: { id: number; name: string; children: any[] }) => (
-        <div key={item.id} className={styles.column}>
-          <ContainerBox
-            onDrop={(e: any) => onDrop(item.id, e)}
-            getChildPayload={(idx: number) => getCardPayload(item.id, idx)}
-            groupName="col"
-            dropPlaceholderAnimationDuration={200}
-          >
-            <div className={styles.title}>
-              <Typography.Title heading={4} style={{ marginBottom: 10 }}>
-                {item.name}
-              </Typography.Title>
-              <Button icon={<IconPlus />} />
-            </div>
+  const handleCreate = (id: string) => {
+    setCreateFlag(id);
+    setVisibleCreate(true);
+  };
 
-            {item.children.map((column: any) => (
-              <DraggableBox key={column.label}>
-                <Card className={styles.cardStyle}>
-                  <div>
-                    <Typography.Title heading={6}>
-                      {column?.label}
-                    </Typography.Title>
-                    <Button icon={<IconMore />} />
-                  </div>
-                  <Typography>adjective</Typography>
-                </Card>
-              </DraggableBox>
-            ))}
-          </ContainerBox>
-        </div>
-      ))}
-    </Card>
+  const handleUpdate = (id: string) => {
+    setUpdateFlag(id);
+    setVisibleUpdate(true);
+  };
+
+  return (
+    <>
+      <Card bodyStyle={{ display: "flex" }}>
+        {data.map((item: { id: string; name: string; children: any[] }) => (
+          <div key={item.id} className={styles.column}>
+            <ContainerBox
+              onDrop={(e: any) => onDrop(item.id, e)}
+              getChildPayload={(idx: number) => getCardPayload(item.id, idx)}
+              groupName="col"
+              dropPlaceholderAnimationDuration={200}
+            >
+              <div className={styles.title}>
+                <Typography.Title heading={4} style={{ marginBottom: 10 }}>
+                  {item.name}
+                </Typography.Title>
+                <Button
+                  icon={<IconPlus />}
+                  onClick={() => handleCreate(item.id)}
+                />
+              </div>
+
+              {item.children.map((column: any) => (
+                <DraggableBox key={column.label}>
+                  <Card className={styles.cardStyle}>
+                    <div className={styles.cardhead}>
+                      <Typography.Title heading={6}>
+                        {column?.label}
+                      </Typography.Title>
+                      <Button
+                        icon={<IconMore />}
+                        onClick={() => handleUpdate(item.id)}
+                      />
+                    </div>
+                    <Typography>adjective</Typography>
+                  </Card>
+                </DraggableBox>
+              ))}
+            </ContainerBox>
+          </div>
+        ))}
+      </Card>
+
+      <TaskCreateModal
+        visible={visibleCreate}
+        setVisible={setVisibleCreate}
+        flag={createFlag}
+      />
+      <TaskUpdateModal
+        visible={visibleUpdate}
+        setVisible={setVisibleUpdate}
+        flag={updateFlag}
+      />
+    </>
   );
 };
 

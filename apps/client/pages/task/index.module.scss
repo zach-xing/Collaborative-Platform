@@ -10,7 +10,9 @@
 }
 
 .cardStyle {
-  display: flex;
-  justify-content: space-between;
   margin-bottom: 5px;
+  .cardhead {
+    display: flex;
+    justify-content: space-between;
+  }
 }
