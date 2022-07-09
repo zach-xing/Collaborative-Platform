@@ -45,7 +45,7 @@ interface IProps {
 }
 
 /**
- * Modal 中的 外出 组件
+ * Modal 中的 SendApplyForm 组件
  */
 const SendApplyForm: React.FC<IProps> = (props) => {
   const handleSubmit = () => {
