@@ -6,6 +6,7 @@ import {
   IconSendStroked,
 } from "@douyinfe/semi-icons";
 import { Button, Card, Col, Modal, Row, Typography } from "@douyinfe/semi-ui";
+import LeaveComp from "./components/LeaveComp";
 
 const HeadingComp = (props: { iconComp: React.ReactNode; text: string }) => {
   return (
@@ -23,8 +24,11 @@ const HeadingComp = (props: { iconComp: React.ReactNode; text: string }) => {
  */
 const SendApplication = () => {
   const [visible, setVisible] = React.useState(false);
-  const onClose = () => {
-    setVisible(false);
+  const [flag, setFlag] = React.useState<0b0001 | 0b0010 | 0b0011>(1); // 1表示请假、2表示加班、3表示外出
+
+  const handleOpenModal = (num: 0b0001 | 0b0010 | 0b0011) => {
+    setVisible(true);
+    setFlag(num);
   };
 
   return (
@@ -43,7 +47,7 @@ const SendApplication = () => {
             headerExtraContent={
               <Button
                 icon={<IconSendStroked />}
-                onClick={() => setVisible(true)}
+                onClick={() => handleOpenModal(1)}
               />
             }
           >
@@ -63,7 +67,7 @@ const SendApplication = () => {
             headerExtraContent={
               <Button
                 icon={<IconSendStroked />}
-                onClick={() => setVisible(true)}
+                onClick={() => handleOpenModal(2)}
               />
             }
           >
@@ -83,7 +87,7 @@ const SendApplication = () => {
             headerExtraContent={
               <Button
                 icon={<IconSendStroked />}
-                onClick={() => setVisible(true)}
+                onClick={() => handleOpenModal(3)}
               />
             }
           >
@@ -93,14 +97,16 @@ const SendApplication = () => {
       </Row>
 
       <Modal
-        title="全屏对话框标题"
+        title={
+          <>{flag === 0b0001 ? "请假" : flag === 0b0010 ? "加班" : "外出"}</>
+        }
         fullScreen
+        footer={null}
         visible={visible}
-        onOk={onClose}
-        onCancel={onClose}
+        onCancel={() => setVisible(false)}
+        bodyStyle={{ display: "flex", justifyContent: "center" }}
       >
-        <p>This is a full screen modal</p>
-        <p>More content...</p>
+        <LeaveComp />
       </Modal>
     </>
   );

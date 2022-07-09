@@ -34,7 +34,7 @@ const TaskCreateModal: React.FC<IProps> = (props) => {
           field="taskName"
           label="任务名"
           style={{ width: "100%" }}
-          placeholder="Enter task number"
+          placeholder="Enter task name"
           rules={[{ required: true, message: "必填项" }]}
         ></Form.Input>
         <Form.TextArea

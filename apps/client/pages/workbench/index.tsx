@@ -1,14 +1,8 @@
 import React from "react";
 import { TabPane, Tabs, Card } from "@douyinfe/semi-ui";
-import {
-  IconColorPalette,
-  IconInherit,
-  IconKanban,
-} from "@douyinfe/semi-icons";
+import { IconInherit, IconKanban } from "@douyinfe/semi-icons";
 import WorkbenchApprove from "../../components/WorkbenchApprove";
 import WorkbenchReport from "../../components/WorkbenchReport";
-
-import styles from "./index.module.scss";
 
 const Workbench = () => {
   return (
