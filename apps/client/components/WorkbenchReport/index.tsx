@@ -8,7 +8,7 @@ import SendReport from "./SendReport";
  */
 const WorkbenchReport = () => {
   return (
-    <Tabs type="line" keepDOM={false}>
+    <Tabs type="line" keepDOM={false} contentStyle={{ height: "100%" }}>
       <TabPane tab="填写汇报" itemKey="1">
         <SendReport />
       </TabPane>

@@ -8,7 +8,12 @@ import SendApplication from "./SendApplication";
  */
 const WorkbenchApprove = () => {
   return (
-    <Tabs type="line" keepDOM={false}>
+    <Tabs
+      type="line"
+      keepDOM={false}
+      style={{ height: "100%" }}
+      contentStyle={{ height: "100%" }}
+    >
       <TabPane tab="发起申请" itemKey="1">
         <SendApplication />
       </TabPane>

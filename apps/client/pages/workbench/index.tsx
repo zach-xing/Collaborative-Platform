@@ -9,7 +9,7 @@ const Workbench = () => {
     <Card
       title="工作台"
       style={{ height: "100%", backgroundColor: "white" }}
-      bodyStyle={{ height: "100%" }}
+      bodyStyle={{ height: "calc(100% - 64px - 40px)" }}
     >
       <Tabs
         tabPosition="left"
@@ -18,10 +18,18 @@ const Workbench = () => {
         style={{ height: "100%" }}
         contentStyle={{ padding: "0 20px", height: "100%" }}
       >
-        <TabPane tab="审批" icon={<IconInherit />} itemKey="2">
+        <TabPane
+          tab="审批"
+          icon={<IconInherit />}
+          itemKey="2"
+        >
           <WorkbenchApprove />
         </TabPane>
-        <TabPane tab="汇报" icon={<IconKanban />} itemKey="3">
+        <TabPane
+          tab="汇报"
+          icon={<IconKanban />}
+          itemKey="3"
+        >
           <WorkbenchReport />
         </TabPane>
       </Tabs>

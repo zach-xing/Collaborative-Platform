@@ -6,7 +6,7 @@ const ScrollBox: React.FC<{ flex: number; children: React.ReactNode }> = (
 ) => {
   return (
     <div
-      style={{ height: "100%", overflow: "auto", flex: props.flex }}
+      style={{ height: "100%", overflow: "scroll", flex: props.flex }}
       className={styles.scroll}
     >
       {props.children}
