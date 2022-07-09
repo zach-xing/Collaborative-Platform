@@ -4,6 +4,7 @@ import { Typography, Card, Button } from "@douyinfe/semi-ui";
 import { IconMore, IconPlus } from "@douyinfe/semi-icons";
 import TaskCreateModal from "../../components/TaskCreateModal";
 import TaskUpdateModal from "../../components/TaskUpdateModal";
+import type { ITask } from "types";
 
 import styles from "./index.module.scss";
 
@@ -13,13 +14,22 @@ const tmpList = [
     name: "重要且紧急",
     children: [
       {
-        label: "one-111",
+        id: "111",
+        taskName: "任务重要了",
+        desc: "???",
+        updateTime: "2022.7.8",
       },
       {
-        label: "one-222",
+        id: "112",
+        taskName: "任务重要了1",
+        desc: "???",
+        updateTime: "2022.7.8",
       },
       {
-        label: "one-331",
+        id: "113",
+        taskName: "任务重要了2",
+        desc: "???",
+        updateTime: "2022.7.8",
       },
     ],
   },
@@ -28,10 +38,16 @@ const tmpList = [
     name: "重要不紧急",
     children: [
       {
-        label: "two-111",
+        id: "211",
+        taskName: "任务重要了1",
+        desc: "???",
+        updateTime: "2022.7.8",
       },
       {
-        label: "two-222",
+        id: "212",
+        taskName: "任务重要了2",
+        desc: "???12",
+        updateTime: "2022.7.8",
       },
     ],
   },
@@ -40,7 +56,10 @@ const tmpList = [
     name: "紧急不重要",
     children: [
       {
-        label: "three-111",
+        id: "311",
+        taskName: "任务重要了",
+        desc: "???",
+        updateTime: "2022.7.8",
       },
     ],
   },
@@ -49,7 +68,10 @@ const tmpList = [
     name: "不重要不紧急",
     children: [
       {
-        label: "four-111",
+        id: "411",
+        taskName: "任务重要了",
+        desc: "???",
+        updateTime: "2022.7.8",
       },
     ],
   },
@@ -88,6 +110,7 @@ const Task = () => {
   const [visibleUpdate, setVisibleUpdate] = React.useState(false);
   const [createFlag, setCreateFlag] = React.useState("0");
   const [updateFlag, setUpdateFlag] = React.useState("0");
+  const [curTask, setCurTask] = React.useState<ITask | null>(null); // 编辑时选中的 task
   const [data, setData] = React.useState<any>(tmpList);
 
   const onDrop = (id: string, dropResult: any) => {
@@ -116,8 +139,10 @@ const Task = () => {
     setVisibleCreate(true);
   };
 
-  const handleUpdate = (id: string) => {
+  const handleUpdate = (id: string, column: ITask) => {
+    // 这里参数id是四个板块其中一个id
     setUpdateFlag(id);
+    setCurTask(column);
     setVisibleUpdate(true);
   };
 
@@ -142,19 +167,19 @@ const Task = () => {
                 />
               </div>
 
-              {item.children.map((column: any) => (
-                <DraggableBox key={column.label}>
+              {item.children.map((column: ITask) => (
+                <DraggableBox key={column.id}>
                   <Card className={styles.cardStyle}>
                     <div className={styles.cardhead}>
                       <Typography.Title heading={6}>
-                        {column?.label}
+                        {column?.taskName}
                       </Typography.Title>
                       <Button
                         icon={<IconMore />}
-                        onClick={() => handleUpdate(item.id)}
+                        onClick={() => handleUpdate(item.id, column)}
                       />
                     </div>
-                    <Typography>adjective</Typography>
+                    <Typography>{column.desc}</Typography>
                   </Card>
                 </DraggableBox>
               ))}
@@ -169,6 +194,7 @@ const Task = () => {
         flag={createFlag}
       />
       <TaskUpdateModal
+        task={curTask}
         visible={visibleUpdate}
         setVisible={setVisibleUpdate}
         flag={updateFlag}
