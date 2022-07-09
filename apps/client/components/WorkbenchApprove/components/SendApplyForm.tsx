@@ -40,28 +40,34 @@ const typeArr = [
   },
 ];
 
+interface IProps {
+  flag: 1 | 2 | 3;
+}
+
 /**
- * Modal 中的 请假 组件
+ * Modal 中的 外出 组件
  */
-const LeaveComp = () => {
+const SendApplyForm: React.FC<IProps> = (props) => {
   const handleSubmit = () => {
-    // TODO:“请假”组件的 submit
+    // TODO:“外出”组件的 submit 功能
   };
 
   return (
     <Form style={{ width: "40%" }} onSubmit={handleSubmit}>
-      <Form.Select
-        field="type"
-        label="请假类型"
-        style={{ width: "100%" }}
-        initValue={1}
-      >
-        {typeArr.map((item) => (
-          <Form.Select.Option key={item.type} value={item.type}>
-            {item.label}
-          </Form.Select.Option>
-        ))}
-      </Form.Select>
+      {props.flag === 1 && (
+        <Form.Select
+          field="type"
+          label="请假类型"
+          style={{ width: "100%" }}
+          initValue={1}
+        >
+          {typeArr.map((item) => (
+            <Form.Select.Option key={item.type} value={item.type}>
+              {item.label}
+            </Form.Select.Option>
+          ))}
+        </Form.Select>
+      )}
       <Form.DatePicker
         type="dateTime"
         field="startTime"
@@ -74,7 +80,7 @@ const LeaveComp = () => {
       ></Form.DatePicker>
       <Form.TextArea
         field="reason"
-        label="请假事由"
+        label="加班事由"
         trigger="blur"
         placeholder="请输入"
       />
@@ -86,4 +92,4 @@ const LeaveComp = () => {
   );
 };
 
-export default LeaveComp;
+export default SendApplyForm;

@@ -6,9 +6,7 @@ import {
   IconSendStroked,
 } from "@douyinfe/semi-icons";
 import { Button, Card, Col, Modal, Row, Typography } from "@douyinfe/semi-ui";
-import LeaveComp from "./components/LeaveComp";
-import Overtime from "./components/Overtime";
-import Outside from "./components/Outside";
+import SendApplyForm from "./components/SendApplyForm";
 
 const HeadingComp = (props: { iconComp: React.ReactNode; text: string }) => {
   return (
@@ -108,13 +106,7 @@ const SendApplication = () => {
         onCancel={() => setVisible(false)}
         bodyStyle={{ display: "flex", justifyContent: "center" }}
       >
-        {flag === 0b0001 ? (
-          <LeaveComp />
-        ) : flag === 0b0010 ? (
-          <Overtime />
-        ) : (
-          <Outside />
-        )}
+        <SendApplyForm flag={flag} />
       </Modal>
     </>
   );
