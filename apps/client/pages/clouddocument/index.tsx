@@ -168,6 +168,7 @@ const CloundDocument = () => {
               title="名称"
               dataIndex="label"
               key="name"
+              width="50%"
               render={(text, record, index) => (
                 <div>
                   <Avatar size="small" style={{ marginRight: 12 }}></Avatar>
@@ -177,6 +178,7 @@ const CloundDocument = () => {
             />
             <Table.Column
               title="更新时间"
+              width="30%"
               dataIndex="updateTime"
               key="updateTime"
             />
