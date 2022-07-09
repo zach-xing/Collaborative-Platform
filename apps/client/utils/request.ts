@@ -1,13 +1,30 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 
 const instance = axios.create({
-  baseURL: "http://127.0.0.1:4523/m1/1227252-0-default",
+  baseURL: "https://mock.apifox.cn/m1/1257897-0-default",
   timeout: 10000,
 });
 
 instance.interceptors.request.use(
-  () => {},
-  () => {}
+  (config) => {
+    return config;
+  },
+  (err) => {
+    return err;
+  }
+);
+instance.interceptors.response.use(
+  (res) => {
+    const { data } = res;
+    console.log('res',res)
+    return data;
+  },
+  (err) => err
 );
 
-export default instance;
+const request = async <T = any>(config: AxiosRequestConfig): Promise<T> => {
+  const { data } = await instance.request<T>(config);
+  return data;
+};
+
+export default request;

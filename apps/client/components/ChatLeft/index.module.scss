@@ -1,4 +1,14 @@
 .listItem {
+  display: flex;
+  align-items: center;
+  .avatar {
+    margin-right: 10px;
+  }
+  .userinfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   .title {
     color: var(--semi-color-text-0);
     font-weight: 500;
