@@ -3,9 +3,9 @@ import { Avatar, Button, List, Spin } from "@douyinfe/semi-ui";
 import { IconMore } from "@douyinfe/semi-icons";
 import ScrollBox from "../ScrollBox";
 import MoreOptions from "./components/MoreOptions";
+import { useFetchChatUserList } from "../../data/user";
 
 import styles from "./index.module.scss";
-import { useFetchChatUserList } from "../../api/user";
 
 const ChatLeft = () => {
   const { chatUserList, isLoadingWithChatUserList } = useFetchChatUserList();
