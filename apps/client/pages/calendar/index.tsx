@@ -2,8 +2,6 @@ import { IconChevronLeft, IconChevronRight } from "@douyinfe/semi-icons";
 import {
   Row,
   Col,
-  Radio,
-  RadioGroup,
   Calendar,
   Card,
   Button,
@@ -11,6 +9,7 @@ import {
   Select,
 } from "@douyinfe/semi-ui";
 import React from "react";
+import CalendarCreateModal from "../../components/CalendarCreateModal";
 
 import styles from "./index.module.scss";
 
@@ -41,6 +40,7 @@ type TMode = "week" | "day" | "month";
  * 日历 页面
  */
 const CalendarPage = () => {
+  const [createVisible, setCreateVisible] = React.useState(false);
   const [mode, setMode] = React.useState<TMode>("month");
 
   // 开始和结束时间在同一天时判断，不在mount视图就用 dailyEventStyle
@@ -108,47 +108,54 @@ const CalendarPage = () => {
   ];
 
   return (
-    <Row style={{ height: "100%" }}>
-      <Col span={24} style={{ height: "100%" }}>
-        <Card
-          title={
-            <div style={{ display: "flex" }}>
-              <Typography.Title heading={4} style={{ marginRight: 10 }}>
-                日历
-              </Typography.Title>
-              <Button>创建日程</Button>
-            </div>
-          }
-          style={{ height: "100%" }}
-          bodyStyle={{ height: "calc(100% - 64px - 20px)" }}
-          headerExtraContent={
-            <div className={styles.cardExtra}>
-              <div className={styles.option}>
-                <Button icon={<IconChevronLeft />} />
-                <Button icon={<IconChevronRight />} />
+    <>
+      <Row style={{ height: "100%" }}>
+        <Col span={24} style={{ height: "100%" }}>
+          <Card
+            title={
+              <div style={{ display: "flex" }}>
+                <Typography.Title heading={4} style={{ marginRight: 10 }}>
+                  日历
+                </Typography.Title>
+                <Button onClick={() => setCreateVisible(true)}>创建日程</Button>
               </div>
+            }
+            style={{ height: "100%" }}
+            bodyStyle={{ height: "calc(100% - 64px - 20px)" }}
+            headerExtraContent={
+              <div className={styles.cardExtra}>
+                <div className={styles.option}>
+                  <Button icon={<IconChevronLeft />} />
+                  <Button icon={<IconChevronRight />} />
+                </div>
 
-              <Select
-                defaultValue={mode}
-                style={{ width: 120 }}
-                onSelect={(value) => setMode(value as TMode)}
-              >
-                <Select.Option value="day">日视图</Select.Option>
-                <Select.Option value="week">周视图</Select.Option>
-                <Select.Option value="month">月视图</Select.Option>
-              </Select>
-            </div>
-          }
-        >
-          <Calendar
-            height={"100%"}
-            mode={mode}
-            // displayValue={displayValue}
-            events={events}
-          ></Calendar>
-        </Card>
-      </Col>
-    </Row>
+                <Select
+                  defaultValue={mode}
+                  style={{ width: 120 }}
+                  onSelect={(value) => setMode(value as TMode)}
+                >
+                  <Select.Option value="day">日视图</Select.Option>
+                  <Select.Option value="week">周视图</Select.Option>
+                  <Select.Option value="month">月视图</Select.Option>
+                </Select>
+              </div>
+            }
+          >
+            <Calendar
+              height={"100%"}
+              mode={mode}
+              // displayValue={displayValue}
+              events={events}
+            ></Calendar>
+          </Card>
+        </Col>
+      </Row>
+
+      <CalendarCreateModal
+        visible={createVisible}
+        setVisible={setCreateVisible}
+      />
+    </>
   );
 };
 
