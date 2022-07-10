@@ -1,6 +1,7 @@
 import React from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import DocumentLayout from "../../../layout/DocumentLayout";
 
 /**
  * 编辑的文档
@@ -11,7 +12,11 @@ const CreateDocument = () => {
     content: "<p>Hello World! 🌎️</p>",
   });
 
-  return <EditorContent editor={editor} />;
+  return (
+    <DocumentLayout>
+      <EditorContent editor={editor} />
+    </DocumentLayout>
+  );
 };
 
 export default CreateDocument;

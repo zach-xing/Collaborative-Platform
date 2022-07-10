@@ -1,4 +1,4 @@
-import { IconMore } from "@douyinfe/semi-icons";
+import { IconFolder, IconMore } from "@douyinfe/semi-icons";
 import {
   Avatar,
   Button,
@@ -9,6 +9,7 @@ import {
   Tree,
   Typography,
 } from "@douyinfe/semi-ui";
+import { useRouter } from "next/router";
 import React from "react";
 import ScrollBox from "../../components/ScrollBox";
 
@@ -141,6 +142,8 @@ const treeData: Array<FolderType> = [
  * 云文档 页面
  */
 const CloundDocument = () => {
+  const router = useRouter();
+
   return (
     <Row style={{ height: "100%" }}>
       <Col span={6} className={styles.left}>
@@ -171,8 +174,13 @@ const CloundDocument = () => {
               width="50%"
               render={(text, record, index) => (
                 <div>
-                  <Avatar size="small" style={{ marginRight: 12 }}></Avatar>
-                  {text}
+                  <IconFolder style={{ marginRight: 12 }} />
+                  <Typography.Text
+                    link
+                    onClick={() => router.push(`/clouddocument/${record.key}`)}
+                  >
+                    {text}
+                  </Typography.Text>
                 </div>
               )}
             />
