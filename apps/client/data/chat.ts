@@ -1,5 +1,5 @@
 import request from "../utils/request";
-import type { IChatUserListItem } from "types";
+import type { IChatMsgListItem, IChatUserListItem } from "types";
 import { useQuery } from "react-query";
 
 function fetchChatUserList() {
@@ -62,4 +62,26 @@ export function addGroupOption(id: string) {
     url: `/chat/group/${id}`,
     method: "GET",
   });
+}
+
+function fetchChatList(id: string) {
+  return request({
+    url: `/chat/${id}`,
+    method: "GET",
+  });
+}
+/**
+ * 根据 chatId 获取
+ * @param id ChatId
+ */
+export function useFetchChatList(id: string) {
+  const { data, isLoading } = useQuery<{ list: Array<IChatMsgListItem> }>(
+    "ChatList",
+    () => fetchChatList(id)
+  );
+
+  return {
+    chatMsgList: data?.list,
+    isLoading,
+  };
 }

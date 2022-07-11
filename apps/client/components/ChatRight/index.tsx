@@ -1,7 +1,7 @@
 import { IconSend } from "@douyinfe/semi-icons";
 import { Button, Card, TextArea } from "@douyinfe/semi-ui";
 import React from "react";
-import ChatMsgBubbleList from "../ChatBubbleMsgComp";
+import ChatMsgBubbleList from "./ChatBubbleMsgComp";
 import ScrollBox from "../ScrollBox";
 
 import styles from "./index.module.scss";
@@ -19,7 +19,7 @@ const ChatRight = () => {
       headerExtraContent={<div>更多</div>}
     >
       <ScrollBox flex={7}>
-        <ChatMsgBubbleList />
+        <ChatMsgBubbleList id={"1"} />
       </ScrollBox>
 
       <div style={{ flex: 2 }}>
