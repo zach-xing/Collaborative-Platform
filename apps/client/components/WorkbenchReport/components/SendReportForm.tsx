@@ -1,5 +1,6 @@
-import { Button, Form } from "@douyinfe/semi-ui";
+import { Button, Form, Toast } from "@douyinfe/semi-ui";
 import React from "react";
+import { sendReport } from "../../../data/workbench";
 
 const infoArr = [
   { title1: "今日总结", title2: "明日计划" },
@@ -17,23 +18,44 @@ interface IProps {
 const SendReportForm: React.FC<IProps> = (props) => {
   const { flag } = props;
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (value: any) => {
+    try {
+      if (flag === 0) {
+        await sendReport("day", value);
+      } else if (flag === 1) {
+        await sendReport("week", value);
+      } else {
+        await sendReport("month", value);
+      }
+      Toast.success("发送成功");
+    } catch (err) {
+      Toast.error("出错了");
+    }
+  };
 
   return (
     <Form style={{ width: "40%" }} onSubmit={handleSubmit}>
+      <Form.Input
+        field="title"
+        label="标题"
+        rules={[{ required: true, message: "必填项" }]}
+      ></Form.Input>
       <Form.TextArea
-        field="report1"
+        field="curReport"
         label={infoArr[flag].title1}
+        rules={[{ required: true, message: "必填项" }]}
       ></Form.TextArea>
       <Form.TextArea
-        field="report2"
+        field="prevReport"
         label={infoArr[flag].title2}
+        rules={[{ required: true, message: "必填项" }]}
       ></Form.TextArea>
       <Form.TextArea
-        field="other"
+        field="otherReport"
         label="其他"
         trigger="blur"
         placeholder="请输入"
+        rules={[{ required: true, message: "必填项" }]}
       />
 
       <Button type="primary" htmlType="submit" block>
