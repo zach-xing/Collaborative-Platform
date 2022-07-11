@@ -1,3 +1,5 @@
+import { useQuery } from "react-query";
+import { IApproval } from "types";
 import request from "../utils/request";
 
 /**
@@ -34,7 +36,7 @@ export function sendOvertimeApplication(data: {
 
 /**
  * 发送外出的申请
- * @param data 
+ * @param data
  */
 export function sendOutsideApplication(data: {
   startTime: string;
@@ -46,4 +48,28 @@ export function sendOutsideApplication(data: {
     method: "POST",
     data,
   });
+}
+
+function fetchApprovalData() {
+  return request({
+    url: "/workbench/approval",
+    method: "GET",
+  });
+}
+/**
+ * 获取审批的数据
+ */
+export function useFetchApprovalData() {
+  const { data, isLoading } = useQuery<{ list: Array<IApproval> }>(
+    "ApprovalData",
+    fetchApprovalData,
+    {
+      refetchInterval: false,
+    }
+  );
+
+  return {
+    approvalData: data?.list,
+    isLoading,
+  };
 }

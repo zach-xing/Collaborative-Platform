@@ -77,7 +77,10 @@ function fetchChatList(id: string) {
 export function useFetchChatList(id: string) {
   const { data, isLoading } = useQuery<{ list: Array<IChatMsgListItem> }>(
     "ChatList",
-    () => fetchChatList(id)
+    () => fetchChatList(id),
+    {
+      refetchInterval: false,
+    }
   );
 
   return {

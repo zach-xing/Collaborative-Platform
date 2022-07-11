@@ -16,19 +16,20 @@ const Workbench = () => {
         type="card"
         keepDOM={false}
         style={{ height: "100%" }}
+        defaultActiveKey="1"
         contentStyle={{ padding: "0 20px", height: "100%" }}
       >
         <TabPane
           tab="审批"
           icon={<IconInherit />}
-          itemKey="2"
+          itemKey="1"
         >
           <WorkbenchApprove />
         </TabPane>
         <TabPane
           tab="汇报"
           icon={<IconKanban />}
-          itemKey="3"
+          itemKey="2"
         >
           <WorkbenchReport />
         </TabPane>
