@@ -8,7 +8,11 @@ import {
   Toast,
 } from "@douyinfe/semi-ui";
 import { IconMenu } from "@douyinfe/semi-icons";
-import { addGroupOption, addPersonOption, createGroupOption } from "../../../data/chat";
+import {
+  addGroupOption,
+  addPersonOption,
+  createGroupOption,
+} from "../../../data/chat";
 
 type TOptions = "add-person" | "create-group" | "add-group";
 
@@ -25,20 +29,24 @@ const MoreOptions = () => {
   };
 
   const handleSubmit = async (value: any) => {
-    if (curOption === "create-group") {
-      // 创建群组
-      await createGroupOption(value);
-      Toast.success("创建成功");
-    } else if (curOption === "add-person") {
-      // 添加联系人
-      await addPersonOption(value.id);
-      Toast.success("发送成功");
-    } else {
-      // 加入群聊
-      await addGroupOption(value.id);
-      Toast.success("发送成功");
+    try {
+      if (curOption === "create-group") {
+        // 创建群组
+        await createGroupOption(value);
+        Toast.success("创建成功");
+      } else if (curOption === "add-person") {
+        // 添加联系人
+        await addPersonOption(value.id);
+        Toast.success("发送成功");
+      } else {
+        // 加入群聊
+        await addGroupOption(value.id);
+        Toast.success("发送成功");
+      }
+      setVisible(false);
+    } catch (err) {
+      Toast.error("出现错误");
     }
-    setVisible(false);
   };
 
   return (

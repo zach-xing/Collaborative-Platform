@@ -1,5 +1,10 @@
-import { Button, Form } from "@douyinfe/semi-ui";
+import { Button, Form, Toast } from "@douyinfe/semi-ui";
 import React from "react";
+import {
+  sendLeaveApplication,
+  sendOutsideApplication,
+  sendOvertimeApplication,
+} from "../../../data/workbench";
 
 const typeArr = [
   {
@@ -41,20 +46,32 @@ const typeArr = [
 ];
 
 interface IProps {
-  flag: 1 | 2 | 3;
+  flag: "1" | "2" | "3";
 }
 
 /**
  * Modal 中的 SendApplyForm 组件
  */
 const SendApplyForm: React.FC<IProps> = (props) => {
-  const handleSubmit = () => {
+  const handleSubmit = async (value: any) => {
     // TODO:“外出”组件的 submit 功能
+    try {
+      if (props.flag === "1") {
+        await sendLeaveApplication(value);
+      } else if (props.flag === "2") {
+        await sendOvertimeApplication(value);
+      } else {
+        await sendOutsideApplication(value);
+      }
+      Toast.success("发送成功");
+    } catch (err) {
+      Toast.error("发送失败");
+    }
   };
 
   return (
     <Form style={{ width: "40%" }} onSubmit={handleSubmit}>
-      {props.flag === 1 && (
+      {props.flag === "1" && (
         <Form.Select
           field="type"
           label="请假类型"
@@ -80,7 +97,7 @@ const SendApplyForm: React.FC<IProps> = (props) => {
       ></Form.DatePicker>
       <Form.TextArea
         field="reason"
-        label="加班事由"
+        label="事由"
         trigger="blur"
         placeholder="请输入"
       />

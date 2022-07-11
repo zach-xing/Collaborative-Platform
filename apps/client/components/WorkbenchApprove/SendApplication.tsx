@@ -24,9 +24,9 @@ const HeadingComp = (props: { iconComp: React.ReactNode; text: string }) => {
  */
 const SendApplication = () => {
   const [visible, setVisible] = React.useState(false);
-  const [flag, setFlag] = React.useState<0b0001 | 0b0010 | 0b0011>(1); // 1表示请假、2表示加班、3表示外出
+  const [flag, setFlag] = React.useState<"1" | "2" | "3">("1"); // 1表示请假、2表示加班、3表示外出
 
-  const handleOpenModal = (num: 0b0001 | 0b0010 | 0b0011) => {
+  const handleOpenModal = (num: "1" | "2" | "3") => {
     setVisible(true);
     setFlag(num);
   };
@@ -47,7 +47,7 @@ const SendApplication = () => {
             headerExtraContent={
               <Button
                 icon={<IconSendStroked />}
-                onClick={() => handleOpenModal(1)}
+                onClick={() => handleOpenModal("1")}
               />
             }
           >
@@ -67,7 +67,7 @@ const SendApplication = () => {
             headerExtraContent={
               <Button
                 icon={<IconSendStroked />}
-                onClick={() => handleOpenModal(2)}
+                onClick={() => handleOpenModal("2")}
               />
             }
           >
@@ -87,7 +87,7 @@ const SendApplication = () => {
             headerExtraContent={
               <Button
                 icon={<IconSendStroked />}
-                onClick={() => handleOpenModal(3)}
+                onClick={() => handleOpenModal("3")}
               />
             }
           >
@@ -98,7 +98,7 @@ const SendApplication = () => {
 
       <Modal
         title={
-          <>{flag === 0b0001 ? "请假" : flag === 0b0010 ? "加班" : "外出"}</>
+          <>{flag === "1" ? "请假" : flag === "2" ? "加班" : "外出"}</>
         }
         fullScreen
         footer={null}
