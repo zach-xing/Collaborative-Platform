@@ -29,3 +29,37 @@ export function useFetchChatUserList() {
     isLoadingWithChatUserList,
   };
 }
+
+/**
+ * 添加联系人（也就是加好友）
+ * @param id 用户的 id
+ */
+export function addPersonOption(id: string) {
+  return request({
+    url: `/chat/user/${id}`,
+    method: "GET",
+  });
+}
+
+/**
+ * 创建群组
+ * @param data 群组的name和desc
+ */
+export function createGroupOption(data: { name: string; desc: string }) {
+  return request({
+    url: "/chat/group",
+    method: "POST",
+    data,
+  });
+}
+
+/**
+ * 加入群聊
+ * @param id 群聊的id
+ */
+export function addGroupOption(id: string) {
+  return request({
+    url: `/chat/group/${id}`,
+    method: "GET",
+  });
+}

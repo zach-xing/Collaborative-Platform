@@ -1,6 +1,14 @@
 import React from "react";
-import { Dropdown, Button, Typography, Modal, Form } from "@douyinfe/semi-ui";
+import {
+  Dropdown,
+  Button,
+  Typography,
+  Modal,
+  Form,
+  Toast,
+} from "@douyinfe/semi-ui";
 import { IconMenu } from "@douyinfe/semi-icons";
+import { addGroupOption, addPersonOption, createGroupOption } from "../../../data/chat";
 
 type TOptions = "add-person" | "create-group" | "add-group";
 
@@ -16,7 +24,22 @@ const MoreOptions = () => {
     setVisible(true);
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (value: any) => {
+    if (curOption === "create-group") {
+      // 创建群组
+      await createGroupOption(value);
+      Toast.success("创建成功");
+    } else if (curOption === "add-person") {
+      // 添加联系人
+      await addPersonOption(value.id);
+      Toast.success("发送成功");
+    } else {
+      // 加入群聊
+      await addGroupOption(value.id);
+      Toast.success("发送成功");
+    }
+    setVisible(false);
+  };
 
   return (
     <>
@@ -63,7 +86,7 @@ const MoreOptions = () => {
         {curOption === "create-group" ? (
           <Form labelPosition="inset" onSubmit={handleSubmit}>
             <Form.Input
-              field="account"
+              field="name"
               label="群组名称"
               trigger="blur"
               rules={[
@@ -72,7 +95,7 @@ const MoreOptions = () => {
               ]}
             />
             <Form.Input
-              field="account"
+              field="desc"
               label="群组描述"
               trigger="blur"
               rules={[{ required: true, message: "必填项" }]}
@@ -89,7 +112,7 @@ const MoreOptions = () => {
         ) : (
           <Form labelPosition="inset" onSubmit={handleSubmit}>
             <Form.Input
-              field="account"
+              field="id"
               label={
                 <div style={{ margin: "0 5px" }}>
                   {curOption === "add-person" ? "用户 ID" : "群组 ID"}
