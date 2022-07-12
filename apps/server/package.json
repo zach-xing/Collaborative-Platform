@@ -25,9 +25,12 @@
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/platform-socket.io": "^9.0.2",
+    "@nestjs/websockets": "^9.0.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "socket.io-client": "^4.5.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",

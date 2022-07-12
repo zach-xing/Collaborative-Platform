@@ -9,7 +9,7 @@ import styles from "./index.module.scss";
 
 const ChatLeft = () => {
   const { chatUserList, isLoadingWithChatUserList } = useFetchChatUserList();
-  
+
   return (
     <div
       style={{
@@ -35,17 +35,7 @@ const ChatLeft = () => {
 
       <ScrollBox flex={19}>
         {isLoadingWithChatUserList ? (
-          <div
-            style={{
-              height: "100%",
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Spin size="large" />
-          </div>
+          <div>Loading...</div>
         ) : (
           <List
             dataSource={chatUserList}
@@ -53,7 +43,9 @@ const ChatLeft = () => {
               <List.Item
                 main={
                   <div className={styles.listItem}>
-                    <Avatar color="blue" className={styles.avatar}>{item.name}</Avatar>
+                    <Avatar color="blue" className={styles.avatar}>
+                      {item.name}
+                    </Avatar>
                     <div>
                       <div className={styles.userinfo}>
                         <span className={styles.title}>{item.name}</span>
