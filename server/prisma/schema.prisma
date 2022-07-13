@@ -10,12 +10,66 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Article {
-  id          Int      @id @default(autoincrement())
-  title       String   @unique
-  description String?
-  body        String
-  published   Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+model Chat {
+  id        String      @id @default(uuid())
+  chat_Line Chat_Line[]
+}
+
+model User {
+  id        String      @id @default(uuid())
+  name      String
+  email     String      @unique()
+  password  String
+  chat_Line Chat_Line[]
+}
+
+model Chat_Line {
+  id       String   @id @default(uuid())
+  sendTime DateTime @default(now())
+  chat     Chat     @relation(fields: [chatId], references: [id])
+  chatId   String
+  user     User     @relation(fields: [userId], references: [id])
+  userId   String
+}
+
+model Approval {
+  id        String   @id @default(uuid())
+  type      String // 0 表示加班或者外出 1表示请假、2表示加班、3表示外出
+  state     String   @default("pending") // agree、reject、pending
+  startTime DateTime @default(now())
+  endTime   DateTime @default(now())
+  reason    String   @db.Text
+}
+
+model Report {
+  id          String   @id @default(uuid())
+  type        String // 0表示日报、1表示周报、2表示月报
+  curReport   String   @db.Text
+  prevReport  String   @db.Text
+  otherReport String   @db.Text
+  sendTime    DateTime @default(now())
+}
+
+model CloudFile {
+  id            String         @id @default(uuid())
+  label         String
+  type          String         @default("file") // file 表示文件，floder表示文件夹
+  updateTime    DateTime       @default(now())
+  parentId      String
+  CloudDocument CloudDocument?
+}
+
+model CloudDocument {
+  id          String    @id @default(uuid())
+  title       String
+  text        String    @db.Text
+  cloudFile   CloudFile @relation(fields: [cloudFileId], references: [id])
+  cloudFileId String    @unique
+}
+
+model Calendar {
+  id        String   @id @default(uuid())
+  title     String
+  startTime DateTime @default(now())
+  endTime   DateTime @default(now())
 }
