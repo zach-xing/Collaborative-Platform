@@ -10,6 +10,10 @@ export class AppService {
   }
 
   getAll() {
-    return this.prisma.article.findMany();
+    return this.prisma.user.findUnique({
+      where: {
+        id: '1',
+      },
+    });
   }
 }
