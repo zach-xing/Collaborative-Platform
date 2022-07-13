@@ -16,11 +16,13 @@ export class HttpExceptionFilter<T extends HttpException>
     const request = ctx.getRequest<Request>();
     const status = exception.getStatus();
 
-    response.status(status).send({
+    const message = exception.getResponse() as any;
+
+    response.status(status).json({
       code: status,
       timestamp: new Date().toISOString(),
       path: request.url,
-      message: exception.getResponse(),
+      message: message?.message || 'error',
     });
   }
 }

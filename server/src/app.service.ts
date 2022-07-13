@@ -9,11 +9,12 @@ export class AppService {
     return 'Hello World!';
   }
 
-  getAll() {
-    return this.prisma.user.findUnique({
+  async getAll() {
+    const data = await this.prisma.user.findUnique({
       where: {
-        id: '1',
+        id: '2',
       },
     });
+    return data;
   }
 }
