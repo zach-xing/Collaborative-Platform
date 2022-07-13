@@ -1,10 +1,9 @@
 import React from "react";
-import { Container, Draggable } from "react-smooth-dnd";
 import { Typography, Card, Button } from "@douyinfe/semi-ui";
 import { IconMore, IconPlus } from "@douyinfe/semi-icons";
 import TaskCreateModal from "../../components/TaskCreateModal";
 import TaskUpdateModal from "../../components/TaskUpdateModal";
-import type { ITask } from "types";
+import type { ITask } from "../../types";
 
 import styles from "./index.module.scss";
 
@@ -77,9 +76,6 @@ const tmpList = [
   },
 ];
 
-const ContainerBox: any = Container;
-const DraggableBox: any = Draggable;
-
 // 作用就是进行某一列的真实操作（比如删除、增加）
 const applyDrag = (
   arr: Array<{ label: string }>,
@@ -149,43 +145,7 @@ const Task = () => {
   return (
     <>
       <Card bodyStyle={{ display: "flex" }}>
-        {data.map((item: { id: string; name: string; children: any[] }) => (
-          <div key={item.id} className={styles.column}>
-            <ContainerBox
-              onDrop={(e: any) => onDrop(item.id, e)}
-              getChildPayload={(idx: number) => getCardPayload(item.id, idx)}
-              groupName="col"
-              dropPlaceholderAnimationDuration={200}
-            >
-              <div className={styles.title}>
-                <Typography.Title heading={4} style={{ marginBottom: 10 }}>
-                  {item.name}
-                </Typography.Title>
-                <Button
-                  icon={<IconPlus />}
-                  onClick={() => handleCreate(item.id)}
-                />
-              </div>
-
-              {item.children.map((column: ITask) => (
-                <DraggableBox key={column.id}>
-                  <Card className={styles.cardStyle}>
-                    <div className={styles.cardhead}>
-                      <Typography.Title heading={6}>
-                        {column?.taskName}
-                      </Typography.Title>
-                      <Button
-                        icon={<IconMore />}
-                        onClick={() => handleUpdate(item.id, column)}
-                      />
-                    </div>
-                    <Typography>{column.desc}</Typography>
-                  </Card>
-                </DraggableBox>
-              ))}
-            </ContainerBox>
-          </div>
-        ))}
+        sdf
       </Card>
 
       <TaskCreateModal

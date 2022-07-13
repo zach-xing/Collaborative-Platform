@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Descriptions, Modal, Table } from "@douyinfe/semi-ui";
 import { useFetchReport } from "../../data/workbench";
-import { IReport } from "types";
+import { IReport } from "../../types";
 
 const titleObj = {
   day: ["今日总结", "明日计划"],

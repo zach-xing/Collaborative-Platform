@@ -1,6 +1,6 @@
 import { Button, Form, Modal } from "@douyinfe/semi-ui";
 import React from "react";
-import type { ITask } from "types";
+import type { ITask } from "../../types";
 
 interface IProps {
   flag: string;

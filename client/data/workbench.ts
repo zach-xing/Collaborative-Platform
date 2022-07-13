@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { IApproval, IReport } from "types";
+import { IApproval, IReport } from "../types";
 import request from "../utils/request";
 
 /**
