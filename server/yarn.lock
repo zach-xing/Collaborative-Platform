@@ -728,9 +728,9 @@
     multer "1.4.4-lts.1"
     tslib "2.4.0"
 
-"@nestjs/platform-socket.io@^9.0.2":
+"@nestjs/platform-socket.io@^9.0.3":
   version "9.0.3"
-  resolved "https://registry.npmmirror.com/@nestjs/platform-socket.io/-/platform-socket.io-9.0.3.tgz"
+  resolved "https://registry.npmmirror.com/@nestjs/platform-socket.io/-/platform-socket.io-9.0.3.tgz#caa4a42991c25d7df148fe654a648003344fbfbb"
   integrity sha512-CFwdnJ18jQ15hLQiYCuRYBzotdyArA7eHCdFqc2MM4z/Yi/k7eh6mNGTJ8SJbGqGCzWi2w8MSIa6cMkKK57ABA==
   dependencies:
     socket.io "4.5.1"
@@ -754,9 +754,9 @@
   dependencies:
     tslib "2.4.0"
 
-"@nestjs/websockets@^9.0.2":
+"@nestjs/websockets@^9.0.3":
   version "9.0.3"
-  resolved "https://registry.npmmirror.com/@nestjs/websockets/-/websockets-9.0.3.tgz"
+  resolved "https://registry.npmmirror.com/@nestjs/websockets/-/websockets-9.0.3.tgz#9c3aaca8dd4058f78de1796b2922a6add020edb7"
   integrity sha512-GbhmVSkVHHl28UPVUOgsiqIPIYnjTLrK6R3ki+798LPXeZSfI5hdkVP8oy9CnnYyZZqi+0uPWQAUFLf4tntQlw==
   dependencies:
     iterare "1.2.1"
@@ -4365,6 +4365,18 @@ socket.io-parser@~4.0.4:
 socket.io@4.5.1:
   version "4.5.1"
   resolved "https://registry.npmmirror.com/socket.io/-/socket.io-4.5.1.tgz"
+  integrity sha512-0y9pnIso5a9i+lJmsCdtmTTgJFFSvNQKDnPQRz28mGNnxbmqYg2QPtJTLFxhymFZhAIn50eHAKzJeiNaKr+yUQ==
+  dependencies:
+    accepts "~1.3.4"
+    base64id "~2.0.0"
+    debug "~4.3.2"
+    engine.io "~6.2.0"
+    socket.io-adapter "~2.4.0"
+    socket.io-parser "~4.0.4"
+
+socket.io@^4.5.1:
+  version "4.5.1"
+  resolved "https://registry.npmmirror.com/socket.io/-/socket.io-4.5.1.tgz#aa7e73f8a6ce20ee3c54b2446d321bbb6b1a9029"
   integrity sha512-0y9pnIso5a9i+lJmsCdtmTTgJFFSvNQKDnPQRz28mGNnxbmqYg2QPtJTLFxhymFZhAIn50eHAKzJeiNaKr+yUQ==
   dependencies:
     accepts "~1.3.4"
