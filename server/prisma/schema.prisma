@@ -46,6 +46,7 @@ model Approval {
 
 model Report {
   id          String   @id @default(uuid())
+  title       String
   type        String // 0表示日报、1表示周报、2表示月报
   curReport   String   @db.Text
   prevReport  String   @db.Text

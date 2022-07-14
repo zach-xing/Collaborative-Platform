@@ -1,26 +1,25 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateReportDto } from './dto/create-report.dto';
-import { UpdateReportDto } from './dto/update-report.dto';
 
 @Injectable()
 export class ReportService {
-  create(createReportDto: CreateReportDto) {
-    return 'This action adds a new report';
+  constructor(private prisma: PrismaService) {}
+
+  /**
+   * 创建一个 Report
+   */
+  async create(createReportDto: CreateReportDto) {
+    await this.prisma.report.create({
+      data: createReportDto,
+    });
+    return 'create success';
   }
 
-  findAll() {
-    return `This action returns all report`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} report`;
-  }
-
-  update(id: number, updateReportDto: UpdateReportDto) {
-    return `This action updates a #${id} report`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} report`;
+  /**
+   * 获取全部 report 数据
+   */
+  async findAllReport() {
+    return await this.prisma.report.findMany();
   }
 }

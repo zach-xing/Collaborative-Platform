@@ -1,34 +1,27 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
 import { ReportService } from './report.service';
 import { CreateReportDto } from './dto/create-report.dto';
-import { UpdateReportDto } from './dto/update-report.dto';
+import { JwtGuard } from 'src/common/guards/jwt.guard';
 
 @Controller('report')
 export class ReportController {
   constructor(private readonly reportService: ReportService) {}
 
+  /**
+   * 创建一条新的 report 记录
+   */
+  @UseGuards(JwtGuard)
   @Post()
-  create(@Body() createReportDto: CreateReportDto) {
-    return this.reportService.create(createReportDto);
+  async create(@Body() createReportDto: CreateReportDto) {
+    return await this.reportService.create(createReportDto);
   }
 
+  /**
+   * 获取所有的 report 数据
+   */
+  @UseGuards(JwtGuard)
   @Get()
-  findAll() {
-    return this.reportService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.reportService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateReportDto: UpdateReportDto) {
-    return this.reportService.update(+id, updateReportDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.reportService.remove(+id);
+  async findAllReport() {
+    return this.reportService.findAllReport();
   }
 }
