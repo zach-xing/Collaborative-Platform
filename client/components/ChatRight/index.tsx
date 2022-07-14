@@ -1,12 +1,21 @@
 import { IconSend } from "@douyinfe/semi-icons";
-import { Button, Card, TextArea } from "@douyinfe/semi-ui";
+import { Button, Card, Form, TextArea } from "@douyinfe/semi-ui";
 import React from "react";
+import io from "socket.io-client";
 import ChatMsgBubbleList from "./ChatBubbleMsgComp";
 import ScrollBox from "../ScrollBox";
 
 import styles from "./index.module.scss";
 
 const ChatRight = () => {
+  // const ioRef = React.useRef<any>(io("ws://127.0.0.1:8888", { path: "/chat" }));
+
+  // React.useEffect(() => {
+  //   ioRef.current.on("message", (value: any) => {
+  //     console.log("来自服务器的数据：", value);
+  //   });
+  // }, []);
+
   return (
     <Card
       title="Semi Design"
@@ -22,15 +31,12 @@ const ChatRight = () => {
         <ChatMsgBubbleList id={"1"} />
       </ScrollBox>
 
-      <div style={{ flex: 2 }}>
-        <TextArea maxCount={100} showClear />
-      </div>
-
-      <div style={{ flex: 1 }}>
-        <Button theme="solid" icon={<IconSend />}>
-          Click
+      <Form style={{ flex: 2 }}>
+        <Form.Input noLabel field="value" size="large" maxLength={100} />
+        <Button type="primary" htmlType="submit">
+          发送
         </Button>
-      </div>
+      </Form>
     </Card>
   );
 };
