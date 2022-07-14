@@ -3,48 +3,16 @@ import { IApproval, IReport } from "../types";
 import request from "../utils/request";
 
 /**
- * 发送请假的申请
- * @param data
+ * 发送申请（请假、加班、外出）
  */
-export function sendLeaveApplication(data: {
-  type: string;
+export function sendApplication(data: {
+  type: number;
   startTime: string;
   endTime: string;
   reason: string;
 }) {
   return request({
-    url: "/workbench/leave",
-    method: "POST",
-    data,
-  });
-}
-
-/**
- * 发送加班的申请
- */
-export function sendOvertimeApplication(data: {
-  startTime: string;
-  endTime: string;
-  reason: string;
-}) {
-  return request({
-    url: "/workbench/overtime",
-    method: "POST",
-    data,
-  });
-}
-
-/**
- * 发送外出的申请
- * @param data
- */
-export function sendOutsideApplication(data: {
-  startTime: string;
-  endTime: string;
-  reason: string;
-}) {
-  return request({
-    url: "/workbench/outside",
+    url: "/approval",
     method: "POST",
     data,
   });
@@ -52,7 +20,7 @@ export function sendOutsideApplication(data: {
 
 function fetchApprovalData() {
   return request({
-    url: "/workbench/approval",
+    url: "/approval",
     method: "GET",
   });
 }
@@ -87,7 +55,7 @@ export function sendReport(
   }
 ) {
   return request({
-    url: `/workbench/report?type=${type}`,
+    url: `/report?type=${type}`,
     method: "POST",
     data,
   });
@@ -95,7 +63,7 @@ export function sendReport(
 
 function fetchReport() {
   return request({
-    url: "/workbench/report",
+    url: "/report",
     method: "GET",
   });
 }

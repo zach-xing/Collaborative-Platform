@@ -1,10 +1,6 @@
 import { Button, Form, Toast } from "@douyinfe/semi-ui";
 import React from "react";
-import {
-  sendLeaveApplication,
-  sendOutsideApplication,
-  sendOvertimeApplication,
-} from "../../../data/workbench";
+import { sendApplication } from "../../../data/workbench";
 
 const typeArr = [
   {
@@ -54,14 +50,13 @@ interface IProps {
  */
 const SendApplyForm: React.FC<IProps> = (props) => {
   const handleSubmit = async (value: any) => {
-    // TODO:“外出”组件的 submit 功能
     try {
       if (props.flag === "1") {
-        await sendLeaveApplication(value);
+        await sendApplication(value);
       } else if (props.flag === "2") {
-        await sendOvertimeApplication(value);
+        await sendApplication({ type: -1, ...value });
       } else {
-        await sendOutsideApplication(value);
+        await sendApplication({ type: 0, ...value });
       }
       Toast.success("发送成功");
     } catch (err) {
@@ -85,16 +80,8 @@ const SendApplyForm: React.FC<IProps> = (props) => {
           ))}
         </Form.Select>
       )}
-      <Form.DatePicker
-        type="dateTime"
-        field="startTime"
-        label="开始时间"
-      ></Form.DatePicker>
-      <Form.DatePicker
-        type="dateTime"
-        field="endTime"
-        label="结束时间"
-      ></Form.DatePicker>
+      <Form.DatePicker field="startTime" label="开始时间"></Form.DatePicker>
+      <Form.DatePicker field="endTime" label="结束时间"></Form.DatePicker>
       <Form.TextArea
         field="reason"
         label="事由"

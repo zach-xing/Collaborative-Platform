@@ -9,7 +9,7 @@ import StateTag from "./components/StateTag";
  */
 const ApprovalCenter = () => {
   const { approvalData, isLoading } = useFetchApprovalData();
-  console.log(approvalData);
+
   if (isLoading) {
     return <>Loading...</>;
   }
