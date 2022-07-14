@@ -24,4 +24,10 @@ export class ApprovalController {
   async createApproval(@Body() createApprovalDto: CreateApprovalDto) {
     return this.approvalService.createApproval(createApprovalDto);
   }
+
+  @UseGuards(JwtGuard)
+  @Get()
+  async findAllApproval() {
+    return this.approvalService.findAllApproval();
+  }
 }
