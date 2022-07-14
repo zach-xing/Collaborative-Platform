@@ -816,11 +816,6 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@socket.io/component-emitter@~3.1.0":
-  version "3.1.0"
-  resolved "https://registry.npmmirror.com/@socket.io/component-emitter/-/component-emitter-3.1.0.tgz"
-  integrity sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==
-
 "@tsconfig/node10@^1.0.7":
   version "1.0.9"
   resolved "https://registry.npmmirror.com/@tsconfig/node10/-/node10-1.0.9.tgz"
@@ -2042,17 +2037,6 @@ end-of-stream@^1.1.0:
   integrity sha512-+uw1inIHVPQoaVuHzRyXd21icM+cnt4CzD5rW+NC1wjOUSTOs+Te7FOv7AhN7vS9x/oIyhLP5PR1H+phQAHu5Q==
   dependencies:
     once "^1.4.0"
-
-engine.io-client@~6.2.1:
-  version "6.2.2"
-  resolved "https://registry.npmmirror.com/engine.io-client/-/engine.io-client-6.2.2.tgz"
-  integrity sha512-8ZQmx0LQGRTYkHuogVZuGSpDqYZtCM/nv8zQ68VZ+JkOpazJ7ICdsSpaO6iXwvaU30oFg5QJOJWj8zWqhbKjkQ==
-  dependencies:
-    "@socket.io/component-emitter" "~3.1.0"
-    debug "~4.3.1"
-    engine.io-parser "~5.0.3"
-    ws "~8.2.3"
-    xmlhttprequest-ssl "~2.0.0"
 
 engine.io-parser@~5.0.3:
   version "5.0.4"
@@ -4213,16 +4197,6 @@ socket.io-adapter@~2.4.0:
   resolved "https://registry.npmmirror.com/socket.io-adapter/-/socket.io-adapter-2.4.0.tgz"
   integrity sha512-W4N+o69rkMEGVuk2D/cvca3uYsvGlMwsySWV447y99gUPghxq42BxqLNMndb+a1mm/5/7NeXVQS7RLa2XyXvYg==
 
-socket.io-client@^4.5.1:
-  version "4.5.1"
-  resolved "https://registry.npmmirror.com/socket.io-client/-/socket.io-client-4.5.1.tgz"
-  integrity sha512-e6nLVgiRYatS+AHXnOnGi4ocOpubvOUCGhyWw8v+/FxW8saHkinG6Dfhi9TU0Kt/8mwJIAASxvw6eujQmjdZVA==
-  dependencies:
-    "@socket.io/component-emitter" "~3.1.0"
-    debug "~4.3.2"
-    engine.io-client "~6.2.1"
-    socket.io-parser "~4.2.0"
-
 socket.io-parser@~4.0.4:
   version "4.0.5"
   resolved "https://registry.npmmirror.com/socket.io-parser/-/socket.io-parser-4.0.5.tgz"
@@ -4230,14 +4204,6 @@ socket.io-parser@~4.0.4:
   dependencies:
     "@types/component-emitter" "^1.2.10"
     component-emitter "~1.3.0"
-    debug "~4.3.1"
-
-socket.io-parser@~4.2.0:
-  version "4.2.1"
-  resolved "https://registry.npmmirror.com/socket.io-parser/-/socket.io-parser-4.2.1.tgz"
-  integrity sha512-V4GrkLy+HeF1F/en3SpUaM+7XxYXpuMUWLGde1kSSh5nQMN4hLrbPIkD+otwh6q9R6NOQBN4AMaOZ2zVjui82g==
-  dependencies:
-    "@socket.io/component-emitter" "~3.1.0"
     debug "~4.3.1"
 
 socket.io@4.5.1:
@@ -4841,11 +4807,6 @@ ws@~8.2.3:
   version "8.2.3"
   resolved "https://registry.npmmirror.com/ws/-/ws-8.2.3.tgz"
   integrity sha512-wBuoj1BDpC6ZQ1B7DWQBYVLphPWkm8i9Y0/3YdHjHKHiohOJ1ws+3OccDWtH+PoC9DZD5WOTrJvNbWvjS6JWaA==
-
-xmlhttprequest-ssl@~2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmmirror.com/xmlhttprequest-ssl/-/xmlhttprequest-ssl-2.0.0.tgz"
-  integrity sha512-QKxVRxiRACQcVuQEYFsI1hhkrMlrXHPegbbd1yn9UHOmRxY+si12nQYzri3vbzt8VdTTRviqcKxcyllFas5z2A==
 
 xtend@^4.0.0:
   version "4.0.2"
