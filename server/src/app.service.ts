@@ -12,7 +12,7 @@ export class AppService {
   async getAll() {
     const data = await this.prisma.user.findUnique({
       where: {
-        id: '2',
+        id: 'b7eff18d-0018-4180-bcae-acd5194d502c',
       },
     });
     return data;

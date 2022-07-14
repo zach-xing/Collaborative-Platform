@@ -1,12 +1,15 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { LoginUserDto } from './dto/login-user.dto';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService, private jwtService: JwtService) {}
 
+  // 创建一个 user，也就是注册一个 user
   async createUser(createUserDto: CreateUserDto) {
     if (
       (await this.prisma.user.findUnique({
@@ -20,6 +23,28 @@ export class UserService {
       data: createUserDto,
     });
     return 'create success';
+  }
+
+  // 登录
+  async login(loginUserDto: LoginUserDto) {
+    const user = await this.prisma.user.findUnique({
+      where: { email: loginUserDto.email },
+    });
+    if (user === null) {
+      throw new HttpException('该用户邮箱不存在', HttpStatus.BAD_REQUEST);
+    }
+
+    if (user.password !== loginUserDto.password) {
+      throw new HttpException('密码错误', HttpStatus.BAD_REQUEST);
+    }
+
+    const token = this.jwtService.sign({
+      email: loginUserDto.email,
+      password: loginUserDto.password,
+    });
+    return {
+      access_token: token,
+    };
   }
 
   findAll() {
