@@ -16,11 +16,11 @@ const navArr: Array<{ itemKey: string; text: string; icon: React.ReactNode }> =
       text: "消息",
       icon: <IconComment size="large" />,
     },
-    {
-      itemKey: "task",
-      text: "任务",
-      icon: <IconGallery size="large" />,
-    },
+    // {
+    //   itemKey: "task",
+    //   text: "任务",
+    //   icon: <IconGallery size="large" />,
+    // },
     {
       itemKey: "workbench",
       text: "工作台",
