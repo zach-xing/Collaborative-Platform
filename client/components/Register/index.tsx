@@ -23,7 +23,7 @@ const Register = (props: IProps) => {
 
   return (
     <Modal
-      title="登录"
+      title="注册"
       visible={visible}
       onCancel={handleCancel}
       maskClosable={false}
@@ -40,8 +40,8 @@ const Register = (props: IProps) => {
           ]}
         />
         <Form.Input
-          field="account"
-          label="账号"
+          field="email"
+          label="邮箱"
           trigger="blur"
           rules={[
             { required: true, message: "必填项" },

@@ -10,7 +10,7 @@ export default function useAuth() {
    */
   function isLogin() {
     // TODO: 完善 isLogin
-    return true;
+    return false;
   }
 
   return {
