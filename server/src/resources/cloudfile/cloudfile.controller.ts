@@ -7,6 +7,7 @@ import {
   UseGuards,
   Param,
   Patch,
+  Query,
 } from '@nestjs/common';
 import { JwtGuard } from 'src/common/guards/jwt.guard';
 import { CloudfileService } from './cloudfile.service';
@@ -22,8 +23,11 @@ export class CloudfileController {
    */
   @UseGuards(JwtGuard)
   @Post()
-  async create(@Body() createCloudfileDto: CreateCloudfileDto) {
-    return await this.cloudfileService.create(createCloudfileDto);
+  async create(
+    @Body() createCloudfileDto: CreateCloudfileDto,
+    @Query('userId') userId: string,
+  ) {
+    return await this.cloudfileService.create(createCloudfileDto, userId);
   }
 
   /**

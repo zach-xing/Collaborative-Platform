@@ -10,7 +10,7 @@ export class CloudfileService {
   /**
    * 创建文件[夹]
    */
-  async create(createCloudfileDto: CreateCloudfileDto) {
+  async create(createCloudfileDto: CreateCloudfileDto, userId: string) {
     const fileNames = await this.prisma.cloudFile.findMany({
       where: {
         parentId: createCloudfileDto.parentId,
@@ -38,7 +38,7 @@ export class CloudfileService {
         id: true,
       },
     });
-    // 当创建的是一个文件的时候，就默认创建它的文档内容
+    // 当创建的是一个文件的时候，就默认创建它的文档内容（还要更新它的协作者表）
     if (createCloudfileDto.type === 'file') {
       await this.prisma.cloudDocument.create({
         data: {
@@ -46,6 +46,12 @@ export class CloudfileService {
           title: createCloudfileDto.label,
           text: '内容',
           cloudFileId: id,
+        },
+      });
+      await this.prisma.collaborator.create({
+        data: {
+          cloudDocumentId: id,
+          userId: userId,
         },
       });
     }
@@ -89,6 +95,19 @@ export class CloudfileService {
   }
 
   /**
+   * 删除指定 id
+   * @param id Document id
+   */
+  private async deleteDocumentById(id: string) {
+    await this.prisma.collaborator.delete({
+      where: { cloudDocumentId: id },
+    });
+    await this.prisma.cloudDocument.delete({
+      where: { id },
+    });
+  }
+
+  /**
    * 获取子文件[夹]的 ids
    * 简单的说，就是 获取即将删除文件夹下的子文件[夹]的 id 列表
    */
@@ -126,18 +145,14 @@ export class CloudfileService {
       });
       if (deletedFileData.type === 'file') {
         // 若此条数据为 file，则先删除 cloudDocument 表中的数据
-        await this.prisma.cloudDocument.delete({
-          where: { id },
-        });
+        await this.deleteDocumentById(id);
       } else {
         // 数据类型为 folder，还需要删除 parentId 为将要删除 id 的数据（也就是要删除文件夹下的子文件[夹]）
         const arr = await this.getChildrenId(id);
         const deletedIdArr = []; // 要删除文件[夹]的 id
         for (const item of arr) {
           if (item.type === 'file') {
-            await this.prisma.cloudDocument.delete({
-              where: { id: item.id },
-            });
+            await this.deleteDocumentById(item.id);
           }
           deletedIdArr.push(item.id);
         }
