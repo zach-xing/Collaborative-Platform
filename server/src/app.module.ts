@@ -6,9 +6,10 @@ import { UserModule } from './resources/user/user.module';
 import { ReportModule } from './resources/report/report.module';
 import { ChatModule } from './resources/chat/chat.module';
 import { ApprovalModule } from './resources/approval/approval.module';
+import { CloudfileModule } from './resources/cloudfile/cloudfile.module';
 
 @Module({
-  imports: [PrismaModule, UserModule, ReportModule, ChatModule, ApprovalModule],
+  imports: [PrismaModule, UserModule, ReportModule, ChatModule, ApprovalModule, CloudfileModule],
   controllers: [AppController],
   providers: [AppService],
 })

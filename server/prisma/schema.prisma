@@ -57,9 +57,9 @@ model Report {
 model CloudFile {
   id            String         @id @default(uuid())
   label         String
-  type          String         @default("file") // file 表示文件，floder表示文件夹
+  type          String         @default("file") // file 表示文件，folder表示文件夹
   updateTime    DateTime       @default(now())
-  parentId      String
+  parentId      String // 0表示根目录
   CloudDocument CloudDocument?
 }
 
