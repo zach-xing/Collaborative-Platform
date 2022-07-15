@@ -60,12 +60,101 @@ export class CloudfileService {
   }
 
   /**
-   * 根据 id 更改文件夹内容
-   * @param id 文件夹 id
+   * 根据 id 更改**文件[夹]**内容
+   * @param id 文件[夹] id
    * @param updateCloudfileDto 更改的内容
    */
-  async updateCloudFolder(id: string, updateCloudfileDto: UpdateCloudfileDto) {
-    return 'pending...';
+  async updateCloudFile(id: string, updateCloudfileDto: UpdateCloudfileDto) {
+    try {
+      await this.prisma.cloudFile.update({
+        where: { id: id },
+        data: {
+          label: updateCloudfileDto.label,
+          updateTime: updateCloudfileDto.updateTime,
+        },
+      });
+      // 若文件类型是file，则还会更改里面文档的标题（因为文件名和标题是一致的）
+      if (updateCloudfileDto.type === 'file') {
+        await this.prisma.cloudDocument.update({
+          where: { id: id },
+          data: {
+            title: updateCloudfileDto.label,
+          },
+        });
+      }
+    } catch (err) {
+      throw new HttpException('更改失败', HttpStatus.BAD_REQUEST);
+    }
+    return 'update success';
+  }
+
+  /**
+   * 获取子文件[夹]的 ids
+   * 简单的说，就是 获取即将删除文件夹下的子文件[夹]的 id 列表
+   */
+  private async getChildrenId(
+    id: string,
+    arr: Array<{ id: string; type: string }> = [],
+  ): Promise<Array<{ id: string; type: string }>> {
+    const data = await this.prisma.cloudFile.findMany({
+      where: { parentId: id },
+      select: {
+        id: true,
+        type: true,
+      },
+    });
+
+    for (const item of data) {
+      if (item.type === 'folder') {
+        await this.getChildrenId(item.id, arr);
+      }
+      arr.push(item);
+    }
+
+    return arr;
+  }
+
+  /**
+   * 根据 id 删除文件[夹]
+   * @param id 文件[夹] id
+   */
+  async deleteFile(id: string) {
+    try {
+      // 先看这条即将删除的数据是否存在
+      const deletedFileData = await this.prisma.cloudFile.findUniqueOrThrow({
+        where: { id },
+      });
+      if (deletedFileData.type === 'file') {
+        // 若此条数据为 file，则先删除 cloudDocument 表中的数据
+        await this.prisma.cloudDocument.delete({
+          where: { id },
+        });
+      } else {
+        // 数据类型为 folder，还需要删除 parentId 为将要删除 id 的数据（也就是要删除文件夹下的子文件[夹]）
+        const arr = await this.getChildrenId(id);
+        const deletedIdArr = []; // 要删除文件[夹]的 id
+        for (const item of arr) {
+          if (item.type === 'file') {
+            await this.prisma.cloudDocument.delete({
+              where: { id: item.id },
+            });
+          }
+          deletedIdArr.push(item.id);
+        }
+        await this.prisma.cloudFile.deleteMany({
+          where: {
+            id: { in: deletedIdArr },
+          },
+        });
+      }
+      // 最后删除 cloudFile 中的数据
+      await this.prisma.cloudFile.delete({
+        where: { id },
+      });
+    } catch (err) {
+      throw new HttpException('删除异常', HttpStatus.BAD_REQUEST);
+    }
+    return 'delete success';
   }
 
   /**

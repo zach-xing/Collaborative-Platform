@@ -7,7 +7,7 @@ export class UpdateCloudfileDto extends PartialType(CreateCloudfileDto) {
   type: 'file' | 'folder';
 
   @IsString()
-  title: string;
+  label: string;
 
   @IsDate()
   updateTime: Date;

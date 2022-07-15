@@ -44,13 +44,18 @@ export class CloudfileController {
     @Param('id') id: string,
     @Body() updateCloudfileDto: UpdateCloudfileDto,
   ) {
-    if (updateCloudfileDto.type === 'folder') {
-      return await this.cloudfileService.updateCloudFolder(
-        id,
-        updateCloudfileDto,
-      );
-    }
-    return '开发中...';
+    return await this.cloudfileService.updateCloudFile(id, updateCloudfileDto);
+  }
+
+  /**
+   * 根据 id 删除某个文件[夹]
+   * @param id 文件[夹] id
+   * @param deleteData 其中的 ids 是类似 '['1', '2']' 的存在
+   */
+  @UseGuards(JwtGuard)
+  @Delete(':id')
+  async delete(@Param('id') id: string) {
+    return await this.cloudfileService.deleteFile(id);
   }
 
   /**
