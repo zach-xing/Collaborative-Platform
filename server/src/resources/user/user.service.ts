@@ -43,6 +43,9 @@ export class UserService {
       password: loginUserDto.password,
     });
     return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
       access_token: token,
     };
   }
