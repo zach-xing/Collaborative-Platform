@@ -1,5 +1,7 @@
 import React from "react";
 import { Button, Form, Modal, Space, Toast } from "@douyinfe/semi-ui";
+import { useUser } from "../../data/user";
+import { setCookie } from "../../utils/cookie";
 
 interface IProps {
   visible: boolean;
@@ -10,10 +12,10 @@ interface IProps {
  * 登录 组件
  */
 const Login = (props: IProps) => {
+  const { login } = useUser();
   const { visible, setVisible } = props;
-  const handleSubmit = (values: any) => {
-    console.log(values);
-    Toast.success("表单已提交");
+  const handleSubmit = async (values: any) => {
+    await login(values);
     setVisible(false);
   };
 

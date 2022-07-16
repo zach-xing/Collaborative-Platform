@@ -1,5 +1,6 @@
 import { Toast, Modal, Form, Space, Button } from "@douyinfe/semi-ui";
 import React from "react";
+import { register, useUser } from "../../data/user";
 
 interface IProps {
   visible: boolean;
@@ -10,10 +11,10 @@ interface IProps {
  * 注册 组件
  */
 const Register = (props: IProps) => {
+  const { register } = useUser();
   const { visible, setVisible } = props;
-  const handleSubmit = (values: any) => {
-    console.log(values);
-    Toast.success("表单已提交");
+  const handleSubmit = async (values: any) => {
+    await register(values);
     setVisible(false);
   };
 

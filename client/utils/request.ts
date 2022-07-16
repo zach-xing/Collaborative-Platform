@@ -1,8 +1,9 @@
 import axios, { AxiosRequestConfig } from "axios";
 
 const instance = axios.create({
-  baseURL: "https://mock.apifox.cn/m1/1257897-0-default",
+  baseURL: "http://localhost:8888",
   timeout: 10000,
+  withCredentials: true,
 });
 
 instance.interceptors.request.use(
@@ -18,7 +19,7 @@ instance.interceptors.response.use(
     const { data } = res;
     return data;
   },
-  (err) => err
+  (err) => Promise.reject(err.response.data)
 );
 
 const request = async <T = any>(config: AxiosRequestConfig): Promise<T> => {
