@@ -1,7 +1,7 @@
 import cookie from "js-cookie";
 import Crypto from "crypto-js";
 
-const secretKey = "Zeekg";
+const secretKey: string = process.env.SECRET_KEY!;
 
 /**
  * 获取 cookie

@@ -2,12 +2,11 @@ import React from "react";
 import { useRouter } from "next/router";
 import { Avatar, Button, Nav } from "@douyinfe/semi-ui";
 import { IconSemiLogo, IconBell, IconHelpCircle } from "@douyinfe/semi-icons";
-import useAuth from "../utils/auth";
+import { isLogin } from "../utils/auth";
 import Login from "../components/Login";
 import Register from "../components/Register";
 
 const Header = () => {
-  const { isLogin } = useAuth();
   const { route, push } = useRouter();
   const [loginVisible, setLoginVisible] = React.useState(false);
   const [registerVisible, setRegisterVisible] = React.useState(false);

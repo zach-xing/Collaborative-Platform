@@ -4,12 +4,11 @@ import { Layout } from "@douyinfe/semi-ui";
 import Redirect from "../pages/redirect";
 import HeaderBox from "./Header";
 import SiderBox from "./Sidebar";
-import useAuth from "../utils/auth";
+import { isLogin } from "../utils/auth";
 
 const LayoutComp = ({ children }: { children: React.ReactNode }) => {
   const { Header, Sider, Content } = Layout;
   const router = useRouter();
-  const { isLogin } = useAuth();
 
   if (router.route === "/") {
     return (
