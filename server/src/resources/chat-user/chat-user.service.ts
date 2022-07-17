@@ -9,10 +9,25 @@ export class ChatUserService {
    * @param id
    */
   async findUsersById(id: string) {
-    const chatUsers = await this.prisma.friend.findMany({
+    const chatUsers = await this.prisma.friend.findUnique({
       where: { userId: id },
     });
-    console.log(chatUsers);
-    return chatUsers;
+    if (chatUsers.friend_list === '') {
+      return [];
+    }
+    const userIdArr = chatUsers.friend_list.split(',');
+    const arr = await this.prisma.user.findMany({
+      where: {
+        id: {
+          in: userIdArr,
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+      },
+    });
+    return arr;
   }
 }
