@@ -25,6 +25,7 @@ model User {
   chat_Line    Chat_Line[]
   Chat         Chat[]
   Collaborator Collaborator[]
+  Friend       Friend[]
 }
 
 model Chat_Line {
@@ -34,6 +35,12 @@ model Chat_Line {
   chatId   String
   user     User     @relation(fields: [userId], references: [id])
   userId   String
+}
+
+model Friend {
+  user        User   @relation(fields: [userId], references: [id])
+  userId      String @id
+  friend_list String
 }
 
 model Approval {

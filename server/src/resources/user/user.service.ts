@@ -19,8 +19,14 @@ export class UserService {
       throw new HttpException('该用户已经被创建', HttpStatus.BAD_REQUEST);
     }
 
-    await this.prisma.user.create({
+    const createdUser = await this.prisma.user.create({
       data: createUserDto,
+    });
+    await this.prisma.friend.create({
+      data: {
+        userId: createdUser.id,
+        friend_list: null,
+      },
     });
     return 'create success';
   }
