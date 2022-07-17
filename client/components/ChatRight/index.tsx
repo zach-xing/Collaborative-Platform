@@ -1,5 +1,4 @@
-import { IconSend } from "@douyinfe/semi-icons";
-import { Button, Card, Form, TextArea } from "@douyinfe/semi-ui";
+import { Button, Card, Form } from "@douyinfe/semi-ui";
 import React from "react";
 import io from "socket.io-client";
 import ChatMsgBubbleList from "./ChatBubbleMsgComp";

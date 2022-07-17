@@ -2,31 +2,33 @@ import request from "../utils/request";
 import type { IChatMsgListItem, IChatUserListItem } from "../types";
 import { useQuery } from "react-query";
 
-function fetchChatUserList() {
+export function fetchChatUserList(id: string) {
   return request({
-    url: "/chat/users",
+    url: `/chat-user/${id}`,
     method: "GET",
   });
 }
 /**
  * 获取聊天的用户列表 hook
+ * @Param id 用户的 id
  */
-export function useFetchChatUserList() {
+export function useFetchChatUserList(id: string) {
   const {
     data,
     isLoading: isLoadingWithChatUserList,
     refetch,
-  } = useQuery<{ list: Array<IChatUserListItem> }>(
+  } = useQuery<Array<IChatUserListItem>>(
     "ChatUserList",
-    fetchChatUserList,
+    () => fetchChatUserList(id),
     {
       refetchInterval: false,
     }
   );
 
   return {
-    chatUserList: data?.list,
+    chatUserList: data,
     isLoadingWithChatUserList,
+    refetch,
   };
 }
 

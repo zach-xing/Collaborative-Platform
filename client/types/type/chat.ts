@@ -2,13 +2,12 @@
 export interface IChatUserListItem {
   id: string;
   name: string;
-  latestMsg: string;
-  avatarUrl: string;
+  email: string;
 }
 
 /** 聊天的消息列表 */
 export interface IChatMsgListItem {
-  id: string; 
+  id: string;
   name: string;
   lineText: string;
   sendTime: string;

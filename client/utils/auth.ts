@@ -5,5 +5,5 @@ import { getCookie } from "./cookie";
  * true 表示已登录，false 表示未登录
  */
 export function isLogin() {
-  return !!getCookie("token");
+  return !!getCookie("token") && localStorage.getItem("user");
 }

@@ -8,11 +8,8 @@ import styles from "./index.module.scss";
  * 展示消息气泡的列表
  */
 const ChatMsgBubbleList: React.FC<{ id: string }> = (props) => {
-  const { chatMsgList, isLoading } = useFetchChatList(props.id);
-
-  if (isLoading) {
-    return <>Loading...</>;
-  }
+  // const { chatMsgList, isLoading } = useFetchChatList(props.id);
+  const chatMsgList: any[] = [];
 
   return (
     <>
