@@ -1,6 +1,6 @@
 import { Toast } from "@douyinfe/semi-ui";
-import { useRouter } from "next/router";
 import React from "react";
+import { useQuery } from "react-query";
 import { IUser } from "../types";
 import { setCookie } from "../utils/cookie";
 import request from "../utils/request";
@@ -14,30 +14,6 @@ interface IRegister {
   name: string;
   email: string;
   password: string;
-}
-
-/**
- * 登录
- * @param data
- */
-export function login(data: ILogin) {
-  return request<IUser & { access_token: string }>({
-    url: "/user/login",
-    method: "POST",
-    data,
-  });
-}
-
-/**
- * 注册
- * @param data
- */
-export function register(data: IRegister) {
-  return request({
-    url: "/user/register",
-    method: "POST",
-    data,
-  });
 }
 
 export function useUser() {

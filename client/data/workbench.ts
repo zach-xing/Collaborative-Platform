@@ -18,26 +18,26 @@ export function sendApplication(data: {
   });
 }
 
-function fetchApprovalData() {
+function fetchApprovalData(id: string) {
   return request({
-    url: "/approval",
+    url: `/approval/${id}`,
     method: "GET",
   });
 }
 /**
  * 获取审批的数据
  */
-export function useFetchApprovalData() {
-  const { data, isLoading } = useQuery<{ list: Array<IApproval> }>(
+export function useFetchApprovalData(id: string) {
+  const { data, isLoading } = useQuery<Array<IApproval>>(
     "ApprovalData",
-    fetchApprovalData,
+    () => fetchApprovalData(id),
     {
       refetchInterval: false,
     }
   );
 
   return {
-    approvalData: data?.list,
+    approvalData: data,
     isLoading,
   };
 }

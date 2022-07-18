@@ -1,7 +1,6 @@
 import React from "react";
 import { Button, Form, Modal, Space, Toast } from "@douyinfe/semi-ui";
 import { useUser } from "../../data/user";
-import { setCookie } from "../../utils/cookie";
 
 interface IProps {
   visible: boolean;
@@ -14,9 +13,11 @@ interface IProps {
 const Login = (props: IProps) => {
   const { login } = useUser();
   const { visible, setVisible } = props;
+
   const handleSubmit = async (values: any) => {
     await login(values);
     setVisible(false);
+    location.reload();
   };
 
   const handleCancel = () => {

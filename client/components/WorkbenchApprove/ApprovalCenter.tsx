@@ -2,13 +2,15 @@ import { IconMore } from "@douyinfe/semi-icons";
 import { Table } from "@douyinfe/semi-ui";
 import React from "react";
 import { useFetchApprovalData } from "../../data/workbench";
+import useLocalStorage from "../../hooks/use-localStorage";
 import StateTag from "./components/StateTag";
 
 /**
  * 审批中心 组件
  */
 const ApprovalCenter = () => {
-  const { approvalData, isLoading } = useFetchApprovalData();
+  const [user, _] = useLocalStorage("user", null);
+  const { approvalData, isLoading } = useFetchApprovalData(user.id);
 
   if (isLoading) {
     return <>Loading...</>;
