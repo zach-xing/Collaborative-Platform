@@ -1,45 +1,8 @@
 import { Button, Form, Toast } from "@douyinfe/semi-ui";
 import React from "react";
 import { sendApplication } from "../../../data/workbench";
-
-const typeArr = [
-  {
-    type: 1,
-    label: "年假",
-  },
-  {
-    type: 2,
-    label: "事假",
-  },
-  {
-    type: 3,
-    label: "病假",
-  },
-  {
-    type: 4,
-    label: "调休假",
-  },
-  {
-    type: 5,
-    label: "婚假",
-  },
-  {
-    type: 6,
-    label: "产假",
-  },
-  {
-    type: 7,
-    label: "陪产假",
-  },
-  {
-    type: 8,
-    label: "丧假",
-  },
-  {
-    type: 9,
-    label: "哺乳假",
-  },
-];
+import useLocalStorage from "../../../hooks/use-localStorage";
+import { typeArr } from "../constant";
 
 interface IProps {
   flag: "1" | "2" | "3";
@@ -49,14 +12,16 @@ interface IProps {
  * Modal 中的 SendApplyForm 组件
  */
 const SendApplyForm: React.FC<IProps> = (props) => {
+  const [user, _] = useLocalStorage("user", "");
+
   const handleSubmit = async (value: any) => {
     try {
       if (props.flag === "1") {
-        await sendApplication(value);
+        await sendApplication(user.id, value);
       } else if (props.flag === "2") {
-        await sendApplication({ type: -1, ...value });
+        await sendApplication(user.id, { type: -1, ...value });
       } else {
-        await sendApplication({ type: 0, ...value });
+        await sendApplication(user.id, { type: 0, ...value });
       }
       Toast.success("发送成功");
     } catch (err) {

@@ -1,9 +1,11 @@
 /** 审批中的数据类型 */
 export interface IApproval {
   id: string;
-  title: string;
+  type: number;
   state: "agree" | "reject" | "pending";
-  desc: string;
+  startTime: string;
+  endTime: string;
+  reason: string;
 }
 
 /** report 数据类型 */

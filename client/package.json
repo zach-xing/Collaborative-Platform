@@ -16,6 +16,7 @@
     "@tiptap/starter-kit": "^2.0.0-beta.191",
     "axios": "^0.27.2",
     "crypto-js": "^4.1.1",
+    "dayjs": "^1.11.3",
     "js-cookie": "^3.0.1",
     "next": "12.2.0",
     "react": "18.2.0",

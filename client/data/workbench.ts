@@ -5,14 +5,17 @@ import request from "../utils/request";
 /**
  * 发送申请（请假、加班、外出）
  */
-export function sendApplication(data: {
-  type: number;
-  startTime: string;
-  endTime: string;
-  reason: string;
-}) {
+export function sendApplication(
+  id: string,
+  data: {
+    type: number;
+    startTime: string;
+    endTime: string;
+    reason: string;
+  }
+) {
   return request({
-    url: "/approval",
+    url: `/approval/${id}`,
     method: "POST",
     data,
   });
