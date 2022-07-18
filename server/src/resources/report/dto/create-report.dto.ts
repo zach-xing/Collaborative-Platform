@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsDate, IsString } from 'class-validator';
 
 export class CreateReportDto {
   @IsString()
@@ -6,6 +6,9 @@ export class CreateReportDto {
 
   @IsString()
   title: string;
+
+  @IsDate()
+  sendTime: Date;
 
   @IsString()
   curReport: string;

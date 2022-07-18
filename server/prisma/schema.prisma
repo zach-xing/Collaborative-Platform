@@ -27,6 +27,7 @@ model User {
   Collaborator Collaborator[]
   Friend       Friend[]
   Approval     Approval[]
+  Report       Report[]
 }
 
 model Chat_Line {
@@ -63,6 +64,8 @@ model Report {
   prevReport  String   @db.Text
   otherReport String   @db.Text
   sendTime    DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
 }
 
 model CloudFile {

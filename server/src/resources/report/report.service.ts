@@ -9,9 +9,9 @@ export class ReportService {
   /**
    * 创建一个 Report
    */
-  async create(createReportDto: CreateReportDto) {
+  async create(id: string, createReportDto: CreateReportDto) {
     await this.prisma.report.create({
-      data: createReportDto,
+      data: { ...createReportDto, userId: id },
     });
     return 'create success';
   }
