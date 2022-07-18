@@ -1,13 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { JwtGuard } from 'src/common/guards/jwt.guard';
 import { ApprovalService } from './approval.service';
 import { CreateApprovalDto } from './dto/create-approval.dto';
@@ -20,14 +11,20 @@ export class ApprovalController {
    * 创建一个新的审批
    */
   @UseGuards(JwtGuard)
-  @Post()
-  async createApproval(@Body() createApprovalDto: CreateApprovalDto) {
-    return this.approvalService.createApproval(createApprovalDto);
+  @Post(':id')
+  async createApproval(
+    @Param('id') id: string,
+    @Body() createApprovalDto: CreateApprovalDto,
+  ) {
+    return this.approvalService.createApproval(id, createApprovalDto);
   }
 
+  /**
+   * 根据 userId 获取对应的 Approval 数据
+   */
   @UseGuards(JwtGuard)
-  @Get()
-  async findAllApproval() {
-    return this.approvalService.findAllApproval();
+  @Get(':id')
+  async findAllApproval(@Param('id') id: string) {
+    return this.approvalService.findApprovalById(id);
   }
 }

@@ -8,10 +8,11 @@ export class ApprovalService {
 
   /**
    * 创建一个 Approval
+   * @Param id 用户id
    */
-  async createApproval(createApprovalDto: CreateApprovalDto) {
+  async createApproval(id: string, createApprovalDto: CreateApprovalDto) {
     await this.prisma.approval.create({
-      data: createApprovalDto,
+      data: { ...createApprovalDto, userId: id },
     });
     return 'create success';
   }
@@ -19,7 +20,9 @@ export class ApprovalService {
   /**
    * 获取全部 Approve 信息
    */
-  async findAllApproval() {
-    return await this.prisma.approval.findMany();
+  async findApprovalById(id: string) {
+    return await this.prisma.approval.findMany({
+      where: { userId: id },
+    });
   }
 }
