@@ -23,8 +23,8 @@ export class ReportController {
    * 获取所有的 report 数据
    */
   @UseGuards(JwtGuard)
-  @Get()
-  async findAllReport() {
-    return this.reportService.findAllReport();
+  @Get(':id')
+  async findAllReport(@Param('id') id: string) {
+    return this.reportService.findReportById(id);
   }
 }

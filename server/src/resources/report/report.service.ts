@@ -17,9 +17,11 @@ export class ReportService {
   }
 
   /**
-   * 获取全部 report 数据
+   * 根据 id 获取全部 report 数据
    */
-  async findAllReport() {
-    return await this.prisma.report.findMany();
+  async findReportById(id: string) {
+    return await this.prisma.report.findMany({
+      where: { userId: id },
+    });
   }
 }

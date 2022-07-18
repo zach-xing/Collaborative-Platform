@@ -67,7 +67,7 @@ export function sendReport(
 
 function fetchReport(id: string) {
   return request({
-    url: "/report",
+    url: `/report/${id}`,
     method: "GET",
   });
 }
