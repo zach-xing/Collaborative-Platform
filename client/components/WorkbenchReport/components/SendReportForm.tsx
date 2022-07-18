@@ -1,6 +1,7 @@
 import { Button, Form, Toast } from "@douyinfe/semi-ui";
 import React from "react";
 import { sendReport } from "../../../data/workbench";
+import useLocalStorage from "../../../hooks/use-localStorage";
 
 const infoArr = [
   { title1: "今日总结", title2: "明日计划" },
@@ -17,15 +18,16 @@ interface IProps {
  */
 const SendReportForm: React.FC<IProps> = (props) => {
   const { flag } = props;
+  const [user, _] = useLocalStorage("user", "");
 
   const handleSubmit = async (value: any) => {
     try {
       if (flag === 0) {
-        await sendReport("day", value);
+        await sendReport(user.id, "day", value);
       } else if (flag === 1) {
-        await sendReport("week", value);
+        await sendReport(user.id, "week", value);
       } else {
-        await sendReport("month", value);
+        await sendReport(user.id, "month", value);
       }
       Toast.success("发送成功");
     } catch (err) {

@@ -103,7 +103,7 @@ const ApprovalCenter = () => {
       </Table>
 
       <Modal
-        title="基本对话框"
+        title="详情"
         visible={visible && !!curApproval}
         onCancel={() => setVisible(false)}
         closeOnEsc={true}

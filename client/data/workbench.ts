@@ -49,6 +49,7 @@ export function useFetchApprovalData(id: string) {
  * 发送汇报
  */
 export function sendReport(
+  id: string,
   type: "day" | "week" | "month",
   data: {
     title: string;
@@ -58,13 +59,13 @@ export function sendReport(
   }
 ) {
   return request({
-    url: `/report?type=${type}`,
+    url: `/report/${id}`,
     method: "POST",
-    data,
+    data: { ...data, type, sendTime: new Date() },
   });
 }
 
-function fetchReport() {
+function fetchReport(id: string) {
   return request({
     url: "/report",
     method: "GET",
@@ -72,16 +73,19 @@ function fetchReport() {
 }
 /**
  * 获取 report 的信息
+ * @Param id 用户的 id
  */
-export function useFetchReport() {
-  const { data, isLoading } = useQuery<{
-    list: Array<IReport>;
-  }>("fetchReport", fetchReport, {
-    refetchInterval: false,
-  });
+export function useFetchReport(id: string) {
+  const { data, isLoading } = useQuery<Array<IReport>>(
+    "fetchReport",
+    () => fetchReport(id),
+    {
+      refetchInterval: false,
+    }
+  );
 
   return {
-    reportData: data?.list,
+    reportData: data,
     isLoading,
   };
 }
