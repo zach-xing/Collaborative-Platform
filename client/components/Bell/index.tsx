@@ -1,8 +1,9 @@
 import { IconBell } from "@douyinfe/semi-icons";
-import { Badge, Button, SideSheet } from "@douyinfe/semi-ui";
+import { Badge, Button, Collapse, SideSheet, Space } from "@douyinfe/semi-ui";
 import React from "react";
 import { io } from "socket.io-client";
-import { IMessageItem } from "../../types";
+import useLocalStorage from "../../hooks/use-localStorage";
+import { IMessageItem, IUser } from "../../types";
 
 /**
  * 实时通知的 Bell
@@ -11,11 +12,14 @@ const Bell = () => {
   const bellSocketRef = React.useRef<any>(
     io("ws://127.0.0.1:8888", { path: "/message" })
   );
+  const [user, _] = useLocalStorage<IUser>("user", {} as any);
   const [visible, setVisible] = React.useState(false);
   const [messageArr, setMessageArr] = React.useState<Array<IMessageItem>>([]);
 
   React.useEffect(() => {
-    bellSocketRef.current.emit("fetchMessage", "my id", (response: any) => {
+    bellSocketRef.current.emit("fetchMessage", user.id, (response: any) => {
+      console.log(response);
+
       setMessageArr(response);
     });
     bellSocketRef.current.on("recvMssage", handleRecvMessage);
@@ -23,7 +27,11 @@ const Bell = () => {
   }, []);
 
   const handleRecvMessage = (data: IMessageItem) => {
-    setMessageArr([data, ...messageArr]);
+    console.log(user.id, data.recvUserId);
+
+    if (user.id === data.recvUserId) {
+      setMessageArr([data, ...messageArr]);
+    }
   };
 
   return (
@@ -47,11 +55,20 @@ const Bell = () => {
         visible={visible}
         onCancel={() => setVisible(!visible)}
       >
-        {messageArr.length !== 0 ? (
-          messageArr.map((item) => <>{item.message}</>)
-        ) : (
-          <>暂无数据</>
-        )}
+        <Collapse accordion>
+          {messageArr.map((item) => (
+            <Collapse.Panel
+              key={item.id}
+              header={item.message}
+              itemKey={item.id}
+            >
+              <Space>
+                <Button>同意</Button>
+                <Button type="danger">拒绝</Button>
+              </Space>
+            </Collapse.Panel>
+          ))}
+        </Collapse>
       </SideSheet>
     </>
   );

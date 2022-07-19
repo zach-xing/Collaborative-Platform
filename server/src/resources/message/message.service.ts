@@ -36,7 +36,7 @@ export class MessageService {
     }
     return await this.prisma.message.create({
       data: {
-        message: `用户${body.sendId}邀请你成为好友`,
+        message: `用户 ${body.email} 邀请你成为好友`,
         sendUserId: body.sendId,
         recvUserId: user.id,
       },
