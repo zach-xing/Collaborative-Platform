@@ -1,6 +1,5 @@
 import { Avatar, Popover } from "@douyinfe/semi-ui";
 import React from "react";
-import { useFetchChatList } from "../../../data/chat";
 
 import styles from "./index.module.scss";
 

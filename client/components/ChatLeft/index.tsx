@@ -3,7 +3,7 @@ import { Avatar, Button, List } from "@douyinfe/semi-ui";
 import { IconMore } from "@douyinfe/semi-icons";
 import ScrollBox from "../ScrollBox";
 import MoreOptions from "./components/MoreOptions";
-import { fetchChatUserList } from "../../data/chat";
+import { fetchChatUserList } from "../../data/chatroom";
 
 import styles from "./index.module.scss";
 import { IUser } from "../../types";

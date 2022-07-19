@@ -4,8 +4,8 @@ import {
   MessageBody,
   WebSocketServer,
 } from '@nestjs/websockets';
-import { MessageService } from './message.service';
 import { Server } from 'socket.io';
+import { MessageService } from './message.service';
 import { FeedbackMessageDto } from './dto/feedback-message.dto';
 import { SendMessageDto } from './dto/send-message.dto';
 
