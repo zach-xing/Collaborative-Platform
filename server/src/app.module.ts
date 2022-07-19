@@ -7,12 +7,22 @@ import { ReportModule } from './resources/report/report.module';
 import { ChatModule } from './resources/chat/chat.module';
 import { ApprovalModule } from './resources/approval/approval.module';
 import { CloudfileModule } from './resources/cloudfile/cloudfile.module';
-import { ChatUserModule } from './resources/chat-user/chat-user.module';
 import { FriendModule } from './resources/friend/friend.module';
 import { MessageModule } from './resources/message/message.module';
+import { ChatroomModule } from './resources/chatroom/chatroom.module';
 
 @Module({
-  imports: [PrismaModule, UserModule, ReportModule, ChatModule, ApprovalModule, CloudfileModule, ChatUserModule, FriendModule, MessageModule],
+  imports: [
+    PrismaModule,
+    UserModule,
+    ReportModule,
+    ChatModule,
+    ApprovalModule,
+    CloudfileModule,
+    FriendModule,
+    MessageModule,
+    ChatroomModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

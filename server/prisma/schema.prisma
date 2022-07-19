@@ -45,11 +45,12 @@ model Friend {
 }
 
 model Message {
-  id         String @id @default(uuid())
+  id         String   @id @default(uuid())
   message    String // 此条消息的内容
-  state      String @default("pending") // pending | agree | reject
+  state      String   @default("pending") // pending | agree | reject
   sendUserId String
   recvUserId String
+  sendTime   DateTime @default(now())
 }
 
 model Approval {

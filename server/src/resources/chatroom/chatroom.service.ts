@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { InviteGroupDto } from './dto/invite-group.dto';
 
 @Injectable()
-export class ChatUserService {
+export class ChatroomService {
   constructor(private prisma: PrismaService) {}
   /**
    * 根据用户的 id 获取与此用户相关的用户聊天列表
@@ -56,5 +57,41 @@ export class ChatUserService {
     }
 
     return res;
+  }
+
+  /**
+   * 将 ids 中的 用户 id 创建一个 ChatRoom
+   * @param ids string[]
+   * @param name 若为群组，就用 name，若name没有，也就是只有两个用户，不需要name
+   */
+  async createChatRoom(ids: string[], name?: string) {
+    return await this.prisma.chatRoom.create({
+      data: {
+        userIds: ids.join(),
+        name: name || '',
+      },
+    });
+  }
+
+  /**
+   * 邀请用户进入 Group
+   * @param inviteGroupDto
+   */
+  async inviteUserToGroup(inviteGroupDto: InviteGroupDto) {
+    const data = await this.prisma.chatRoom.findUnique({
+      where: { id: inviteGroupDto.chatRoomId },
+    });
+    if (data === null) {
+      throw new HttpException('邀请失败', HttpStatus.BAD_REQUEST);
+    }
+    const ids = data.userIds.split(',');
+    ids.concat(inviteGroupDto.ids);
+    await this.prisma.chatRoom.update({
+      where: { id: inviteGroupDto.chatRoomId },
+      data: {
+        userIds: ids.join(),
+      },
+    });
+    return 'invite success';
   }
 }

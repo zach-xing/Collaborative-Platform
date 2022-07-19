@@ -36,7 +36,7 @@ const MoreOptions = () => {
         Toast.success("创建成功");
       } else if (curOption === "add-person") {
         // 添加联系人
-        await addPersonOption(value.id);
+        await addPersonOption(value.id, "");
         Toast.success("发送成功");
       } else {
         // 加入群聊

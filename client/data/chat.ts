@@ -36,10 +36,14 @@ export function useFetchChatUserList(id: string) {
  * 添加联系人（也就是加好友）
  * @param id 用户的 id
  */
-export function addPersonOption(id: string) {
+export function addPersonOption(id: string, email: string) {
   return request({
-    url: `/chat/user/${id}`,
-    method: "GET",
+    url: `/chat-user`,
+    method: "POST",
+    data: {
+      id,
+      email,
+    },
   });
 }
 

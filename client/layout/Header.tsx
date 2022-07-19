@@ -1,10 +1,11 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { Avatar, Button, Nav } from "@douyinfe/semi-ui";
-import { IconSemiLogo, IconBell, IconHelpCircle } from "@douyinfe/semi-icons";
+import { IconSemiLogo } from "@douyinfe/semi-icons";
 import { isLogin } from "../utils/auth";
 import Login from "../components/Login";
 import Register from "../components/Register";
+import Bell from "../components/Bell";
 
 const Header = () => {
   const router = useRouter();
@@ -49,22 +50,7 @@ const Header = () => {
             </>
           ) : renderEl === 2 ? (
             <>
-              <Button
-                theme="borderless"
-                icon={<IconBell size="large" />}
-                style={{
-                  color: "var(--semi-color-text-2)",
-                  marginRight: "12px",
-                }}
-              />
-              <Button
-                theme="borderless"
-                icon={<IconHelpCircle size="large" />}
-                style={{
-                  color: "var(--semi-color-text-2)",
-                  marginRight: "12px",
-                }}
-              />
+              <Bell />
               <Avatar color="orange" size="small">
                 YJ
               </Avatar>
