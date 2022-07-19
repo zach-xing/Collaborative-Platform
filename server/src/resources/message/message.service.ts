@@ -28,11 +28,17 @@ export class MessageService {
    * 客户端发送邀请请求
    */
   async sendMessage(body: SendMessageDto) {
+    const user = await this.prisma.user.findUnique({
+      where: { email: body.email },
+    });
+    if (user === null) {
+      throw new HttpException('此邮箱不存在', HttpStatus.BAD_REQUEST);
+    }
     return await this.prisma.message.create({
       data: {
         message: `用户${body.sendId}邀请你成为好友`,
         sendUserId: body.sendId,
-        recvUserId: body.recvId,
+        recvUserId: user.id,
       },
     });
   }

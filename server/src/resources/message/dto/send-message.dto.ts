@@ -5,5 +5,5 @@ export class SendMessageDto {
   sendId: string; // 发送邀请的用户 id
 
   @IsString()
-  recvId: string; // 接收邀请的用户 id
+  email: string; // 接收邀请的用户的email
 }

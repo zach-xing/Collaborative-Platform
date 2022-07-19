@@ -8,8 +8,6 @@ import { MessageService } from './message.service';
 import { Server } from 'socket.io';
 import { FeedbackMessageDto } from './dto/feedback-message.dto';
 import { SendMessageDto } from './dto/send-message.dto';
-import { UseGuards } from '@nestjs/common';
-import { JwtGuard } from 'src/common/guards/jwt.guard';
 
 @WebSocketGateway({
   path: '/message',
@@ -25,7 +23,6 @@ export class MessageGateway {
   /**
    * 获取目前对应 id 用户的消息信息
    */
-  @UseGuards(JwtGuard)
   @SubscribeMessage('fetchMessage')
   async fetchMessage(@MessageBody() id: string) {
     return await this.messageService.fetchMessage(id);
