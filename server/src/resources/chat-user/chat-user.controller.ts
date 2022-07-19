@@ -1,4 +1,13 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
+import { JwtGuard } from 'src/common/guards/jwt.guard';
 import { ChatUserService } from './chat-user.service';
 
 @Controller('chat-user')
@@ -10,6 +19,7 @@ export class ChatUserController {
    * @param id 用户的id
    * @returns
    */
+  @UseGuards(JwtGuard)
   @Get(':id')
   async findUsersById(@Param('id') id: string) {
     return await this.chatUserService.findUsersById(id);

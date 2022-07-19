@@ -8,9 +8,11 @@ import { ChatModule } from './resources/chat/chat.module';
 import { ApprovalModule } from './resources/approval/approval.module';
 import { CloudfileModule } from './resources/cloudfile/cloudfile.module';
 import { ChatUserModule } from './resources/chat-user/chat-user.module';
+import { FriendModule } from './resources/friend/friend.module';
+import { MessageModule } from './resources/message/message.module';
 
 @Module({
-  imports: [PrismaModule, UserModule, ReportModule, ChatModule, ApprovalModule, CloudfileModule, ChatUserModule],
+  imports: [PrismaModule, UserModule, ReportModule, ChatModule, ApprovalModule, CloudfileModule, ChatUserModule, FriendModule, MessageModule],
   controllers: [AppController],
   providers: [AppService],
 })

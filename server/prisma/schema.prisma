@@ -13,6 +13,7 @@ datasource db {
 model ChatRoom {
   id        String      @id @default(uuid())
   userIds   String      @db.Text
+  name      String      @default("")
   chat_Line Chat_Line[]
 }
 
