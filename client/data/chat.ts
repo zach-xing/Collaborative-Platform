@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 
 export function fetchChatUserList(id: string) {
   return request({
-    url: `/chat-user/${id}`,
+    url: `/chatroom/${id}`,
     method: "GET",
   });
 }
