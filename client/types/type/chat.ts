@@ -1,6 +1,7 @@
 /** 聊天的用户列表 */
 export interface IChatUserListItem {
   charRoomId: string;
+  charRoomName: string;
   chatUsers: {
     id: string;
     name: string;

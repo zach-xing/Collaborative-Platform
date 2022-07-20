@@ -2,7 +2,7 @@ import request from "../utils/request";
 import type { IChatMsgListItem, IChatUserListItem } from "../types";
 import { useQuery } from "react-query";
 
-export function fetchChatUserList(id: string) {
+function fetchChatUserList(id: string) {
   return request({
     url: `/chatroom/${id}`,
     method: "GET",
@@ -24,6 +24,18 @@ export function useFetchChatUserList(id: string) {
       refetchInterval: false,
     }
   );
+
+  if (data !== undefined) {
+    data.forEach((item) => {
+      if (item.charRoomName === "") {
+        // charRoomName 为 "" 时，就说明只有两个用户
+        item.charRoomName =
+          item.chatUsers[0].id === id
+            ? item.chatUsers[1].name
+            : item.chatUsers[0].name;
+      }
+    });
+  }
 
   return {
     chatUserList: data,

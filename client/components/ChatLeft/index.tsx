@@ -3,24 +3,18 @@ import { Avatar, Button, List } from "@douyinfe/semi-ui";
 import { IconMore } from "@douyinfe/semi-icons";
 import ScrollBox from "../ScrollBox";
 import MoreOptions from "./components/MoreOptions";
-import { fetchChatUserList } from "../../data/chatroom";
-
-import styles from "./index.module.scss";
+import { useFetchChatUserList } from "../../data/chatroom";
+import useLocalStorage from "../../hooks/use-localStorage";
 import { IUser } from "../../types";
 
-const ChatLeft = () => {
-  const [chatUserList, setChatUserList] = React.useState<Array<IUser>>([]);
+import styles from "./index.module.scss";
 
-  React.useEffect(() => {
-    (async () => {
-      const user = localStorage.getItem("user");
-      if (user) {
-        const userObj: IUser = JSON.parse(user);
-        const arr = await fetchChatUserList(userObj.id);
-        setChatUserList(arr);
-      }
-    })();
-  }, []);
+/**
+ * Chat 页面的左部分
+ */
+const ChatLeft = () => {
+  const [user, _] = useLocalStorage<IUser>("user", {} as any);
+  const { chatUserList } = useFetchChatUserList(user.id);
 
   return (
     <div
@@ -50,17 +44,16 @@ const ChatLeft = () => {
           dataSource={chatUserList!}
           renderItem={(item) => (
             <List.Item
+              style={{ padding: "10px" }}
               main={
                 <div className={styles.listItem}>
-                  <Avatar color="blue" className={styles.avatar}>
-                    {item.name}
+                  <Avatar size="small" color="blue" className={styles.avatar}>
+                    {item.charRoomName[0]}
                   </Avatar>
-                  <div className={styles.userinfo}>
-                    <span className={styles.title}>{item.name}</span>
-                    <Button icon={<IconMore />} />
-                  </div>
+                  <div className={styles.title}>{item.charRoomName}</div>
                 </div>
               }
+              extra={<Button icon={<IconMore />} />}
             />
           )}
         />

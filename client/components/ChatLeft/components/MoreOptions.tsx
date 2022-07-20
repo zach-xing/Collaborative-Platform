@@ -12,10 +12,6 @@ const MoreOptions = () => {
   const [visible, setVisible] = React.useState(false);
   const [curOption, setCurOption] = React.useState<TOptions>("add-person");
 
-  React.useEffect(() => {
-    // optSocketRef.current.on('');
-  }, []);
-
   const handleOptions = (str: TOptions) => {
     setCurOption(str);
     setVisible(true);

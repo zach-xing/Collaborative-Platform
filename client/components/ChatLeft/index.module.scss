@@ -4,21 +4,9 @@
   .avatar {
     margin-right: 10px;
   }
-  .userinfo {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
   .title {
     color: var(--semi-color-text-0);
     font-weight: 500;
-  }
-  .content {
-    color: var(--semi-color-text-2);
-    margin: 4px 0;
-    width: 270px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    cursor: pointer;
   }
 }
