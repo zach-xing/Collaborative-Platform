@@ -42,7 +42,7 @@ const ChatRight = () => {
           headerExtraContent={<div>更多</div>}
         >
           <ScrollBox flex={7}>
-            <ChatMsgBubbleList id={"1"} />
+            <ChatMsgBubbleList chatRoomId={curChatRoom.chatRoomId} />
           </ScrollBox>
 
           <Form style={{ flex: 2 }}>

@@ -12,7 +12,9 @@ export interface IChatUserListItem {
 /** 聊天的消息列表 */
 export interface IChatMsgListItem {
   id: string;
-  name: string;
-  lineText: string;
+  chatId: string;
+  userId: string;
+  userName: string;
+  line_text: string;
   sendTime: string;
 }

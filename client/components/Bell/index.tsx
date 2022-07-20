@@ -32,7 +32,7 @@ const Bell = () => {
   // 处理获取 Message 信息
   const handleFetchMessage = () => {
     bellSocketRef.current.emit("fetchMessage", user.id, (response: any) => {
-      setMessageArr(response);
+      setMessageArr([...response]);
     });
   };
 
@@ -45,18 +45,30 @@ const Bell = () => {
 
   // 处理反馈的信息
   const handleFeedBack = (id: string, state: "agree" | "reject") => {
-    bellSocketRef.current.emit("feedbackMessage", { id, state }, () => {
-      Toast.success("反馈成功");
+    bellSocketRef.current.emit("feedbackMessage", { id, state }, (res: any) => {
+      console.log(res);
+
+      if (res.status) {
+        Toast.error(res.message);
+      } else {
+        Toast.success("反馈成功");
+      }
+      handleFetchMessage();
+      setVisible(false);
     });
-    handleFetchMessage();
   };
 
   // 删除的信息
   const handleDelete = (id: string) => {
-    bellSocketRef.current.emit("deleteMessage", { id }, () => {
-      Toast.success("删除成功");
+    bellSocketRef.current.emit("deleteMessage", { id }, (res: any) => {
+      if (res.status) {
+        Toast.error(res.message);
+      } else {
+        Toast.success("删除成功");
+      }
+      handleFetchMessage();
+      setVisible(false);
     });
-    handleFetchMessage();
   };
 
   return (
