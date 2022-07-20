@@ -1,5 +1,12 @@
 import { IconBell } from "@douyinfe/semi-icons";
-import { Badge, Button, Collapse, SideSheet, Space } from "@douyinfe/semi-ui";
+import {
+  Badge,
+  Button,
+  Collapse,
+  SideSheet,
+  Space,
+  Toast,
+} from "@douyinfe/semi-ui";
 import React from "react";
 import { io } from "socket.io-client";
 import useLocalStorage from "../../hooks/use-localStorage";
@@ -17,21 +24,39 @@ const Bell = () => {
   const [messageArr, setMessageArr] = React.useState<Array<IMessageItem>>([]);
 
   React.useEffect(() => {
-    bellSocketRef.current.emit("fetchMessage", user.id, (response: any) => {
-      console.log(response);
-
-      setMessageArr(response);
-    });
+    handleFetchMessage();
     bellSocketRef.current.on("recvMssage", handleRecvMessage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleRecvMessage = (data: IMessageItem) => {
-    console.log(user.id, data.recvUserId);
+  // 处理获取 Message 信息
+  const handleFetchMessage = () => {
+    bellSocketRef.current.emit("fetchMessage", user.id, (response: any) => {
+      setMessageArr(response);
+    });
+  };
 
+  // 处理接收的信息
+  const handleRecvMessage = (data: IMessageItem) => {
     if (user.id === data.recvUserId) {
       setMessageArr([data, ...messageArr]);
     }
+  };
+
+  // 处理反馈的信息
+  const handleFeedBack = (id: string, state: "agree" | "reject") => {
+    bellSocketRef.current.emit("feedbackMessage", { id, state }, () => {
+      Toast.success("反馈成功");
+    });
+    handleFetchMessage();
+  };
+
+  // 删除的信息
+  const handleDelete = (id: string) => {
+    bellSocketRef.current.emit("deleteMessage", { id }, () => {
+      Toast.success("删除成功");
+    });
+    handleFetchMessage();
   };
 
   return (
@@ -62,10 +87,32 @@ const Bell = () => {
               header={item.message}
               itemKey={item.id}
             >
-              <Space>
-                <Button>同意</Button>
-                <Button type="danger">拒绝</Button>
-              </Space>
+              {item.state === "pending" ? (
+                <Space>
+                  <Button onClick={() => handleFeedBack(item.id, "agree")}>
+                    同意
+                  </Button>
+                  <Button
+                    type="danger"
+                    onClick={() => handleFeedBack(item.id, "reject")}
+                  >
+                    拒绝
+                  </Button>
+                </Space>
+              ) : (
+                <Space>
+                  <Button disabled>
+                    {item.state === "agree" ? "已同意" : "已拒绝"}
+                  </Button>
+                  <Button
+                    theme="light"
+                    type="danger"
+                    onClick={() => handleDelete(item.id)}
+                  >
+                    删除此条信息
+                  </Button>
+                </Space>
+              )}
             </Collapse.Panel>
           ))}
         </Collapse>
