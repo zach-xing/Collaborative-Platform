@@ -38,7 +38,7 @@ export class ChatGateway {
    */
   @SubscribeMessage('sendChat')
   async sendChat(@MessageBody() body: SendChatDto) {
-    const createdDate = this.chatService.sendChat(body);
+    const createdDate = await this.chatService.sendChat(body);
     this.ws.emit('recvChat', createdDate);
   }
 }

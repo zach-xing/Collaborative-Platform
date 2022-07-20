@@ -22,7 +22,7 @@ export class ChatService {
    * 处理发送信息的接口
    */
   async sendChat(body: SendChatDto) {
-    await this.prisma.chat_Line.create({
+    return await this.prisma.chat_Line.create({
       data: {
         chatId: body.chatRoomId,
         line_text: body.chat_line,
