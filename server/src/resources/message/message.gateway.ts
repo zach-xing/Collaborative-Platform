@@ -8,6 +8,7 @@ import { Server } from 'socket.io';
 import { MessageService } from './message.service';
 import { FeedbackMessageDto } from './dto/feedback-message.dto';
 import { SendMessageDto } from './dto/send-message.dto';
+import { DeleteMessageDto } from './dto/delete-message.dto';
 
 @WebSocketGateway({
   path: '/message',
@@ -47,5 +48,14 @@ export class MessageGateway {
   async feedbackMessage(@MessageBody() body: FeedbackMessageDto) {
     // 同意或拒绝，同意则并更改数据库信息（message、friend、ChatRoom），拒绝则更改 message 状态信息
     await this.messageService.feedbackMessage(body);
+  }
+
+  /**
+   * 根据 message id 删除对应记录
+   * @param body
+   */
+  @SubscribeMessage('deleteMessage')
+  async deleteMessage(@MessageBody() body: DeleteMessageDto) {
+    return await this.messageService.deleteMessage(body);
   }
 }

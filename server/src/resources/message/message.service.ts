@@ -4,6 +4,7 @@ import { FriendService } from '../friend/friend.service';
 import { ChatroomService } from '../chatroom/chatroom.service';
 import { FeedbackMessageDto } from './dto/feedback-message.dto';
 import { SendMessageDto } from './dto/send-message.dto';
+import { DeleteMessageDto } from './dto/delete-message.dto';
 
 @Injectable()
 export class MessageService {
@@ -64,6 +65,19 @@ export class MessageService {
       }
     } catch (err: any) {
       throw new HttpException('反馈信息有误', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  /**
+   * 根据 message id 删除对应记录
+   */
+  async deleteMessage(body: DeleteMessageDto) {
+    try {
+      await this.prisma.message.delete({
+        where: { id: body.id },
+      });
+    } catch (err) {
+      throw new HttpException('删除错误', HttpStatus.BAD_REQUEST);
     }
   }
 }
