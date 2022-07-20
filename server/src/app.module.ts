@@ -10,6 +10,7 @@ import { CloudfileModule } from './resources/cloudfile/cloudfile.module';
 import { FriendModule } from './resources/friend/friend.module';
 import { MessageModule } from './resources/message/message.module';
 import { ChatroomModule } from './resources/chatroom/chatroom.module';
+import { DocumentModule } from './resources/document/document.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { ChatroomModule } from './resources/chatroom/chatroom.module';
     FriendModule,
     MessageModule,
     ChatroomModule,
+    DocumentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
