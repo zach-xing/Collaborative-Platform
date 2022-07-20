@@ -35,9 +35,12 @@ export class MessageService {
     if (user === null) {
       throw new HttpException('此邮箱不存在', HttpStatus.BAD_REQUEST);
     }
+    const tmp = await this.prisma.user.findUnique({
+      where: { id: body.sendId },
+    });
     return await this.prisma.message.create({
       data: {
-        message: `用户 ${body.email} 邀请你成为好友`,
+        message: `用户 ${tmp.name} 邀请你成为好友`,
         sendUserId: body.sendId,
         recvUserId: user.id,
       },
@@ -63,8 +66,9 @@ export class MessageService {
           data.recvUserId,
         ]);
       }
+      return { message: '反馈成功' };
     } catch (err: any) {
-      throw new HttpException('反馈信息有误', HttpStatus.BAD_REQUEST);
+      return new HttpException('反馈有误', HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -76,8 +80,9 @@ export class MessageService {
       await this.prisma.message.delete({
         where: { id: body.id },
       });
+      return { message: '删除成功' };
     } catch (err) {
-      throw new HttpException('删除错误', HttpStatus.BAD_REQUEST);
+      return new HttpException('删除错误', HttpStatus.BAD_REQUEST);
     }
   }
 }

@@ -30,12 +30,14 @@ model User {
 }
 
 model Chat_Line {
-  id       String   @id @default(uuid())
-  sendTime DateTime @default(now())
-  chatRoom ChatRoom @relation(fields: [chatId], references: [id])
-  chatId   String
-  user     User     @relation(fields: [userId], references: [id])
-  userId   String
+  id        String   @id @default(uuid())
+  line_text String   @db.Text
+  sendTime  DateTime @default(now())
+  chatRoom  ChatRoom @relation(fields: [chatId], references: [id])
+  chatId    String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  userName  String
 }
 
 model Friend {

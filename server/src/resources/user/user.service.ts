@@ -25,7 +25,7 @@ export class UserService {
     await this.prisma.friend.create({
       data: {
         userId: createdUser.id,
-        friend_list: null,
+        friend_list: '',
       },
     });
     return 'create success';

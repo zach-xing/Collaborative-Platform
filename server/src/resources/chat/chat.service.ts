@@ -1,29 +1,34 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateChatDto } from './dto/create-chat.dto';
-import { UpdateChatDto } from './dto/update-chat.dto';
+import { SendChatDto } from './dto/send-chat.dto';
 
 @Injectable()
 export class ChatService {
   constructor(private prisma: PrismaService) {}
 
-  create(createChatDto: CreateChatDto) {
-    return 'This action adds a new chat';
+  /**
+   * 获取 chatRoomId 的聊天记录数据
+   */
+  async fetchChat(chatRoomId: string) {
+    return await this.prisma.chat_Line.findMany({
+      where: { chatId: chatRoomId },
+      orderBy: {
+        sendTime: 'asc',
+      },
+    });
   }
 
-  findAll() {
-    return `This action returns all chat`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} chat`;
-  }
-
-  update(id: number, updateChatDto: UpdateChatDto) {
-    return `This action updates a #${id} chat`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} chat`;
+  /**
+   * 处理发送信息的接口
+   */
+  async sendChat(body: SendChatDto) {
+    await this.prisma.chat_Line.create({
+      data: {
+        chatId: body.chatRoomId,
+        line_text: body.chat_line,
+        userId: body.userId,
+        userName: body.userName,
+      },
+    });
   }
 }

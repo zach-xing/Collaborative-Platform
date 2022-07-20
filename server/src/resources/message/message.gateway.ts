@@ -47,7 +47,7 @@ export class MessageGateway {
   @SubscribeMessage('feedbackMessage')
   async feedbackMessage(@MessageBody() body: FeedbackMessageDto) {
     // 同意或拒绝，同意则并更改数据库信息（message、friend、ChatRoom），拒绝则更改 message 状态信息
-    await this.messageService.feedbackMessage(body);
+    return await this.messageService.feedbackMessage(body);
   }
 
   /**

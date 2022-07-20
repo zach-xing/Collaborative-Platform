@@ -6,8 +6,7 @@ import {
 } from '@nestjs/websockets';
 import { Server } from 'socket.io';
 import { ChatService } from './chat.service';
-import { CreateChatDto } from './dto/create-chat.dto';
-import { UpdateChatDto } from './dto/update-chat.dto';
+import { SendChatDto } from './dto/send-chat.dto';
 
 @WebSocketGateway({
   path: '/chat',
@@ -26,33 +25,20 @@ export class ChatGateway {
     console.log('Chat WebSocket Initialized...');
   }
 
-  @SubscribeMessage('message')
-  message() {
-    console.log('message');
+  /**
+   * 获取聊天记录数据
+   */
+  @SubscribeMessage('fetchChat')
+  async fetchChat(@MessageBody() body: { chatRoomId: string }) {
+    return this.chatService.fetchChat(body.chatRoomId);
   }
 
-  @SubscribeMessage('createChat')
-  create(@MessageBody() createChatDto: CreateChatDto) {
-    return this.chatService.create(createChatDto);
-  }
-
-  @SubscribeMessage('findAllChat')
-  findAll() {
-    return this.chatService.findAll();
-  }
-
-  @SubscribeMessage('findOneChat')
-  findOne(@MessageBody() id: number) {
-    return this.chatService.findOne(id);
-  }
-
-  @SubscribeMessage('updateChat')
-  update(@MessageBody() updateChatDto: UpdateChatDto) {
-    return this.chatService.update(updateChatDto.id, updateChatDto);
-  }
-
-  @SubscribeMessage('removeChat')
-  remove(@MessageBody() id: number) {
-    return this.chatService.remove(id);
+  /**
+   * 处理发送信息的接口
+   */
+  @SubscribeMessage('sendChat')
+  async sendChat(@MessageBody() body: SendChatDto) {
+    const createdDate = this.chatService.sendChat(body);
+    this.ws.emit('recvChat', createdDate);
   }
 }
