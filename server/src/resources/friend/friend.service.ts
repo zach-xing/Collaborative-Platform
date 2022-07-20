@@ -40,9 +40,11 @@ export class FriendService {
     if (friendInfo1 === null || friendInfo2 === null) {
       throw new HttpException('没有此用户id', HttpStatus.BAD_REQUEST);
     }
-    const arr1 = friendInfo1.friend_list.split(',');
+    const arr1 =
+      friendInfo1.friend_list === '' ? [] : friendInfo1.friend_list.split(',');
     arr1.push(id2);
-    const arr2 = friendInfo2.friend_list.split(',');
+    const arr2 =
+      friendInfo2.friend_list === '' ? [] : friendInfo2.friend_list.split(',');
     arr2.push(id1);
     await this.prisma.friend.update({
       where: { userId: id1 },

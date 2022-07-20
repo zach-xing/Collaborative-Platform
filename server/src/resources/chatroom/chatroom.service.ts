@@ -52,6 +52,7 @@ export class ChatroomService {
       });
       res.push({
         charRoomId: userIdsArr[i].id,
+        charRoomName: userIdsArr[i].name,
         chatUsers,
       });
     }
