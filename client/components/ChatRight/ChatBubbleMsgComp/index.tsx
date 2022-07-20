@@ -1,47 +1,71 @@
 import { Avatar, Popover } from "@douyinfe/semi-ui";
+import dayjs from "dayjs";
 import React from "react";
 import { io } from "socket.io-client";
 import useLocalStorage from "../../../hooks/use-localStorage";
-import { IChatMsgListItem, IUser } from "../../../types";
+import { IChatLine, IUser } from "../../../types";
 
 import styles from "./index.module.scss";
 
 /**
  * 展示消息气泡的列表
  */
-const ChatMsgBubbleList = (props: { chatRoomId: string }) => {
+const ChatMsgBubbleList = (props: { chatRoomId: string; socket: any }) => {
   const [user, _] = useLocalStorage<IUser>("user", {} as any);
-  const ioRef = React.useRef<any>(io("ws://127.0.0.1:8888", { path: "/chat" }));
-  const [chatMsgList, setChatMsgList] = React.useState<Array<IChatMsgListItem>>(
-    []
-  );
+  // const ioRef = React.useRef<any>(io("ws://127.0.0.1:8888", { path: "/chat" }));
+  const [chatLineList, setChatLineList] = React.useState<Array<IChatLine>>([]);
 
   React.useEffect(() => {
     handleFetch();
+    props.socket.on("recvChat", handleRecvChat);
+    return () => {
+      props.socket.off("recvChat", handleRecvChat);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleFetch = () => {
-    ioRef.current.emit("fetchChat", props.chatRoomId, (val: any) => {
-      console.log("fetchChat", val);
-      setChatMsgList(val);
+    props.socket.emit("fetchChat", props.chatRoomId, (val: any) => {
+      setChatLineList([...val]);
     });
+  };
+
+  // 接收到信息的操作
+  const handleRecvChat = (val: IChatLine) => {
+    if (props.chatRoomId === val.chatId) {
+      const arr = [...chatLineList];
+      arr.push(val);
+      setChatLineList(arr);
+    }
   };
 
   return (
     <>
-      {chatMsgList?.map((item, idx) => (
+      {chatLineList?.map((item, idx) => (
         <div
           key={item.id}
           style={{ display: "flex", alignItems: "center", margin: "20px 10px" }}
         >
-          <Avatar alt={item.userName}>{item.userName[0]}</Avatar>
-          <Popover
-            position={"right"}
-            content={<div style={{ padding: 5 }}>{item.sendTime}</div>}
-          >
-            <div className={styles.msg}>{item.line_text}</div>
-          </Popover>
+          <Avatar alt={item.userName} className={styles.avatar}>
+            {item.userName[0]}
+          </Avatar>
+          <div style={{ width: "100%" }}>
+            {item.userName}
+            <Popover
+              position="right"
+              content={
+                <div style={{ padding: 5 }}>
+                  {dayjs(item.sendTime).format("YYYY-MM-DD HH:mm:ss")}
+                </div>
+              }
+            >
+              {item.userId === user.id ? (
+                <div className={styles.myMsg}>{item.line_text}</div>
+              ) : (
+                <div className={styles.msg}>{item.line_text}</div>
+              )}
+            </Popover>
+          </div>
         </div>
       ))}
     </>

@@ -1,5 +1,5 @@
 import request from "../utils/request";
-import type { IChatMsgListItem, IChatUserListItem } from "../types";
+import type { IChatUserListItem } from "../types";
 import { useQuery } from "react-query";
 
 function fetchChatUserList(id: string) {

@@ -46,8 +46,6 @@ const Bell = () => {
   // 处理反馈的信息
   const handleFeedBack = (id: string, state: "agree" | "reject") => {
     bellSocketRef.current.emit("feedbackMessage", { id, state }, (res: any) => {
-      console.log(res);
-
       if (res.status) {
         Toast.error(res.message);
       } else {

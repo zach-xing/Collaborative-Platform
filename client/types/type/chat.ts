@@ -10,7 +10,7 @@ export interface IChatUserListItem {
 }
 
 /** 聊天的消息列表 */
-export interface IChatMsgListItem {
+export interface IChatLine {
   id: string;
   chatId: string;
   userId: string;
