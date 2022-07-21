@@ -238,6 +238,24 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
+"@hocuspocus/common@^1.0.0-alpha.11":
+  version "1.0.0-alpha.11"
+  resolved "https://registry.npmmirror.com/@hocuspocus/common/-/common-1.0.0-alpha.11.tgz#d598d221465338c1d912251105519e88f8486805"
+  integrity sha512-oOddSLUTr8KrC58KSs5YHzr99ZSI4HZdIkYRoqmrusViF8M850uLXgYce7eG7Xaq4KlvXCSDG+wioQRTFXkCaA==
+  dependencies:
+    lib0 "^0.2.47"
+
+"@hocuspocus/provider@^1.0.0-alpha.39":
+  version "1.0.0-alpha.39"
+  resolved "https://registry.npmmirror.com/@hocuspocus/provider/-/provider-1.0.0-alpha.39.tgz#0d235b0b5d5ad1de203f7f5fba18946704329625"
+  integrity sha512-aVEpo2b0T3ZhpGxZbfYqRIKxoedWtnPWy8uxuaU4R53wKItElJaFQiv5oPLOX2nZKXDlRKfu1ALsLGj2EUOsOA==
+  dependencies:
+    "@hocuspocus/common" "^1.0.0-alpha.11"
+    "@lifeomic/attempt" "^3.0.2"
+    lib0 "^0.2.46"
+    y-protocols "^1.0.5"
+    yjs "^13.5.29"
+
 "@humanwhocodes/config-array@^0.9.2":
   version "0.9.5"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.9.5.tgz#2cbaf9a89460da24b5ca6531b8bbfc23e1df50c7"
@@ -283,6 +301,11 @@
   dependencies:
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
+
+"@lifeomic/attempt@^3.0.2":
+  version "3.0.3"
+  resolved "https://registry.npmmirror.com/@lifeomic/attempt/-/attempt-3.0.3.tgz#e742a5b85eb673e2f1746b0f39cb932cbc6145bb"
+  integrity sha512-GlM2AbzrErd/TmLL3E8hAHmb5Q7VhDJp35vIbyPVA5Rz55LZuRr8pwL3qrwwkVNo05gMX1J44gURKb4MHQZo7w==
 
 "@next/env@12.2.0":
   version "12.2.0"
@@ -453,6 +476,21 @@
   resolved "https://registry.npmmirror.com/@tiptap/extension-code/-/extension-code-2.0.0-beta.28.tgz#a22c0e873497ac0bbcd77e4a855322f8591f954e"
   integrity sha512-QPJ2Gwb1+3NgcC1ZIhvVcb+FsnWWDu5VZXTKXM4mz892i9V2x48uHg5anPiUV6pcolXsW1F5VNbXIHGTUUO6CQ==
 
+"@tiptap/extension-collaboration-cursor@^2.0.0-beta.37":
+  version "2.0.0-beta.37"
+  resolved "https://registry.npmmirror.com/@tiptap/extension-collaboration-cursor/-/extension-collaboration-cursor-2.0.0-beta.37.tgz#91cbf1a5d13c4ff44334e4faebea3ab0cedc640e"
+  integrity sha512-3M1aFPTwCGKJ7YNxYZGidJbdZcqAYjOoDCuKfIKVCQgAuKLc5TQf2bA+7ftwG0wI72xdTRoadKA/YCwc67KBvg==
+  dependencies:
+    y-prosemirror "1.0.20"
+
+"@tiptap/extension-collaboration@^2.0.0-beta.38":
+  version "2.0.0-beta.38"
+  resolved "https://registry.npmmirror.com/@tiptap/extension-collaboration/-/extension-collaboration-2.0.0-beta.38.tgz#5ef175db8baf8b16956b32c58186df7eb9c412b0"
+  integrity sha512-oDrQC5z+pLXEQUofkwuJPtysHlP81eTmnKLjjTAAO8zWey3w+nusb6YuQM1W0JbqVD7lcK6YlS+Za+pSA46IdA==
+  dependencies:
+    prosemirror-state "1.4.1"
+    y-prosemirror "1.0.20"
+
 "@tiptap/extension-document@^2.0.0-beta.17":
   version "2.0.0-beta.17"
   resolved "https://registry.npmmirror.com/@tiptap/extension-document/-/extension-document-2.0.0-beta.17.tgz#ded4182dd860762bcf41c588f712d83908c472a3"
@@ -490,6 +528,11 @@
   version "2.0.0-beta.29"
   resolved "https://registry.npmmirror.com/@tiptap/extension-heading/-/extension-heading-2.0.0-beta.29.tgz#d017d216c0fd1962c266f6f61a335093f9749862"
   integrity sha512-q92jYcsT5bPhvuQaB0h44Z9r+Ii22tDYo082KMVnR4+tknHT/3xx+p4JC8KHjh+/5W8Quyafqy6mS8L8VX0zsQ==
+
+"@tiptap/extension-highlight@^2.0.0-beta.35":
+  version "2.0.0-beta.35"
+  resolved "https://registry.npmmirror.com/@tiptap/extension-highlight/-/extension-highlight-2.0.0-beta.35.tgz#0738102b23f69f9c8ddada4f05ccb580d1d50133"
+  integrity sha512-xvEKOyuTj4mhQ8GIOItaSymJhGkWt2gGuCvmFWnTVZAaJJQOlgUTdkmayLCtwoDDP7biiuDhRJokTukGGmhUZw==
 
 "@tiptap/extension-history@^2.0.0-beta.26":
   version "2.0.0-beta.26"
@@ -529,6 +572,16 @@
   version "2.0.0-beta.29"
   resolved "https://registry.npmmirror.com/@tiptap/extension-strike/-/extension-strike-2.0.0-beta.29.tgz#7004d0c5d126b0517fa78efc5a333a4b8e3334bf"
   integrity sha512-zqFuY7GfNmZ/KClt6kxQ+msGo3syqucP/Xnlihxi+/h/G+oTvEwyOIXCtDOltvxcsWH/TUsdr5vzLp0j+Mdc6Q==
+
+"@tiptap/extension-task-item@^2.0.0-beta.37":
+  version "2.0.0-beta.37"
+  resolved "https://registry.npmmirror.com/@tiptap/extension-task-item/-/extension-task-item-2.0.0-beta.37.tgz#fcf719c4f6d09a69a6525f116bb96560bddfdf51"
+  integrity sha512-zdTE7G6KHgdr+V32eWk7V6YkKxV3X0VJvfuybRlUcS4QyX4dSWnIqeHzzmX8Jd9IXjRghIFtjNi7IKxIGAhMsg==
+
+"@tiptap/extension-task-list@^2.0.0-beta.29":
+  version "2.0.0-beta.29"
+  resolved "https://registry.npmmirror.com/@tiptap/extension-task-list/-/extension-task-list-2.0.0-beta.29.tgz#3ca388b9251e4d42d152177c609f6cebb57c4a1e"
+  integrity sha512-PbHlVmYWevClA3mmXyshhR58GT1J22vVlFEDj2o25WRPY2dCTv4X136wPRVf9ee4nZII0Xcp2SsVC1kfgtuVRg==
 
 "@tiptap/extension-text@^2.0.0-beta.17":
   version "2.0.0-beta.17"
@@ -1806,6 +1859,11 @@ isexe@^2.0.0:
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
   integrity sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==
 
+isomorphic.js@^0.2.4:
+  version "0.2.5"
+  resolved "https://registry.npmmirror.com/isomorphic.js/-/isomorphic.js-0.2.5.tgz#13eecf36f2dba53e85d355e11bf9d4208c6f7f88"
+  integrity sha512-PIeMbHqMt4DnUP3MA/Flc0HElYjMXArsw1qwJZcm9sqR8mq3l8NYizFMty0pWwE/tzIGH3EKK5+jes5mAr85yw==
+
 js-cookie@^3.0.1:
   version "3.0.1"
   resolved "https://registry.npmmirror.com/js-cookie/-/js-cookie-3.0.1.tgz#9e39b4c6c2f56563708d7d31f6f5f21873a92414"
@@ -1887,6 +1945,13 @@ levn@^0.4.1:
   dependencies:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
+
+lib0@^0.2.42, lib0@^0.2.46, lib0@^0.2.47, lib0@^0.2.49:
+  version "0.2.51"
+  resolved "https://registry.npmmirror.com/lib0/-/lib0-0.2.51.tgz#23b1271a26f39120a4d0f86b9dfb44577f5ce98c"
+  integrity sha512-05Erb3465CxJa38LQlMz4EbetNvRna1S3BzqEjC0/pmp5cQuQSfNNmeS0722Wev1dRlMUp2Cql0gQ55krSXf2Q==
+  dependencies:
+    isomorphic.js "^0.2.4"
 
 loader-utils@2.0.0:
   version "2.0.0"
@@ -2927,7 +2992,28 @@ xmlhttprequest-ssl@~2.0.0:
   resolved "https://registry.npmmirror.com/xmlhttprequest-ssl/-/xmlhttprequest-ssl-2.0.0.tgz#91360c86b914e67f44dce769180027c0da618c67"
   integrity sha512-QKxVRxiRACQcVuQEYFsI1hhkrMlrXHPegbbd1yn9UHOmRxY+si12nQYzri3vbzt8VdTTRviqcKxcyllFas5z2A==
 
+y-prosemirror@1.0.20:
+  version "1.0.20"
+  resolved "https://registry.npmmirror.com/y-prosemirror/-/y-prosemirror-1.0.20.tgz#1832b5ab29852fc4607e9cf6b0c431e9caeed79e"
+  integrity sha512-LVMtu3qWo0emeYiP+0jgNcvZkqhzE/otOoro+87q0iVKxy/sMKuiJZnokfJdR4cn9qKx0Un5fIxXqbAlR2bFkA==
+  dependencies:
+    lib0 "^0.2.42"
+
+y-protocols@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.npmmirror.com/y-protocols/-/y-protocols-1.0.5.tgz#91d574250060b29fcac8f8eb5e276fbad594245e"
+  integrity sha512-Wil92b7cGk712lRHDqS4T90IczF6RkcvCwAD0A2OPg+adKmOe+nOiT/N2hvpQIWS3zfjmtL4CPaH5sIW1Hkm/A==
+  dependencies:
+    lib0 "^0.2.42"
+
 yallist@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-4.0.0.tgz#9bb92790d9c0effec63be73519e11a35019a3a72"
   integrity sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==
+
+yjs@^13.5.29, yjs@^13.5.39:
+  version "13.5.39"
+  resolved "https://registry.npmmirror.com/yjs/-/yjs-13.5.39.tgz#656763e61bfa0e50162657a8372ac2a50d955c6a"
+  integrity sha512-EoVT856l301lomtjjVspgTdSRiFqZ7gNKnmVPX4/V8NHI5EYS39/MdjB9iNv0Mw1weKDZRU8NgxgerqwJ3y2xA==
+  dependencies:
+    lib0 "^0.2.49"

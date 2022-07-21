@@ -5,10 +5,15 @@ import React from "react";
 
 import styles from "./documentLayout.module.scss";
 
+interface IProps {
+  headerChildren: React.ReactNode;
+  children: React.ReactNode;
+}
+
 /**
  * 顾名思义，这是显示文档页面的布局
  */
-const DocumentLayout: React.FC<{ children: React.ReactNode }> = (props) => {
+const DocumentLayout: React.FC<IProps> = (props) => {
   const router = useRouter();
 
   return (
