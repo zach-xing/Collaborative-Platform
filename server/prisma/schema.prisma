@@ -18,15 +18,15 @@ model ChatRoom {
 }
 
 model User {
-  id           String         @id @default(uuid())
-  name         String
-  email        String         @unique()
-  password     String
-  chat_Line    Chat_Line[]
-  Collaborator Collaborator[]
-  Friend       Friend[]
-  Approval     Approval[]
-  Report       Report[]
+  id        String      @id @default(uuid())
+  name      String
+  email     String      @unique()
+  password  String
+  chat_Line Chat_Line[]
+  Friend    Friend[]
+  Approval  Approval[]
+  Report    Report[]
+  CloudFile CloudFile[]
 }
 
 model Chat_Line {
@@ -79,29 +79,27 @@ model Report {
 }
 
 model CloudFile {
-  id            String         @id @default(uuid())
-  label         String
-  type          String         @default("file") // file 表示文件，folder表示文件夹
-  updateTime    DateTime       @default(now())
-  parentId      String // 0表示根目录
-  CloudDocument CloudDocument?
+  user    User   @relation(fields: [id], references: [id])
+  id      String @id
+  content String @db.Text // Array<{id: string; title: string; type: string; parendId: string}>
 }
 
 model CloudDocument {
-  id           String        @id @default(uuid())
-  title        String
-  text         String        @db.Text
-  cloudFile    CloudFile     @relation(fields: [cloudFileId], references: [id])
-  cloudFileId  String        @unique
-  Collaborator Collaborator?
+  id            String        @id @default(uuid())
+  title         String
+  text          String        @db.Text
+  isCollaborate Boolean       @default(false) // 是否是协同文档
+  version       String
+  updateTime    DateTime      @default(now())
+  Collaborator  Collaborator?
 }
 
 // 协作者
 model Collaborator {
   cloudDocument   CloudDocument @relation(fields: [cloudDocumentId], references: [id])
   cloudDocumentId String        @id
-  user            User          @relation(fields: [userId], references: [id])
-  userId          String
+  userIds         String
+  onlineUserIds   String // 正在编辑的用户 id
 }
 
 model Calendar {

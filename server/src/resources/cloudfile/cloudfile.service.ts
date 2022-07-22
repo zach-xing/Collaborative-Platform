@@ -45,6 +45,7 @@ export class CloudfileService {
           id: id,
           title: createCloudfileDto.label,
           text: '内容',
+          state: Buffer.from('内容'),
           cloudFileId: id,
         },
       });
