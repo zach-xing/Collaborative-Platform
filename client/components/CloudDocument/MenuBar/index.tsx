@@ -3,7 +3,6 @@ import { Button } from "@douyinfe/semi-ui";
 import { Editor } from "@tiptap/react";
 import { useRouter } from "next/router";
 import React from "react";
-import MenuItem from "../MenuItem";
 
 import styles from "./MenuBar.module.scss";
 
@@ -131,16 +130,7 @@ const MenuBar: React.FC<{ editor: Editor }> = (props) => {
 
   return (
     <>
-      <Button icon={<IconChevronLeft />} onClick={() => router.back()} />
-      {items.map((item, index) => (
-        <React.Fragment key={index}>
-          {item.type === "divider" ? (
-            <div className={styles.divider} />
-          ) : (
-            <MenuItem {...item} />
-          )}
-        </React.Fragment>
-      ))}
+      123
     </>
   );
 };

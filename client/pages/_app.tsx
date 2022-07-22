@@ -12,6 +12,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>Collaborative Platform</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <link
+          rel="stylesheet"
+          type="text/css"
+          href="https://cdn.quilljs.com/1.3.6/quill.bubble.css"
+        />
       </Head>
 
       <QueryClientProvider client={queryClient}>
