@@ -1,66 +1,46 @@
-import { IconFolder, IconMore } from "@douyinfe/semi-icons";
-import {
-  Avatar,
-  Button,
-  Card,
-  Col,
-  Row,
-  Table,
-  Tree,
-  Typography,
-} from "@douyinfe/semi-ui";
+import { IconFolder, IconMore, IconFile } from "@douyinfe/semi-icons";
+import { Button, Col, Row, Tree, Typography } from "@douyinfe/semi-ui";
 import { useRouter } from "next/router";
 import React from "react";
+import CloundDocumentContent from "../../components/CloundDocumentContent";
 import ScrollBox from "../../components/ScrollBox";
+import type { ICloudFile } from "../../types";
+import { event, SHOW_FILE_STRUCTURE } from "../../events";
 
 import styles from "./index.module.scss";
 
-type FolderType = {
-  key: string;
-  label: string;
-  value: string;
-  updateTime: string;
-  children?: FolderType[];
-};
-
-const treeData: Array<FolderType> = [
+const treeData: Array<ICloudFile> = [
   {
     label: "Asia",
-    value: "Asia",
+    type: "folder",
     key: "0",
-    updateTime: "2022.7.7",
     children: [
       {
         label: "China",
-        value: "China",
         key: "0-0",
-        updateTime: "2022.7.7",
+        type: "folder",
         children: [
           {
             label: "Beijing",
-            value: "Beijing",
             key: "0-0-0",
-            updateTime: "2022.7.7",
+            type: "file",
           },
           {
             label: "Shanghai",
-            value: "Shanghai",
             key: "0-0-1",
-            updateTime: "2022.7.7",
+            type: "file",
           },
         ],
       },
       {
         label: "Japan",
-        value: "Japan",
         key: "0-1",
-        updateTime: "2022.7.7",
+        type: "folder",
         children: [
           {
             label: "Osaka",
-            value: "Osaka",
             key: "0-1-0",
-            updateTime: "2022.7.7",
+            type: "file",
           },
         ],
       },
@@ -68,73 +48,20 @@ const treeData: Array<FolderType> = [
   },
   {
     label: "North America",
-    value: "North America",
     key: "1",
-    updateTime: "2022.7.7",
+    type: "folder",
     children: [
       {
         label: "United States",
-        value: "United States",
         key: "1-0",
-        updateTime: "2022.7.7",
+        type: "file",
       },
       {
         label: "Canada",
-        value: "Canada",
         key: "1-1",
-        updateTime: "2022.7.7",
+        type: "file",
       },
     ],
-  },
-  {
-    label: "North America",
-    value: "North America",
-    key: "2",
-    updateTime: "2022.7.7",
-    children: [
-      {
-        label: "United States",
-        value: "United States",
-        key: "2-0",
-        updateTime: "2022.7.7",
-      },
-      {
-        label: "Canada",
-        value: "Canada",
-        key: "2-1",
-        updateTime: "2022.7.7",
-      },
-    ],
-  },
-  {
-    label: "North America",
-    value: "North America",
-    key: "3",
-    updateTime: "2022.7.7",
-  },
-  {
-    label: "North America",
-    value: "North America",
-    key: "4",
-    updateTime: "2022.7.7",
-  },
-  {
-    label: "North America",
-    value: "North America",
-    key: "5",
-    updateTime: "2022.7.7",
-  },
-  {
-    label: "North America",
-    value: "North America",
-    key: "6",
-    updateTime: "2022.7.7",
-  },
-  {
-    label: "North America",
-    value: "North America",
-    key: "7",
-    updateTime: "2022.7.7",
   },
 ];
 
@@ -144,6 +71,15 @@ const treeData: Array<FolderType> = [
 const CloundDocument = () => {
   const router = useRouter();
 
+  const handleSelect = (selectedKey: string, selected: boolean, val: any) => {
+    console.log(selectedKey, selected, val);
+    if (val.type === "file") {
+      router.push(`/clouddocument/${val.key}`);
+    } else {
+      event.emit(SHOW_FILE_STRUCTURE, val);
+    }
+  };
+
   return (
     <Row style={{ height: "100%" }}>
       <Col span={6} className={styles.left}>
@@ -151,52 +87,42 @@ const CloundDocument = () => {
           云文档
         </Typography.Title>
         <ScrollBox flex={14}>
-          <Tree treeData={treeData} directory />
+          <Tree
+            treeData={treeData}
+            onSelect={handleSelect}
+            renderFullLabel={({
+              className,
+              data,
+              onClick,
+              expandIcon,
+            }: any) => {
+              const isLeaf = data.type === "file";
+              return (
+                <li className={className} role="treeitem" onClick={onClick}>
+                  {isLeaf ? null : expandIcon}
+                  <div
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <div>
+                      {isLeaf ? <IconFile /> : <IconFolder />}
+                      <span style={{ marginLeft: "5px" }}>{data.label}</span>
+                    </div>
+                    <Button icon={<IconMore />} />
+                  </div>
+                </li>
+              );
+            }}
+          />
         </ScrollBox>
       </Col>
 
       <Col span={18} className={styles.right}>
-        <Card
-          title="名称"
-          style={{ height: "100%" }}
-          bodyStyle={{ height: "100%" }}
-          headerExtraContent={null}
-        >
-          <Table
-            dataSource={treeData}
-            childrenRecordName=""
-            scroll={{ scrollToFirstRowOnChange: true, y: 450 }}
-          >
-            <Table.Column
-              title="名称"
-              dataIndex="label"
-              key="name"
-              width="50%"
-              render={(text, record, index) => (
-                <div>
-                  <IconFolder style={{ marginRight: 12 }} />
-                  <Typography.Text
-                    link
-                    onClick={() => router.push(`/clouddocument/${record.key}`)}
-                  >
-                    {text}
-                  </Typography.Text>
-                </div>
-              )}
-            />
-            <Table.Column
-              title="更新时间"
-              width="30%"
-              dataIndex="updateTime"
-              key="updateTime"
-            />
-            <Table.Column
-              title=""
-              key="operate"
-              render={() => <Button icon={<IconMore />} />}
-            />
-          </Table>
-        </Card>
+        <CloundDocumentContent />
       </Col>
     </Row>
   );

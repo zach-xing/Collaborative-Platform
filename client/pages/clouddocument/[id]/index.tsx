@@ -1,5 +1,5 @@
 import React from "react";
-import CloudDocument from "../../../components/CloudDocument";
+import CloudDocumentEditor from "../../../components/CloudDocumentEditor";
 import useLocalStorage from "../../../hooks/use-localStorage";
 
 /**
@@ -10,7 +10,7 @@ const CloudDocumentPage = () => {
 
   return (
     <>
-      <CloudDocument />
+      <CloudDocumentEditor />
     </>
   );
 };

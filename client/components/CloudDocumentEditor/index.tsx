@@ -9,7 +9,7 @@ import * as Y from "yjs";
 /**
  * 编辑的文档
  */
-const CloudDocument = () => {
+const CloudDocumentEditor = () => {
   const { query } = useRouter();
 
   React.useEffect(() => {
@@ -49,4 +49,4 @@ const CloudDocument = () => {
   );
 };
 
-export default CloudDocument;
+export default CloudDocumentEditor;
