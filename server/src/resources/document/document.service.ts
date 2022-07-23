@@ -1,7 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import * as Y from 'yjs';
-
 @Injectable()
 export class DocumentService {
   timers: Map<string, { timeout: NodeJS.Timeout; start: number }> = new Map();

@@ -1,14 +1,11 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { IsDate, IsString } from 'class-validator';
+import { IsString } from 'class-validator';
 import { CreateCloudfileDto } from './create-cloudfile.dto';
 
 export class UpdateCloudfileDto extends PartialType(CreateCloudfileDto) {
   @IsString()
-  type: 'file' | 'folder';
+  content: string;
 
   @IsString()
-  label: string;
-
-  @IsDate()
-  updateTime: Date;
+  updateFile?: string; // {id, title}
 }

@@ -81,7 +81,7 @@ model Report {
 model CloudFile {
   user    User   @relation(fields: [id], references: [id])
   id      String @id
-  content String @db.Text // Array<{id: string; title: string; type: string; parendId: string}>
+  content String @db.Text
 }
 
 model CloudDocument {

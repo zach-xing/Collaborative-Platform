@@ -10,6 +10,7 @@ export class UserService {
   constructor(private prisma: PrismaService, private jwtService: JwtService) {}
 
   // 创建一个 user，也就是注册一个 user
+  // 同时，还得创建 firend、cloudfile 两个表
   async createUser(createUserDto: CreateUserDto) {
     if (
       (await this.prisma.user.findUnique({
@@ -26,6 +27,12 @@ export class UserService {
       data: {
         userId: createdUser.id,
         friend_list: '',
+      },
+    });
+    await this.prisma.cloudFile.create({
+      data: {
+        id: createdUser.id,
+        content: '',
       },
     });
     return 'create success';
