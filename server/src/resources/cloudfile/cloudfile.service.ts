@@ -1,29 +1,45 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { DocumentService } from '../document/document.service';
 import { CreateCloudfileDto } from './dto/create-cloudfile.dto';
 import { DeleteCloudfileDto } from './dto/delete-cloudfile.dto';
 import { UpdateCloudfileDto } from './dto/update-cloudfile.dto';
 
+interface ICloudFile {
+  id: string;
+  label: string;
+  type: 'file' | 'folder';
+  updateTime: Date;
+  parendId: string;
+}
+
 @Injectable()
 export class CloudfileService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private documentService: DocumentService,
+  ) {}
 
   /**
    * 根据 用户 id 创建文件[夹]的 label 或结构，当是文件时，创建 clouddocument
    */
   async createFile(id: string, body: CreateCloudfileDto) {
+    const oldFileData = await this.prisma.cloudFile.findUnique({
+      where: { id },
+    });
     try {
+      const oldArr: Array<ICloudFile> = JSON.parse(oldFileData.content);
+      oldArr.push(body);
       await this.prisma.cloudFile.update({
         where: { id },
-        data: { content: body.content },
+        data: { content: JSON.stringify(oldArr) },
       });
-      if (body.createFile) {
-        // 若 body.createFile 存在，则就是创建的 file，需要修改 clouddocument 表
-        const createData = JSON.parse(body.createFile);
+      if (body.type === 'file') {
+        // 若创建的是 file，则更改 clouddocument 表
         await this.prisma.cloudDocument.create({
           data: {
-            id: createData.id,
-            title: createData.title || '未命名文档',
+            id: body.id,
+            title: body.label || '未命名文档',
             text: '请输入内容',
             version: '1',
           },
@@ -53,18 +69,24 @@ export class CloudfileService {
    * @param updateCloudfileDto 更改的内容
    */
   async updateFile(id: string, body: UpdateCloudfileDto) {
+    const oldFileData = await this.prisma.cloudFile.findUnique({
+      where: { id },
+    });
     try {
+      const oldArr: Array<ICloudFile> = JSON.parse(oldFileData.content);
+      const idx = oldArr.findIndex((item) => item.id === body.id);
+      oldArr[idx].label = body.label;
+      oldArr[idx].updateTime = new Date();
       await this.prisma.cloudFile.update({
         where: { id },
-        data: { content: body.content },
+        data: { content: JSON.stringify(oldArr) },
       });
-      if (body.updateFile) {
-        // 若 body.updateFile 存在，则就是更改的 file，需要修改 clouddocument 表
-        const updateData = JSON.parse(body.updateFile);
+      if (body.type === 'file') {
+        // 若更改的是 file，则更改 clouddocument 表
         await this.prisma.cloudDocument.update({
-          where: { id: updateData.id },
+          where: { id: body.id },
           data: {
-            title: updateData.title,
+            title: body.label,
             updateTime: new Date(),
           },
         });
@@ -78,24 +100,18 @@ export class CloudfileService {
    * 获取子文件[夹]的 ids
    * 简单的说，就是 获取即将删除文件夹下的子文件[夹]的 id 列表
    */
-  private async getChildrenId(
-    id: string,
-    arr: Array<{ id: string; type: string }> = [],
-  ) {
-    // const data = await this.prisma.cloudFile.findMany({
-    //   where: { parentId: id },
-    //   select: {
-    //     id: true,
-    //     type: true,
-    //   },
-    // });
-    // for (const item of data) {
-    //   if (item.type === 'folder') {
-    //     await this.getChildrenId(item.id, arr);
-    //   }
-    //   arr.push(item);
-    // }
-    // return arr;
+  private getChildrenId(id: string, arr: Array<ICloudFile>): Array<string> {
+    const res = [];
+    const data = arr.filter((item) => item.parendId === id);
+
+    for (const item of data) {
+      if (item.type === 'folder') {
+        res.concat(this.getChildrenId(item.id, arr));
+      }
+      res.push(item.id);
+    }
+
+    return res;
   }
 
   /**
@@ -103,19 +119,27 @@ export class CloudfileService {
    * @param id 用户 id
    */
   async deleteFile(id: string, body: DeleteCloudfileDto) {
+    const oldFileData = await this.prisma.cloudFile.findUnique({
+      where: { id },
+    });
     try {
+      const oldArr: Array<ICloudFile> = JSON.parse(oldFileData.content);
+      const deleteIds = this.getChildrenId(body.id, oldArr);
+      const newArr: Array<ICloudFile> = [];
+      for (const item of oldArr) {
+        // 删除时还得检查是否 file
+        if (deleteIds.indexOf(item.id) !== -1) {
+          if (item.type === 'file') {
+            await this.documentService.deleteDocument(item.id);
+          }
+        } else {
+          newArr.push(item);
+        }
+      }
       await this.prisma.cloudFile.update({
         where: { id },
-        data: { content: body.content },
+        data: { content: JSON.stringify(newArr) },
       });
-      if (body.deleteIds) {
-        // 若 deleteIds 存在，则说明有需要删除的文件，需更改 cloudDocument 表
-        await this.prisma.cloudDocument.deleteMany({
-          where: {
-            id: { in: body.deleteIds },
-          },
-        });
-      }
     } catch (err) {
       throw new HttpException('删除失败', HttpStatus.BAD_REQUEST);
     }

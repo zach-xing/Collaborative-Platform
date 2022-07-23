@@ -32,7 +32,7 @@ export class UserService {
     await this.prisma.cloudFile.create({
       data: {
         id: createdUser.id,
-        content: '',
+        content: '[]',
       },
     });
     return 'create success';

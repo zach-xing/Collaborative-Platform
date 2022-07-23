@@ -1,12 +1,31 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class DocumentService {
   timers: Map<string, { timeout: NodeJS.Timeout; start: number }> = new Map();
   maxDebounceTime = 10000; // 最大的防抖时间限制
 
-  constructor(private prisma: PrismaService) {
-    // this.initServer();
+  constructor(private prisma: PrismaService) {}
+
+  /**
+   * 删除指定 id 的 document
+   * @param id
+   */
+  async deleteDocument(id: string) {
+    try {
+      const oldData = await this.prisma.cloudDocument.findUniqueOrThrow({
+        where: { id },
+      });
+      if (oldData.isCollaborate) {
+        // 若此文档是协作文档
+        await this.prisma.collaborator.delete({
+          where: { cloudDocumentId: id },
+        });
+      }
+      await this.prisma.cloudDocument.delete({ where: { id } });
+    } catch (err) {
+      return new HttpException('文档删除错误', HttpStatus.BAD_REQUEST);
+    }
   }
 
   // 防抖（防止一个连接影响另外一个连接，所以使用了 Map 作为数据结构）

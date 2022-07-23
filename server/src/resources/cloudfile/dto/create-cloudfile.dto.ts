@@ -1,11 +1,18 @@
-import { IsString } from 'class-validator';
+import { IsDate, IsString } from 'class-validator';
 
 export class CreateCloudfileDto {
   @IsString()
-  content: string;
+  id: string; // 文件[夹] id（客户端生成）
 
   @IsString()
-  // 若存在，则说明是创建的文件，需要更改 clouddocument 表
-  // {id, title}
-  createFile?: string;
+  label: string; // 文件[夹] 名
+
+  @IsString()
+  type: 'file' | 'folder'; // 文件还是文件夹
+
+  @IsDate()
+  updateTime: Date; // 创建/更改日期
+
+  @IsString()
+  parendId: string; // 父级文件夹 id
 }

@@ -1,11 +1,17 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { IsString } from 'class-validator';
+import { IsDate, IsString } from 'class-validator';
 import { CreateCloudfileDto } from './create-cloudfile.dto';
 
 export class UpdateCloudfileDto extends PartialType(CreateCloudfileDto) {
   @IsString()
-  content: string;
+  id: string; // 文件[夹] id（客户端生成）
 
   @IsString()
-  updateFile?: string; // {id, title}
+  label: string; // 文件[夹] 名
+
+  @IsString()
+  type: 'file' | 'folder'; // 文件还是文件夹
+
+  @IsDate()
+  updateTime: Date; // 创建/更改日期
 }
