@@ -24,6 +24,7 @@
     "react-query": "^3.39.1",
     "react-smooth-dnd": "^0.11.1",
     "socket.io-client": "^4.5.1",
+    "uuid": "^8.3.2",
     "y-quill": "^0.1.5",
     "y-webrtc": "^10.2.3",
     "yjs": "^13.5.39"
@@ -35,6 +36,7 @@
     "@types/quill": "^2.0.9",
     "@types/react": "18.0.15",
     "@types/react-dom": "18.0.6",
+    "@types/uuid": "^8.3.4",
     "eslint": "8.19.0",
     "eslint-config-next": "12.2.0",
     "sass": "^1.53.0",

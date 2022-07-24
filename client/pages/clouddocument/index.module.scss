@@ -3,6 +3,11 @@
   flex-direction: column;
   height: 100%;
   background-color: white;
+  .options {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+  }
   .text {
     flex: 1;
     display: flex;

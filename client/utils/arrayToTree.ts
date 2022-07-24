@@ -1,13 +1,13 @@
 /**
  * 将数组形式转换成树型结构
  */
-export default function arrayToTree(arr: Array<any>) {
+export default function arrayToTree(arr: Array<any>): any {
   const result = [];
   const tmpMap: any = {};
 
   for (const item of arr) {
     const id = item.id;
-    const pid = item.parendId;
+    const pid = item.parentId;
 
     // 若 tmpMap[id] 不存在，则创建一个含有 children 的对象
     if (!tmpMap[id]) {
@@ -18,6 +18,7 @@ export default function arrayToTree(arr: Array<any>) {
 
     tmpMap[id] = {
       ...item,
+      key: item.id,
       children: tmpMap[id]["children"],
     };
 

@@ -2,7 +2,7 @@ import { IconFile, IconFolder, IconMore } from "@douyinfe/semi-icons";
 import { Card, Table, Typography, Button } from "@douyinfe/semi-ui";
 import { useRouter } from "next/router";
 import React from "react";
-import { useFetchFile } from "../../data/cloundDocument";
+import { useFetchFile } from "../../data/cloudDocument";
 import { event, SHOW_FILE_STRUCTURE } from "../../events";
 import { ICloudFile } from "../../types";
 

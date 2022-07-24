@@ -29,10 +29,15 @@ export function useFetchFile(id: string) {
 
   /**
    * 创建文件
-   * @param content 创建后的文件[夹]结构
-   * @param createFile 若是创建的文件，需要 {id, title}
+   * @param data {id, label, type, updateTime, parendId}
    */
-  const createFile = async (data: { conten: string; createFile?: string }) => {
+  const createFile = async (data: {
+    id: string;
+    label: string;
+    type: "file" | "folder";
+    updateTime: Date;
+    parentId: string;
+  }) => {
     await request({
       url: `/cloudfile/${id}`,
       method: "POST",
@@ -46,7 +51,12 @@ export function useFetchFile(id: string) {
    * @param content 更改后的文件[夹]结构
    * @param updateFile 若是更改的文件，需要 {id, title}
    */
-  const updateFile = async (data: { content: string; updateFile?: string }) => {
+  const updateFile = async (data: {
+    id: string;
+    label: string;
+    type: "file" | "folder";
+    updateTime: Date;
+  }) => {
     await request({
       url: `/cloudfile/${id}`,
       method: "PATCH",
