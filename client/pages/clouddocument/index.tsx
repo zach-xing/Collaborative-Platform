@@ -1,9 +1,4 @@
-import {
-  IconFolder,
-  IconMore,
-  IconFile,
-  IconSmallTriangleRight,
-} from "@douyinfe/semi-icons";
+import { IconFolder, IconMore, IconFile } from "@douyinfe/semi-icons";
 import {
   Button,
   Col,
@@ -34,7 +29,9 @@ const CloundDocument = () => {
   const [user, _] = useLocalStorage("user", {} as any);
   const { fileData, isLoading, createFile } = useFetchFile(user.id);
   const [visible, setVisible] = React.useState(false);
-  
+
+  console.log(fileData);
+
   if (isLoading) {
     return <>Loading...</>;
   }
@@ -80,7 +77,7 @@ const CloundDocument = () => {
               render={
                 <Dropdown.Menu>
                   <Dropdown.Item onClick={() => setVisible(true)}>
-                    创建文件夹
+                    创建顶层文件夹
                   </Dropdown.Item>
                   <Dropdown.Item>共享空间</Dropdown.Item>
                 </Dropdown.Menu>
@@ -100,10 +97,9 @@ const CloundDocument = () => {
                 expandIcon,
               }: any) => {
                 const isLeaf = data.type === "file";
-                const isHasChildren = data.children.length !== 0;
                 return (
                   <li className={className} key={data.id} onClick={onClick}>
-                    {isHasChildren ? null : expandIcon}
+                    {expandIcon}
                     {isLeaf ? <IconFile /> : <IconFolder />}
                     <span style={{ marginLeft: "5px" }}>{data.label}</span>
                   </li>
@@ -119,7 +115,7 @@ const CloundDocument = () => {
       </Row>
 
       <Modal
-        title="基本对话框"
+        title="创建文件夹"
         visible={visible}
         onCancel={() => setVisible(false)}
         closeOnEsc={true}

@@ -70,10 +70,7 @@ export function useFetchFile(id: string) {
    * @param content 删除后的文件[夹]结构
    * @param deleteIds 需要删除的 file 的 id 列表（就是 key 的列表）
    */
-  const deleteFile = async (data: {
-    content: string;
-    deleteIds?: Array<string>;
-  }) => {
+  const deleteFile = async (data: { id: string }) => {
     await request({
       url: `/cloudfile/${id}`,
       method: "DELETE",
