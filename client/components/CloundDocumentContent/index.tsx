@@ -2,13 +2,18 @@ import { IconFile, IconFolder, IconMore } from "@douyinfe/semi-icons";
 import { Card, Table, Typography, Button } from "@douyinfe/semi-ui";
 import { useRouter } from "next/router";
 import React from "react";
+import { useFetchFile } from "../../data/cloundDocument";
 import { event, SHOW_FILE_STRUCTURE } from "../../events";
 import { ICloudFile } from "../../types";
+
+interface IProps {
+  userId: string;
+}
 
 /**
  * 在 CloundDocument 页面显示文件列表
  */
-const CloundDocumentContent = () => {
+const CloundDocumentContent: React.FC<IProps> = (props) => {
   const router = useRouter();
   const [fileData, setFileData] = React.useState<ICloudFile>();
 

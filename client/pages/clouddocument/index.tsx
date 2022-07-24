@@ -6,8 +6,11 @@ import CloundDocumentContent from "../../components/CloundDocumentContent";
 import ScrollBox from "../../components/ScrollBox";
 import type { ICloudFile } from "../../types";
 import { event, SHOW_FILE_STRUCTURE } from "../../events";
+import useLocalStorage from "../../hooks/use-localStorage";
+import { useFetchFile } from "../../data/cloundDocument";
 
 import styles from "./index.module.scss";
+import arrayToTree from "../../utils/arrayToTree";
 
 const treeData: Array<ICloudFile> = [
   {
@@ -70,6 +73,12 @@ const treeData: Array<ICloudFile> = [
  */
 const CloundDocument = () => {
   const router = useRouter();
+  const [user, _] = useLocalStorage("user", {} as any);
+  const { fileData, isLoading } = useFetchFile(user.id);
+
+  if (isLoading) {
+    return <>Loading...</>;
+  }
 
   const handleSelect = (selectedKey: string, selected: boolean, val: any) => {
     console.log(selectedKey, selected, val);
@@ -88,7 +97,7 @@ const CloundDocument = () => {
         </Typography.Title>
         <ScrollBox flex={14}>
           <Tree
-            treeData={treeData}
+            treeData={fileData}
             onSelect={handleSelect}
             renderFullLabel={({
               className,
@@ -122,7 +131,7 @@ const CloundDocument = () => {
       </Col>
 
       <Col span={18} className={styles.right}>
-        <CloundDocumentContent />
+        <CloundDocumentContent userId={user.id} />
       </Col>
     </Row>
   );
