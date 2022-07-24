@@ -14,5 +14,5 @@ export class CreateCloudfileDto {
   updateTime: Date; // 创建/更改日期
 
   @IsString()
-  parendId: string; // 父级文件夹 id
+  parentId: string; // 父级文件夹 id
 }

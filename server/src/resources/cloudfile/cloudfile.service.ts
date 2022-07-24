@@ -10,7 +10,7 @@ interface ICloudFile {
   label: string;
   type: 'file' | 'folder';
   updateTime: Date;
-  parendId: string;
+  parentId: string;
 }
 
 @Injectable()
@@ -27,9 +27,19 @@ export class CloudfileService {
     const oldFileData = await this.prisma.cloudFile.findUnique({
       where: { id },
     });
+    const oldArr: Array<ICloudFile> = JSON.parse(oldFileData.content);
+    // 防止同目录下出现相同的项（在同一 parentId 下不能出现相同的 type 和 label）
+    const idx = oldArr.findIndex(
+      (item) =>
+        item.type === body.type &&
+        item.parentId === body.parentId &&
+        item.label === body.label,
+    );
+    if (idx !== -1) {
+      throw new HttpException('不能出现重复文件名', HttpStatus.BAD_REQUEST);
+    }
+    oldArr.push(body);
     try {
-      const oldArr: Array<ICloudFile> = JSON.parse(oldFileData.content);
-      oldArr.push(body);
       await this.prisma.cloudFile.update({
         where: { id },
         data: { content: JSON.stringify(oldArr) },
@@ -102,7 +112,7 @@ export class CloudfileService {
    */
   private getChildrenId(id: string, arr: Array<ICloudFile>): Array<string> {
     const res = [];
-    const data = arr.filter((item) => item.parendId === id);
+    const data = arr.filter((item) => item.parentId === id);
 
     for (const item of data) {
       if (item.type === 'folder') {
@@ -126,6 +136,7 @@ export class CloudfileService {
       const oldArr: Array<ICloudFile> = JSON.parse(oldFileData.content);
       const deleteIds = this.getChildrenId(body.id, oldArr);
       const newArr: Array<ICloudFile> = [];
+      deleteIds.push(body.id); // 除了此文件夹下的子文件夹，主要是删除自身
       for (const item of oldArr) {
         // 删除时还得检查是否 file
         if (deleteIds.indexOf(item.id) !== -1) {
