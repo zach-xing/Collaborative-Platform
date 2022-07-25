@@ -50,7 +50,7 @@ export class CloudfileService {
           data: {
             id: body.id,
             title: body.label || '未命名文档',
-            text: '请输入内容',
+            text: '{}', // 至于为什么默认值是 '{}'，因为 Quill 的约定
             version: '1',
           },
         });
@@ -75,7 +75,7 @@ export class CloudfileService {
 
   /**
    * 根据 id 更改**文件[夹]**的 label 或结构
-   * @param id 文件[夹] id
+   * @param id 用户 id
    * @param updateCloudfileDto 更改的内容
    */
   async updateFile(id: string, body: UpdateCloudfileDto) {

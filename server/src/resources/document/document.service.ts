@@ -1,11 +1,49 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { UpdateDocumentDto } from './dto/update-document.dto';
 @Injectable()
 export class DocumentService {
-  timers: Map<string, { timeout: NodeJS.Timeout; start: number }> = new Map();
-  maxDebounceTime = 10000; // 最大的防抖时间限制
-
   constructor(private prisma: PrismaService) {}
+
+  /**
+   * 根据 id 获取指定的文档
+   * @param id
+   */
+  async getDocument(id: string) {
+    try {
+      return await this.prisma.cloudDocument.findUniqueOrThrow({
+        where: { id },
+      });
+    } catch (error: any) {
+      throw new HttpException('获取文档失败', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  /**
+   * 更改文档的内容
+   * @param id 文件的 id
+   * @param body
+   */
+  async updateDocument(id: string, body: UpdateDocumentDto) {
+    const oldDate = await this.prisma.cloudDocument.findUnique({
+      where: { id },
+    });
+    if (!oldDate) {
+      return new HttpException('未找到指定更改文件', HttpStatus.BAD_REQUEST);
+    }
+    try {
+      await this.prisma.cloudDocument.update({
+        where: { id: id },
+        data: {
+          text: body.text,
+          updateTime: new Date(),
+        },
+      });
+    } catch (error: any) {
+      return new HttpException('更改文件发生错误', HttpStatus.BAD_REQUEST);
+    }
+    return 'update success';
+  }
 
   /**
    * 删除指定 id 的 document
@@ -26,28 +64,5 @@ export class DocumentService {
     } catch (err) {
       return new HttpException('文档删除错误', HttpStatus.BAD_REQUEST);
     }
-  }
-
-  // 防抖（防止一个连接影响另外一个连接，所以使用了 Map 作为数据结构）
-  private debounce(id: string, func: () => void, delay: number) {
-    const old = this.timers.get(id);
-    const start = old?.start || Date.now();
-
-    // 真正的执行
-    const run = () => {
-      this.timers.delete(id);
-      func();
-    };
-
-    if (old?.timeout) {
-      clearTimeout(old.timeout);
-    }
-
-    // 防止一直输入而无法执行 func 的情况，限制了最大防抖时间
-    if (Date.now() - start >= this.maxDebounceTime) {
-      run();
-    }
-
-    this.timers.set(id, { start, timeout: setTimeout(run, delay) });
   }
 }

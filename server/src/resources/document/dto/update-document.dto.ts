@@ -1,4 +1,6 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateDocumentDto } from './create-document.dto';
+import { IsString } from 'class-validator';
 
-export class UpdateDocumentDto extends PartialType(CreateDocumentDto) {}
+export class UpdateDocumentDto {
+  @IsString()
+  text: string; // 这是内容（已经被 JSON.stringify）
+}
