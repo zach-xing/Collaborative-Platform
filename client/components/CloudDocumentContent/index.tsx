@@ -1,4 +1,8 @@
-import { IconFile, IconFolder, IconMore } from "@douyinfe/semi-icons";
+import {
+  IconDelete,
+  IconFile,
+  IconFolder,
+} from "@douyinfe/semi-icons";
 import {
   Card,
   Table,
@@ -71,11 +75,11 @@ const CloundDocumentContent: React.FC<IProps> = (props) => {
   };
 
   // 处理删除文件[夹]
-  const handleDelete = async () => {
+  const handleDelete = async (id: string) => {
     if (!fileData) return;
     try {
       await deleteFile({
-        id: fileData.id,
+        id: id,
       });
     } catch (err: any) {
       Toast.error(err.message || "删除失败");
@@ -99,7 +103,7 @@ const CloundDocumentContent: React.FC<IProps> = (props) => {
               <Popconfirm
                 title="确定是否要删除此文件夹？"
                 content="此修改将不可逆"
-                onConfirm={handleDelete}
+                onConfirm={() => handleDelete(fileData.id)}
               >
                 <Button type="danger">删除此文件夹</Button>
               </Popconfirm>
@@ -118,6 +122,8 @@ const CloundDocumentContent: React.FC<IProps> = (props) => {
               dataIndex="label"
               key="name"
               width="60%"
+              defaultSortOrder={"ascend"}
+              sorter={(a, b) => (a.type < b.type ? 1 : -1)}
               render={(text, record: ICloudFile, index) => (
                 <div>
                   {record.type === "file" ? <IconFile /> : <IconFolder />}
@@ -143,7 +149,15 @@ const CloundDocumentContent: React.FC<IProps> = (props) => {
             <Table.Column
               title=""
               key="operate"
-              render={() => <Button icon={<IconMore />} />}
+              render={(_, record) => (
+                <Popconfirm
+                  title="确定是否要删除此文件/文件夹？"
+                  content="此修改将不可逆"
+                  onConfirm={() => handleDelete(record.id)}
+                >
+                  <Button type="danger" icon={<IconDelete />} />
+                </Popconfirm>
+              )}
             />
           </Table>
         ) : (

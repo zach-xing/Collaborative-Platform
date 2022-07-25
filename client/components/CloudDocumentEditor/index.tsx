@@ -1,50 +1,55 @@
 import React from "react";
+import {
+  Avatar,
+  AvatarGroup,
+  Button,
+  Modal,
+  Space,
+  Typography,
+} from "@douyinfe/semi-ui";
+import { IconChevronLeft } from "@douyinfe/semi-icons";
 import { useRouter } from "next/router";
-import { QuillBinding } from "y-quill";
-import Quill from "quill";
-import QuillCursors from "quill-cursors";
-import { WebrtcProvider } from "y-webrtc";
-import * as Y from "yjs";
+import CommonEditor from "./CommonEditor";
+import CollaborateEditor from "./CollaborateEditor";
+
+import styles from "./editor.module.scss";
 
 /**
  * 编辑的文档
  */
 const CloudDocumentEditor = () => {
-  const { query } = useRouter();
+  const router = useRouter();
 
-  React.useEffect(() => {
-    const roomId = query.id as string;
-    initConnect(roomId);
-  }, [query.id]);
-
-  const initConnect = (room: string) => {
-    Quill.register("modules/cursors", QuillCursors);
-    const ydoc = new Y.Doc();
-    const provider = new WebrtcProvider(room, ydoc);
-    const ytext = ydoc.getText("quill");
-
-    const editor = new Quill(document.querySelector("#editor")!, {
-      modules: {
-        cursors: true,
-        toolbar: [
-          [{ header: [1, 2, false] }],
-          ["bold", "italic", "underline"],
-          ["image", "code-block"],
-        ],
-        history: {
-          userOnly: true,
-        },
+  // 返回
+  const handleBack = () => {
+    Modal.warning({
+      title: "是否已经保存",
+      content: "若已经保存则可以点击 “确认返回” 按钮",
+      okText: "确认返回",
+      onOk: () => {
+        router.back();
       },
-      placeholder: "Start collaborating...",
-      theme: "bubble", // or 'bubble'
     });
-
-    const binding = new QuillBinding(ytext, editor, provider.awareness);
   };
 
   return (
     <>
-      <div id="editor" style={{ minHeight: "200px" }}></div>
+      <div className={styles.height}>
+        <Button icon={<IconChevronLeft />} onClick={handleBack} />
+        <Typography.Title heading={5}>这是此文章标题</Typography.Title>
+        <Space>
+          <Button theme="solid">保存</Button>
+          <AvatarGroup maxCount={2} size="small">
+            <Avatar color="red" alt="Lisa LeBlanc" size="extra-small">
+              LL
+            </Avatar>
+          </AvatarGroup>
+        </Space>
+      </div>
+      <div className={styles.container}>
+        <CommonEditor />
+      </div>
+      {/* <CollaborateEditor /> */}
     </>
   );
 };

@@ -1,0 +1,20 @@
+.height {
+  padding: 5px 5%;
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+}
+
+.container {
+  width: 70%;
+  min-width: 200px;
+  margin: 0 auto;
+}
+
+.editor {
+  font-size: 18px;
+  min-width: 200px;
+  .ql-editor {
+    margin: 0 10%;
+  }
+}
