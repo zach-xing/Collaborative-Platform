@@ -15,7 +15,7 @@ import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import CloundDocumentContent from "../../components/CloudDocumentContent";
 import ScrollBox from "../../components/ScrollBox";
-import { useFetchFile } from "../../data/cloudDocument";
+import { useFetchFile } from "../../data/cloudFile";
 import { event, SHOW_FILE_STRUCTURE } from "../../events";
 import useLocalStorage from "../../hooks/use-localStorage";
 
@@ -29,8 +29,6 @@ const CloundDocument = () => {
   const [user, _] = useLocalStorage("user", {} as any);
   const { fileData, isLoading, createFile } = useFetchFile(user.id);
   const [visible, setVisible] = React.useState(false);
-
-  console.log(fileData);
 
   if (isLoading) {
     return <>Loading...</>;

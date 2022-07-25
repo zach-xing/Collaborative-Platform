@@ -7,3 +7,6 @@ export const CHAT_WITH_USER = "chat-wite-user";
 
 // 用户点击左边的文件夹后，右边显示此文件夹的信息（子文件、子文件夹）
 export const SHOW_FILE_STRUCTURE = "show-file-structures";
+
+// 保存文件的触发事件
+export const SAVE_FILE_CONTENT = "save-file-content";
