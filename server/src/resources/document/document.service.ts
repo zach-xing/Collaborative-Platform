@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { AddCollaboratorDto } from './dto/add-collaborator.dto';
 import { UpdateDocumentDto } from './dto/update-document.dto';
 @Injectable()
 export class DocumentService {
@@ -68,15 +67,19 @@ export class DocumentService {
   }
 
   /**
-   * 邀请用户（协作者）
-   * @param body 信息
+   * 获取共享空间的文档（也就是被别人邀请过去编辑的文档）
+   * @param id  用户 id
    */
-  async addCollaborator(body: AddCollaboratorDto) {
-    await this.prisma.cloudDocument.update({
-      where: { id: body.id },
-      data: {
-        collaborators: body.userIds,
-      },
-    });
+  async getCollaborationDocument(id: string) {
+    try {
+      const dataArr = await this.prisma.cloudDocument.findMany({
+        where: {
+          collaborators: { contains: id },
+        },
+      });
+      return dataArr;
+    } catch (error: any) {
+      throw new HttpException('获取数据有误', HttpStatus.BAD_REQUEST);
+    }
   }
 }

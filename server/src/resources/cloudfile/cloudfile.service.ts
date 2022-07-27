@@ -50,7 +50,7 @@ export class CloudfileService {
           data: {
             id: body.id,
             title: body.label || '未命名文档',
-            text: '{}', // 至于为什么默认值是 '{}'，因为 Quill 的约定
+            text: '{"ops":[{"insert":"Hello!\n"}]}', // 至于为什么默认值是这样，因为 Quill 的约定
             version: '1',
             ownerId: id,
             collaborators: '',

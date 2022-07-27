@@ -1,6 +1,6 @@
 import { IsString } from 'class-validator';
 
-export class AddCollaboratorDto {
+export class CreateCollaboratorDto {
   @IsString()
   id: string; // 文档 id
 

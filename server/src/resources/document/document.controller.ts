@@ -1,7 +1,6 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { JwtGuard } from 'src/common/guards/jwt.guard';
 import { DocumentService } from './document.service';
-import { AddCollaboratorDto } from './dto/add-collaborator.dto';
 import { UpdateDocumentDto } from './dto/update-document.dto';
 
 @Controller('document')
@@ -33,12 +32,12 @@ export class DocumentController {
   }
 
   /**
-   * 邀请用户（协作者）
-   * @param body 信息
+   * 获取共享空间的文档（也就是被别人邀请过去编辑的文档）
+   * @param id  用户 id
    */
   @UseGuards(JwtGuard)
-  @Post('collaborator')
-  async addCollaborator(@Body() body: AddCollaboratorDto) {
-    return await this.documentService.addCollaborator(body);
+  @Get('collaborator/:id')
+  async getCollaborationDocument(@Param('id') id: string) {
+    return await this.documentService.getCollaborationDocument(id);
   }
 }

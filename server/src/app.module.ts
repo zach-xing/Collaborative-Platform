@@ -11,6 +11,7 @@ import { FriendModule } from './resources/friend/friend.module';
 import { MessageModule } from './resources/message/message.module';
 import { ChatroomModule } from './resources/chatroom/chatroom.module';
 import { DocumentModule } from './resources/document/document.module';
+import { CollaboratorModule } from './resources/collaborator/collaborator.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { DocumentModule } from './resources/document/document.module';
     MessageModule,
     ChatroomModule,
     DocumentModule,
+    CollaboratorModule,
   ],
   controllers: [AppController],
   providers: [AppService],
