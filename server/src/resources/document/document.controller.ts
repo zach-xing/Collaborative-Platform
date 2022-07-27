@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { JwtGuard } from 'src/common/guards/jwt.guard';
 import { DocumentService } from './document.service';
+import { AddCollaboratorDto } from './dto/add-collaborator.dto';
 import { UpdateDocumentDto } from './dto/update-document.dto';
 
 @Controller('document')
@@ -29,5 +30,15 @@ export class DocumentController {
     @Body() body: UpdateDocumentDto,
   ) {
     return await this.documentService.updateDocument(id, body);
+  }
+
+  /**
+   * 邀请用户（协作者）
+   * @param body 信息
+   */
+  @UseGuards(JwtGuard)
+  @Post('collaborator')
+  async addCollaborator(@Body() body: AddCollaboratorDto) {
+    return await this.documentService.addCollaborator(body);
   }
 }

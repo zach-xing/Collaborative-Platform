@@ -52,6 +52,8 @@ export class CloudfileService {
             title: body.label || '未命名文档',
             text: '{}', // 至于为什么默认值是 '{}'，因为 Quill 的约定
             version: '1',
+            ownerId: id,
+            collaborators: '',
           },
         });
       }

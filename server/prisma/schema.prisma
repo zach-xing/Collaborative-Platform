@@ -18,15 +18,16 @@ model ChatRoom {
 }
 
 model User {
-  id        String      @id @default(uuid())
-  name      String
-  email     String      @unique()
-  password  String
-  chat_Line Chat_Line[]
-  Friend    Friend[]
-  Approval  Approval[]
-  Report    Report[]
-  CloudFile CloudFile[]
+  id            String          @id @default(uuid())
+  name          String
+  email         String          @unique()
+  password      String
+  chat_Line     Chat_Line[]
+  Friend        Friend[]
+  Approval      Approval[]
+  Report        Report[]
+  CloudFile     CloudFile[]
+  CloudDocument CloudDocument[]
 }
 
 model Chat_Line {
@@ -85,21 +86,14 @@ model CloudFile {
 }
 
 model CloudDocument {
-  id            String        @id @default(uuid())
+  id            String   @id @default(uuid())
   title         String
-  text          String        @db.Text
-  isCollaborate Boolean       @default(false) // 是否是协同文档
+  text          String   @db.Text
   version       String
-  updateTime    DateTime      @default(now())
-  Collaborator  Collaborator?
-}
-
-// 协作者
-model Collaborator {
-  cloudDocument   CloudDocument @relation(fields: [cloudDocumentId], references: [id])
-  cloudDocumentId String        @id
-  userIds         String
-  onlineUserIds   String // 正在编辑的用户 id
+  updateTime    DateTime @default(now())
+  user          User     @relation(fields: [ownerId], references: [id])
+  ownerId       String // 作者（也就是拥有者）
+  collaborators String // 协作者 id，用 逗号 分隔
 }
 
 model Calendar {
