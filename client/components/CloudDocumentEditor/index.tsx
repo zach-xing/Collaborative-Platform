@@ -8,6 +8,7 @@ import {
   Modal,
   Select,
   Space,
+  Toast,
   Typography,
 } from "@douyinfe/semi-ui";
 import { IconChevronLeft } from "@douyinfe/semi-icons";
@@ -15,8 +16,9 @@ import { useRouter } from "next/router";
 import { event, SAVE_FILE_CONTENT } from "../../events";
 import CommonEditor from "./CommonEditor";
 import CollaborateEditor from "./CollaborateEditor";
-import { useFetchDocument, addCollaborator } from "../../data/document";
+import { useFetchDocument } from "../../data/document";
 import { useFetchFriends } from "../../data/friend";
+import { addCollaborator } from "../../data/collaborator";
 import useLocalStorage from "../../hooks/use-localStorage";
 
 import styles from "./editor.module.scss";
@@ -57,11 +59,16 @@ const CloudDocumentEditor = () => {
 
   // 发送给邀请
   const handleInvite = async (val: any) => {
-    await addCollaborator({
-      id: documentData?.id!,
-      userIds: val.userIds.join(),
-    });
-    router.push("/clouddocument");
+    try {
+      await addCollaborator({
+        id: documentData?.id!,
+        userIds: val.userIds.join(),
+      });
+      router.push("/clouddocument");
+    } catch (error: any) {
+      Toast.error(error.message || "邀请失败");
+    }
+    Toast.success("邀请成功");
   };
 
   return (
@@ -113,7 +120,7 @@ const CloudDocumentEditor = () => {
             style={{ width: "100%" }}
           >
             {friendList?.map((friend) => (
-              <Select.Option value={friend.name} key={friend.id}>
+              <Select.Option value={friend.id} key={friend.id}>
                 {friend.name}
               </Select.Option>
             ))}

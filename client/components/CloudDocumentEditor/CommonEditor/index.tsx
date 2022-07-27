@@ -28,9 +28,10 @@ const CommonEditor: React.FC<IProps> = ({ data, saveDocument }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  const handleSave = async (isCollaborate: boolean) => {
-    console.log(isCollaborate, JSON.stringify(QuillRef.current!.getContents()));
+  const handleSave = async () => {
     try {
+      console.log(JSON.stringify(QuillRef.current!.getContents()));
+      
       await saveDocument(
         query.id as string,
         JSON.stringify(QuillRef.current!.getContents())
@@ -54,7 +55,6 @@ const CommonEditor: React.FC<IProps> = ({ data, saveDocument }) => {
           userOnly: true,
         },
       },
-      placeholder: "输入内容......",
       theme: "bubble",
     });
     // 这是获取这个文档的初始数据

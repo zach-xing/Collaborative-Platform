@@ -54,15 +54,3 @@ export function useFetchDocument(id: string) {
     saveDocument,
   };
 }
-
-/**
- * 发送“邀请别人”的请求
- * @param data id userIds
- */
-export function addCollaborator(data: { id: string; userIds: string }) {
-  return request({
-    url: "/document/collaborator",
-    method: "POST",
-    data,
-  });
-}

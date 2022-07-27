@@ -6,15 +6,17 @@
 }
 
 .container {
-  width: 70%;
-  min-width: 200px;
-  margin: 0 auto;
+  // width: 70%;
+  // min-width: 200px;
+  // margin: 0 auto;
 }
 
 .editor {
   font-size: 18px;
   min-width: 200px;
+  padding: 0 15%;
+  padding-bottom: 10%;
   .ql-editor {
-    margin: 0 10%;
+    // margin: 0 10%;
   }
 }
