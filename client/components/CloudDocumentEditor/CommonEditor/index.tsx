@@ -57,7 +57,7 @@ const CommonEditor: React.FC<IProps> = ({ data, saveDocument }) => {
       placeholder: "输入内容......",
       theme: "bubble",
     });
-    console.log("?", data.text);
+    // 这是获取这个文档的初始数据
     QuillRef.current!.setContents(JSON.parse(data.text));
   };
 

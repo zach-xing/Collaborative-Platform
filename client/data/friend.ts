@@ -18,8 +18,10 @@ export function useFetchFriends(id: string) {
     "fetchFriends",
     () => fetchFriends(id),
     {
+      enabled: false,
       refetchInterval: false,
       refetchOnWindowFocus: false,
+      refetchIntervalInBackground: false,
     }
   );
 

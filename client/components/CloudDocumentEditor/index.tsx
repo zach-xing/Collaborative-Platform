@@ -3,7 +3,10 @@ import {
   Avatar,
   AvatarGroup,
   Button,
+  Form,
+  List,
   Modal,
+  Select,
   Space,
   Typography,
 } from "@douyinfe/semi-ui";
@@ -12,7 +15,9 @@ import { useRouter } from "next/router";
 import { event, SAVE_FILE_CONTENT } from "../../events";
 import CommonEditor from "./CommonEditor";
 import CollaborateEditor from "./CollaborateEditor";
-import { useFetchDocument } from "../../data/document";
+import { useFetchDocument, addCollaborator } from "../../data/document";
+import { useFetchFriends } from "../../data/friend";
+import useLocalStorage from "../../hooks/use-localStorage";
 
 import styles from "./editor.module.scss";
 
@@ -21,10 +26,13 @@ import styles from "./editor.module.scss";
  */
 const CloudDocumentEditor = () => {
   const router = useRouter();
+  const [user, _] = useLocalStorage("user", {} as any);
   const { documentData, isLoading, saveDocument } = useFetchDocument(
     router.query.id as string
   );
-  console.log(documentData);
+  const { friendList, refetch } = useFetchFriends(user.id);
+  const [visible, setVisible] = React.useState(false);
+
   if (isLoading) {
     return <>Loading...</>;
   }
@@ -41,6 +49,21 @@ const CloudDocumentEditor = () => {
     });
   };
 
+  // 打开Modal，并获取 friend 信息
+  const handleOpenModal = () => {
+    refetch();
+    setVisible(true);
+  };
+
+  // 发送给邀请
+  const handleInvite = async (val: any) => {
+    await addCollaborator({
+      id: documentData?.id!,
+      userIds: val.userIds.join(),
+    });
+    router.push("/clouddocument");
+  };
+
   return (
     <>
       <div className={styles.height}>
@@ -53,17 +76,66 @@ const CloudDocumentEditor = () => {
           >
             保存
           </Button>
-          <AvatarGroup maxCount={2} size="small">
-            <Avatar color="red" alt="Lisa LeBlanc" size="extra-small">
-              LL
-            </Avatar>
-          </AvatarGroup>
+          <div onClick={handleOpenModal}>
+            <AvatarGroup maxCount={2} size="small">
+              <Avatar color="red" alt="Lisa LeBlanc">
+                LL
+              </Avatar>
+            </AvatarGroup>
+          </div>
         </Space>
       </div>
       <div className={styles.container}>
-        <CommonEditor data={documentData!} saveDocument={saveDocument} />
+        {documentData?.collaborators !== "" ? (
+          <CollaborateEditor />
+        ) : (
+          <CommonEditor data={documentData!} saveDocument={saveDocument} />
+        )}
       </div>
-      {/* <CollaborateEditor /> */}
+
+      <Modal
+        title="管理协作者"
+        visible={visible}
+        onCancel={() => setVisible(false)}
+        footer={null}
+        closeOnEsc={true}
+      >
+        <Form onSubmit={handleInvite}>
+          <Form.Select
+            label="邀请协作者"
+            field="userIds"
+            filter
+            multiple
+            defaultValue={documentData?.collaboratorArr || []}
+            placeholder="在好友中搜索..."
+            autoClearSearchValue={true}
+            rules={[{ required: true, message: "若邀请其他用户必需填写此项" }]}
+            style={{ width: "100%" }}
+          >
+            {friendList?.map((friend) => (
+              <Select.Option value={friend.name} key={friend.id}>
+                {friend.name}
+              </Select.Option>
+            ))}
+          </Form.Select>
+
+          <List
+            header={<div>协作者</div>}
+            bordered
+            dataSource={documentData?.collaboratorArr}
+            style={{ margin: "20px 0" }}
+            renderItem={(item) => (
+              <List.Item header={<Avatar color="blue">{item.name[0]}</Avatar>}>
+                {item.name}
+              </List.Item>
+            )}
+          />
+
+          <Button block style={{ marginBottom: "20px" }} htmlType="submit">
+            邀请
+          </Button>
+        </Form>
+      </Modal>
     </>
   );
 };
