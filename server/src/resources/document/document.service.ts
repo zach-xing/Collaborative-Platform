@@ -67,7 +67,7 @@ export class DocumentService {
   }
 
   /**
-   * 获取共享空间的文档（也就是被别人邀请过去编辑的文档）
+   * 获取共享空间的文档（也就是被别人邀请过去编辑的文档，不包括text）
    * @param id  用户 id
    */
   async getCollaborationDocument(id: string) {
@@ -75,6 +75,13 @@ export class DocumentService {
       const dataArr = await this.prisma.cloudDocument.findMany({
         where: {
           collaborators: { contains: id },
+        },
+        select: {
+          id: true,
+          title: true,
+          updateTime: true,
+          version: true,
+          ownerId: true,
         },
       });
       const res = [];
