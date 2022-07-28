@@ -5,6 +5,7 @@ import React from "react";
 import { QuillBinding } from "y-quill";
 import { WebrtcProvider } from "y-webrtc";
 import * as Y from "yjs";
+import singleWebrtcProviderInstance from "../../../utils/webrtc-single-pattern";
 
 import styles from "../editor.module.scss";
 
@@ -23,7 +24,8 @@ const CollaborateEditor = () => {
   const initConnect = (room: string) => {
     Quill.register("modules/cursors", QuillCursors);
     const ydoc = new Y.Doc();
-    const provider = new WebrtcProvider(room, ydoc);
+    // const provider = new WebrtcProvider(room, ydoc);
+    const provider = singleWebrtcProviderInstance.inviteWebRtcRoom(room, ydoc);
     const ytext = ydoc.getText("quill");
 
     QuillRef.current = new Quill(document.querySelector("#editor")!, {
@@ -38,7 +40,6 @@ const CollaborateEditor = () => {
           userOnly: true,
         },
       },
-      placeholder: "输入内容......",
       theme: "bubble",
     });
 

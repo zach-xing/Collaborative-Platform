@@ -1,6 +1,6 @@
 import { Toast } from "@douyinfe/semi-ui";
 import { useQuery } from "react-query";
-import { IDocument } from "../types";
+import { ICDocument, IDocument } from "../types";
 import request from "../utils/request";
 
 function fetchDocument(id: string) {
@@ -52,5 +52,35 @@ export function useFetchDocument(id: string) {
     documentData: data,
     isLoading,
     saveDocument,
+  };
+}
+
+function fetchCollaboratorDocument(id: string) {
+  return request({
+    url: `/document/collaborator/${id}`,
+    method: "GET",
+  });
+}
+/**
+ * 根据用户 id 获取协作文档
+ */
+export function useFetchCollaboratorDocument(id: string) {
+  const { data, refetch, isLoading } = useQuery<Array<ICDocument>>(
+    "fetchCollaboratorDocument",
+    () => fetchCollaboratorDocument(id),
+    {
+      refetchInterval: false,
+      refetchIntervalInBackground: false,
+      refetchOnWindowFocus: false,
+      onError: (err: any) => {
+        Toast.error(err.message || "获取协作文档失败");
+      },
+    }
+  );
+
+  return {
+    cdocumentData: data,
+    refetch,
+    isLoading,
   };
 }

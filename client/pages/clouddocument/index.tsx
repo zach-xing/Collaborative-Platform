@@ -39,6 +39,7 @@ const CloundDocument = () => {
     if (val.type === "file") {
       router.push(`/clouddocument/${val.key}`);
     } else {
+      console.log(val);
       event.emit(SHOW_FILE_STRUCTURE, val);
     }
   };
@@ -61,6 +62,11 @@ const CloundDocument = () => {
     setVisible(false);
   };
 
+  // 显示共享空间中的内容
+  const handleRoom = async () => {
+    router.push("/clouddocument/collaboration");
+  };
+
   return (
     <>
       <Row style={{ height: "100%" }}>
@@ -77,7 +83,7 @@ const CloundDocument = () => {
                   <Dropdown.Item onClick={() => setVisible(true)}>
                     创建顶层文件夹
                   </Dropdown.Item>
-                  <Dropdown.Item>共享空间</Dropdown.Item>
+                  <Dropdown.Item onClick={handleRoom}>共享空间</Dropdown.Item>
                 </Dropdown.Menu>
               }
             >
