@@ -77,7 +77,18 @@ export class DocumentService {
           collaborators: { contains: id },
         },
       });
-      return dataArr;
+      const res = [];
+      for (const item of dataArr) {
+        const userInfo = await this.prisma.user.findUnique({
+          where: { id: item.ownerId },
+        });
+        res.push({
+          ...item,
+          ownerName: userInfo.name,
+          ownerEmail: userInfo.email,
+        });
+      }
+      return res;
     } catch (error: any) {
       throw new HttpException('获取数据有误', HttpStatus.BAD_REQUEST);
     }
