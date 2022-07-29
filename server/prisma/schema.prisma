@@ -101,7 +101,7 @@ model CloudDocument {
 model OnlineEditPerson {
   cloudDocument CloudDocument @relation(fields: [id], references: [id])
   id            String        @id
-  onlineCids     String        @db.Text
+  onlineCids    String        @db.Text
 }
 
 model Calendar {
