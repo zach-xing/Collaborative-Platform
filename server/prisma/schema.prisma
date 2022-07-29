@@ -86,14 +86,22 @@ model CloudFile {
 }
 
 model CloudDocument {
-  id            String   @id @default(uuid())
-  title         String
-  text          String   @db.Text
-  version       String
-  updateTime    DateTime @default(now())
-  user          User     @relation(fields: [ownerId], references: [id])
-  ownerId       String // 作者（也就是拥有者）
-  collaborators String // 协作者 id，用 逗号 分隔
+  id               String             @id @default(uuid())
+  title            String
+  text             String             @db.Text
+  version          String
+  updateTime       DateTime           @default(now())
+  user             User               @relation(fields: [ownerId], references: [id])
+  ownerId          String // 作者（也就是拥有者）
+  collaborators    String // 协作者 id，用 逗号 分隔
+  OnlineEditPerson OnlineEditPerson[]
+}
+
+// 在线编辑的人数
+model OnlineEditPerson {
+  cloudDocument CloudDocument @relation(fields: [id], references: [id])
+  id            String        @id
+  onlineCids     String        @db.Text
 }
 
 model Calendar {

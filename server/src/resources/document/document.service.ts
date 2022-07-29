@@ -60,6 +60,13 @@ export class DocumentService {
    */
   async deleteDocument(id: string) {
     try {
+      // 删除文档的时候，首先查看 onlineEditPerson 是否存在记录，若存在，也删除
+      const data = await this.prisma.onlineEditPerson.findUnique({
+        where: { id },
+      });
+      if (data) {
+        await this.prisma.onlineEditPerson.delete({ where: { id } });
+      }
       await this.prisma.cloudDocument.delete({ where: { id } });
     } catch (err) {
       return new HttpException('文档删除错误', HttpStatus.BAD_REQUEST);

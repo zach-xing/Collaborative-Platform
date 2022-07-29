@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { JwtGuard } from 'src/common/guards/jwt.guard';
 import { CollaboratorService } from './collaborator.service';
 import { CreateCollaboratorDto } from './dto/create-collaborator.dto';
