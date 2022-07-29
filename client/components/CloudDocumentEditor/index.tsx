@@ -94,7 +94,7 @@ const CloudDocumentEditor = () => {
       </div>
       <div className={styles.container}>
         {documentData?.collaborators !== "" ? (
-          <CollaborateEditor />
+          <CollaborateEditor data={documentData!} saveDocument={saveDocument} />
         ) : (
           <CommonEditor data={documentData!} saveDocument={saveDocument} />
         )}
@@ -113,7 +113,6 @@ const CloudDocumentEditor = () => {
             field="userIds"
             filter
             multiple
-            defaultValue={documentData?.collaboratorArr || []}
             placeholder="在好友中搜索..."
             autoClearSearchValue={true}
             rules={[{ required: true, message: "若邀请其他用户必需填写此项" }]}

@@ -15,15 +15,13 @@ export interface IDocument {
 }
 
 /**
- * 协作 document 的类型
+ * 协作 document 的类型（不包括 text）
  */
 export interface ICDocument {
   id: string;
   title: string;
-  text: string;
   updateTime: Date;
   version: string;
-  collaborators: string; // 用逗号分隔的
   ownerId: string;
   ownerName: string; // 作者的名字
   ownerEmail: string; // 作者的 email

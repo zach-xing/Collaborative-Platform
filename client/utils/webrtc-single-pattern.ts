@@ -7,20 +7,28 @@ import * as Y from "yjs";
 class SingleWebrtcProvider {
   // Map 的 key 值就是 room id
   map: Map<string, WebrtcProvider> = new Map();
+  ydoc: Y.Doc;
 
   constructor() {
-    // PASS
+    this.ydoc = new Y.Doc();
   }
 
   // 进入 WebRTC 的房间
-  public inviteWebRtcRoom(room: string, yDoc: Y.Doc): WebrtcProvider {
+  public inviteWebRtcRoom(room: string): WebrtcProvider {
     if (this.map.has(room)) {
+      console.log(1, this.map.get(room)!);
       return this.map.get(room)!;
     } else {
-      const tmp = new WebrtcProvider(room, yDoc);
+      console.log(2);
+      const tmp = new WebrtcProvider(room, this.ydoc);
       this.map.set(room, tmp);
       return tmp;
     }
+  }
+
+  // 获取 Y.Doc
+  public getYDoc() {
+    return this.ydoc;
   }
 }
 

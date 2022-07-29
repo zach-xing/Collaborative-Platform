@@ -1,11 +1,14 @@
+import { IconChevronLeft } from "@douyinfe/semi-icons";
 import {
   Button,
   Card,
   Descriptions,
   List,
+  Space,
   Typography,
 } from "@douyinfe/semi-ui";
 import dayjs from "dayjs";
+import { useRouter } from "next/router";
 import React from "react";
 import { useFetchCollaboratorDocument } from "../../../data/document";
 import useLocalStorage from "../../../hooks/use-localStorage";
@@ -14,16 +17,24 @@ import useLocalStorage from "../../../hooks/use-localStorage";
  * 显示共享空间的内容
  */
 const DocumentCollaboration = () => {
+  const router = useRouter();
   const [user, _] = useLocalStorage("user", {} as any);
   const { cdocumentData, isLoading } = useFetchCollaboratorDocument(user.id);
-  console.log(cdocumentData);
 
   if (isLoading) {
     return <>Loading...</>;
   }
 
   return (
-    <Card title="共享空间" bodyStyle={{padding: '20px 5%'}}>
+    <Card
+      title={
+        <Space>
+          <Button icon={<IconChevronLeft />} onClick={() => router.back()} />
+          共享空间
+        </Space>
+      }
+      bodyStyle={{ padding: "20px 5%" }}
+    >
       <List
         grid={{
           gutter: 12,
@@ -50,7 +61,14 @@ const DocumentCollaboration = () => {
                   },
                 ]}
               />
-              <Button block>编辑</Button>
+              <Button
+                block
+                onClick={() =>
+                  router.push(`/clouddocument/collaboration/${item.id}`)
+                }
+              >
+                编辑
+              </Button>
             </div>
           </List.Item>
         )}
