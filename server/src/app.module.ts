@@ -12,6 +12,7 @@ import { MessageModule } from './resources/message/message.module';
 import { ChatroomModule } from './resources/chatroom/chatroom.module';
 import { DocumentModule } from './resources/document/document.module';
 import { CollaboratorModule } from './resources/collaborator/collaborator.module';
+import { OnlineModule } from './resources/online/online.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { CollaboratorModule } from './resources/collaborator/collaborator.module
     ChatroomModule,
     DocumentModule,
     CollaboratorModule,
+    OnlineModule,
   ],
   controllers: [AppController],
   providers: [AppService],
