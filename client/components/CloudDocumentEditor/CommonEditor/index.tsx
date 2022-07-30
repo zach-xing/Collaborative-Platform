@@ -30,8 +30,6 @@ const CommonEditor: React.FC<IProps> = ({ data, saveDocument }) => {
 
   const handleSave = async () => {
     try {
-      console.log(JSON.stringify(QuillRef.current!.getContents()));
-      
       await saveDocument(
         query.id as string,
         JSON.stringify(QuillRef.current!.getContents())

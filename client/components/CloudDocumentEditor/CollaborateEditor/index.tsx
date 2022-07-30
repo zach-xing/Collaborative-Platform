@@ -2,9 +2,10 @@ import { useRouter } from "next/router";
 import Quill from "quill";
 import QuillCursors from "quill-cursors";
 import React from "react";
-import { Notification } from "@douyinfe/semi-ui";
+import { Modal, Notification, Toast } from "@douyinfe/semi-ui";
 import { io } from "socket.io-client";
 import { QuillBinding } from "y-quill";
+import { event, SAVE_FILE_CONTENT } from "../../../events";
 import { IDocument, IUser } from "../../../types";
 import singleWebrtcProviderInstance from "../../../utils/webrtc-single-pattern";
 
@@ -14,12 +15,18 @@ interface IProps {
   data: IDocument;
   saveDocument: (id: string, text: string) => Promise<any>;
   user: IUser;
+  fetchDocumentVersion: () => Promise<any>;
 }
 
 /**
  * 协同的 editor
  */
-const CollaborateEditor: React.FC<IProps> = ({ data, saveDocument, user }) => {
+const CollaborateEditor: React.FC<IProps> = ({
+  data,
+  saveDocument,
+  user,
+  fetchDocumentVersion,
+}) => {
   const { query } = useRouter();
   const onlineSocketRef = React.useRef<any>(
     io("ws://127.0.0.1:8888", { path: "/online" })
@@ -56,6 +63,14 @@ const CollaborateEditor: React.FC<IProps> = ({ data, saveDocument, user }) => {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, query.id]);
+
+  // 处理文档的保存
+  React.useEffect(() => {
+    event.on(SAVE_FILE_CONTENT, handleSave);
+    return () => {
+      event.off(SAVE_FILE_CONTENT, handleSave);
+    };
+  }, []);
 
   const initConnect = (room: string, isGetInitData: boolean) => {
     Quill.register("modules/cursors", QuillCursors);
@@ -111,6 +126,35 @@ const CollaborateEditor: React.FC<IProps> = ({ data, saveDocument, user }) => {
         title: `用户 ${leaveData.uName} 离开文档`,
         duration: 3,
       });
+    }
+  };
+
+  // 处理文档的保存
+  const handleSave = async () => {
+    const version = await fetchDocumentVersion();
+    console.log(version, data.version);
+    try {
+      if (version === data.version) {
+        saveDocument(
+          query.id as string,
+          JSON.stringify(QuillRef.current!.getContents())
+        );
+        Toast.success("保存成功");
+      } else {
+        Modal.error({
+          title: "检测到有更新版本",
+          content: "若提交保存，则可能直接覆盖其他人的提交",
+          onOk: async () => {
+            await saveDocument(
+              query.id as string,
+              JSON.stringify(QuillRef.current!.getContents())
+            );
+            Toast.success("保存成功");
+          },
+        });
+      }
+    } catch (error: any) {
+      Toast.error(error.message || "保存错误");
     }
   };
 

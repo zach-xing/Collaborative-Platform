@@ -29,9 +29,8 @@ import styles from "./editor.module.scss";
 const CloudDocumentEditor = () => {
   const router = useRouter();
   const [user, _] = useLocalStorage("user", {} as any);
-  const { documentData, isLoading, saveDocument } = useFetchDocument(
-    router.query.id as string
-  );
+  const { documentData, isLoading, saveDocument, fetchDocumentVersion } =
+    useFetchDocument(router.query.id as string);
   const { friendList, refetch } = useFetchFriends(user.id);
   const [visible, setVisible] = React.useState(false);
 
@@ -85,16 +84,23 @@ const CloudDocumentEditor = () => {
           </Button>
           <div onClick={handleOpenModal}>
             <AvatarGroup maxCount={2} size="small">
-              <Avatar color="red" alt="Lisa LeBlanc">
-                LL
-              </Avatar>
+              {documentData?.collaboratorArr.map((item) => (
+                <Avatar key={item.id} color="blue" alt={item.name}>
+                  {item.name}
+                </Avatar>
+              ))}
             </AvatarGroup>
           </div>
         </Space>
       </div>
       <div className={styles.container}>
         {documentData?.collaborators !== "" ? (
-          <CollaborateEditor data={documentData!} saveDocument={saveDocument} user={user} />
+          <CollaborateEditor
+            data={documentData!}
+            saveDocument={saveDocument}
+            user={user}
+            fetchDocumentVersion={fetchDocumentVersion}
+          />
         ) : (
           <CommonEditor data={documentData!} saveDocument={saveDocument} />
         )}

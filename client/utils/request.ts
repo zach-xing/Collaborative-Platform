@@ -19,7 +19,7 @@ instance.interceptors.response.use(
     const { data } = res;
     return data;
   },
-  (err) => Promise.reject(err.response.data)
+  (err) => Promise.reject(err.response?.data || "error")
 );
 
 const request = async <T = any>(config: AxiosRequestConfig): Promise<T> => {

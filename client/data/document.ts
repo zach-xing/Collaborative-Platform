@@ -48,16 +48,28 @@ export function useFetchDocument(id: string) {
     });
   };
 
+  /**
+   * 获取文档的版本
+   */
+  const fetchDocumentVersion = () => {
+    console.log('send request')
+    return request({
+      url: `/document/version/${id}`,
+      method: "GET",
+    });
+  };
+
   return {
     documentData: data,
     isLoading,
     saveDocument,
+    fetchDocumentVersion,
   };
 }
 
 function fetchCollaboratorDocument(id: string) {
   return request({
-    url: `/document/collaborator/${id}`,
+    url: `/document/collaborate/${id}`,
     method: "GET",
   });
 }
