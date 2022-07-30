@@ -29,7 +29,11 @@ export class OnlineGateway {
   @SubscribeMessage('enter')
   async Enter(@MessageBody() body: EnterOnlineDto) {
     const data = await this.onlineService.enterOnline(body);
-    this.ws.emit('noticeEnter', { uid: body.uid, did: body.did });
+    this.ws.emit('noticeEnter', {
+      uid: body.uid,
+      did: body.did,
+      uName: body.uName,
+    });
     return data;
   }
 
@@ -39,7 +43,11 @@ export class OnlineGateway {
   @SubscribeMessage('leave')
   async Leave(@MessageBody() body: LeaveOnlineDto) {
     const data = await this.onlineService.leaveOnline(body);
-    this.ws.emit('noticeLeave', { uid: body.uid, did: body.did });
+    this.ws.emit('noticeLeave', {
+      uid: body.uid,
+      did: body.did,
+      uName: body.uName,
+    });
     return data;
   }
 }
