@@ -69,7 +69,7 @@ export class DocumentService {
         data: {
           text: body.text,
           updateTime: new Date(),
-          version: isCollaborate ? oldDate.version : `${+oldDate.version + 1}`,
+          version: isCollaborate ? `${+oldDate.version + 1}` : oldDate.version,
         },
       });
     } catch (error: any) {
