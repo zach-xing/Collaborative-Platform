@@ -6,6 +6,27 @@ export class DocumentService {
   constructor(private prisma: PrismaService) {}
 
   /**
+   * 创建 document
+   */
+  async createDocument(body: { id: string; label: string; ownerId: string }) {
+    try {
+      await this.prisma.cloudDocument.create({
+        data: {
+          id: body.id,
+          title: body.label || '未命名文档',
+          text: '{"ops":[{"insert":"Hello!\n"}]}', // 至于为什么默认值是这样，因为 Quill 的约定
+          version: '1',
+          ownerId: body.ownerId,
+          collaborators: '',
+        },
+      });
+    } catch (error) {
+      throw new HttpException('创建 document 失败', HttpStatus.BAD_REQUEST);
+    }
+    return 'create document success';
+  }
+
+  /**
    * 根据 id 获取指定的文档
    * @param id
    */

@@ -18,7 +18,7 @@ export class OnlineService {
     if (data === null) {
       throw new HttpException('获取在线人数失败', HttpStatus.BAD_REQUEST);
     }
-    return data;
+    return data.onlineCids;
   }
 
   /**
@@ -31,8 +31,13 @@ export class OnlineService {
     if (data === null) {
       throw new HttpException('进入失败', HttpStatus.BAD_REQUEST);
     }
+    let arr: Array<string>;
     // 这里就是加入某个用户的 id
-    const arr = data.onlineCids.split(',');
+    if (data.onlineCids === '') {
+      arr = [];
+    } else {
+      arr = data.onlineCids.split(',');
+    }
     arr.push(body.uid);
     try {
       await this.prisma.onlineEditPerson.update({
@@ -44,7 +49,7 @@ export class OnlineService {
     } catch (error: any) {
       throw new HttpException('进入失败', HttpStatus.BAD_REQUEST);
     }
-    return await this.fetchOnline(body.did);
+    return arr;
   }
 
   /**
@@ -72,6 +77,6 @@ export class OnlineService {
     } catch (error: any) {
       throw new HttpException('离开失败', HttpStatus.BAD_REQUEST);
     }
-    return await this.fetchOnline(body.did);
+    return arr;
   }
 }

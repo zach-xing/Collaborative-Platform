@@ -46,15 +46,10 @@ export class CloudfileService {
       });
       if (body.type === 'file') {
         // 若创建的是 file，则更改 clouddocument 表
-        await this.prisma.cloudDocument.create({
-          data: {
-            id: body.id,
-            title: body.label || '未命名文档',
-            text: '{"ops":[{"insert":"Hello!\n"}]}', // 至于为什么默认值是这样，因为 Quill 的约定
-            version: '1',
-            ownerId: id,
-            collaborators: '',
-          },
+        await this.documentService.createDocument({
+          id: body.id,
+          label: body.label,
+          ownerId: id,
         });
       }
     } catch (err) {
