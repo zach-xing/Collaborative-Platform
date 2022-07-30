@@ -51,6 +51,7 @@ export class DocumentService {
 
   /**
    * 更改文档的内容
+   * 协作文档更改的时候还需要更新 version 字段
    * @param id 文件的 id
    * @param body
    */
@@ -61,12 +62,14 @@ export class DocumentService {
     if (!oldDate) {
       return new HttpException('未找到指定更改文件', HttpStatus.BAD_REQUEST);
     }
+    const isCollaborate = oldDate.collaborators !== ''; // 若不为 ""，就表示有协作者，也就是表示是协作文档
     try {
       await this.prisma.cloudDocument.update({
         where: { id: id },
         data: {
           text: body.text,
           updateTime: new Date(),
+          version: isCollaborate ? oldDate.version : `${+oldDate.version + 1}`,
         },
       });
     } catch (error: any) {
@@ -126,6 +129,24 @@ export class DocumentService {
       return res;
     } catch (error: any) {
       throw new HttpException('获取数据有误', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  /**
+   * 获取 document 版本
+   * @param id 文档 id
+   */
+  async getDocumentVersion(id: string) {
+    try {
+      const { version } = await this.prisma.cloudDocument.findUniqueOrThrow({
+        where: { id },
+        select: {
+          version: true,
+        },
+      });
+      return version;
+    } catch (error) {
+      throw new HttpException('获取文档版本失败', HttpStatus.BAD_REQUEST);
     }
   }
 }

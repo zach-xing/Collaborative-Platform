@@ -36,8 +36,18 @@ export class DocumentController {
    * @param id  用户 id
    */
   @UseGuards(JwtGuard)
-  @Get('collaborator/:id')
+  @Get('collaborate/:id')
   async getCollaborationDocument(@Param('id') id: string) {
     return await this.documentService.getCollaborationDocument(id);
+  }
+
+  /**
+   * 获取 document 版本
+   * @param id 文档 id
+   */
+  @UseGuards(JwtGuard)
+  @Get('version/:id')
+  async getDocumentVersion(@Param('id') id: string) {
+    return await this.documentService.getDocumentVersion(id);
   }
 }
