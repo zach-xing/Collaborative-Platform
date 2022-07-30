@@ -2,9 +2,10 @@ import { useRouter } from "next/router";
 import Quill from "quill";
 import QuillCursors from "quill-cursors";
 import React from "react";
+import { Notification } from "@douyinfe/semi-ui";
 import { io } from "socket.io-client";
 import { QuillBinding } from "y-quill";
-import { IDocument } from "../../../types";
+import { IDocument, IUser } from "../../../types";
 import singleWebrtcProviderInstance from "../../../utils/webrtc-single-pattern";
 
 import styles from "../editor.module.scss";
@@ -12,17 +13,13 @@ import styles from "../editor.module.scss";
 interface IProps {
   data: IDocument;
   saveDocument: (id: string, text: string) => Promise<any>;
-  userId: string;
+  user: IUser;
 }
 
 /**
  * 协同的 editor
  */
-const CollaborateEditor: React.FC<IProps> = ({
-  data,
-  saveDocument,
-  userId,
-}) => {
+const CollaborateEditor: React.FC<IProps> = ({ data, saveDocument, user }) => {
   const { query } = useRouter();
   const onlineSocketRef = React.useRef<any>(
     io("ws://127.0.0.1:8888", { path: "/online" })
@@ -34,8 +31,10 @@ const CollaborateEditor: React.FC<IProps> = ({
     onlineSocketRef.current.on("noticeEnter", handleNoticeEnter);
     onlineSocketRef.current.on("noticeLeave", handleNoticeLeave);
     return () => {
-      onlineSocketRef.current.emit("leave", { // 某用户退出后并通知服务端
-        uid: userId,
+      onlineSocketRef.current.emit("leave", {
+        // 某用户退出后并通知服务端
+        uid: user.id,
+        uName: user.name,
         did: data.id,
       });
       onlineSocketRef.current.off("noticeEnter", handleNoticeEnter);
@@ -49,7 +48,7 @@ const CollaborateEditor: React.FC<IProps> = ({
     // 进入的时候通知服务端，并广播给其他用户
     onlineSocketRef.current.emit(
       "enter",
-      { uid: userId, did: data.id },
+      { uid: user.id, did: data.id, uName: user.name },
       (res: any) => {
         const roomId = query.id as string;
         initConnect(roomId, res.length === 1); // 这里若长度大于 1，则表示除自己外，文档已经有人在线了
@@ -94,10 +93,26 @@ const CollaborateEditor: React.FC<IProps> = ({
   };
 
   // 处理 notice enter
-  const handleNoticeEnter = () => {};
+  const handleNoticeEnter = (enterData: any) => {
+    if (enterData.did === data.id) {
+      console.log("enter", enterData);
+      Notification.open({
+        title: `用户 ${enterData.uName} 进入文档`,
+        duration: 3,
+      });
+    }
+  };
 
   // 处理 notice leave
-  const handleNoticeLeave = () => {};
+  const handleNoticeLeave = (leaveData: any) => {
+    if (leaveData.did === data.id) {
+      console.log("leave", leaveData);
+      Notification.open({
+        title: `用户 ${leaveData.uName} 离开文档`,
+        duration: 3,
+      });
+    }
+  };
 
   return <div id="editor" className={styles.editor} />;
 };

@@ -6,4 +6,3 @@ Each package is 100% TypeScript.
 
 - `client`：web端
 - `server`：服务器
-

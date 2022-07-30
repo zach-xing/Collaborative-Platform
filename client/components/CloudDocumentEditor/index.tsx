@@ -94,7 +94,7 @@ const CloudDocumentEditor = () => {
       </div>
       <div className={styles.container}>
         {documentData?.collaborators !== "" ? (
-          <CollaborateEditor data={documentData!} saveDocument={saveDocument} userId={user.id} />
+          <CollaborateEditor data={documentData!} saveDocument={saveDocument} user={user} />
         ) : (
           <CommonEditor data={documentData!} saveDocument={saveDocument} />
         )}
