@@ -1,12 +1,14 @@
-import { Button, Card, Empty, Form } from "@douyinfe/semi-ui";
+import { Button, Card, Empty, Form, Space, Upload } from "@douyinfe/semi-ui";
 import React from "react";
 import io from "socket.io-client";
 import { CHAT_WITH_USER, event } from "../../events";
-import ChatMsgBubbleList from "./ChatBubbleMsgComp";
+import ChatMsgBubbleList from "./ChatMsgBubbleList";
 import ScrollBox from "../ScrollBox";
+import useLocalStorage from "../../hooks/use-localStorage";
 
 import styles from "./index.module.scss";
-import useLocalStorage from "../../hooks/use-localStorage";
+import { IconUpload } from "@douyinfe/semi-icons";
+import { sendImgToOSS } from "../../data/ali-oss";
 
 /**
  * chat 页面的 右部分
@@ -36,6 +38,20 @@ const ChatRight = () => {
       chat_line: val.chat_line,
       userId: user.id,
       userName: user.name,
+      type: "text",
+    });
+  };
+
+  // 发送图片时的处理
+  const handleUpload = async ({ file, onError, onSuccess }: any) => {
+    const data = await sendImgToOSS(file.name, file.fileInstance.slice());
+    console.log(data);
+    ioRef.current.emit("sendChat", {
+      chatRoomId: curChatRoom?.chatRoomId,
+      chat_line: data?.url,
+      userId: user.id,
+      userName: user.name,
+      type: "image",
     });
   };
 
@@ -48,7 +64,7 @@ const ChatRight = () => {
           bodyStyle={{
             display: "flex",
             flexDirection: "column",
-            height: "calc(100% - 64px)",
+            height: "calc(100% - 94px)",
           }}
           headerExtraContent={<div>更多</div>}
         >
@@ -66,9 +82,21 @@ const ChatRight = () => {
               size="large"
               maxLength={100}
             />
-            <Button type="primary" htmlType="submit">
-              发送
-            </Button>
+            <Space>
+              <Button type="primary" htmlType="submit">
+                发送
+              </Button>
+              <Upload
+                action=""
+                accept="image/*"
+                showUploadList={false}
+                customRequest={handleUpload}
+              >
+                <Button icon={<IconUpload />} theme="light">
+                  上传图片
+                </Button>
+              </Upload>
+            </Space>
           </Form>
         </Card>
       ) : (

@@ -15,6 +15,7 @@ export interface IChatLine {
   chatId: string;
   userId: string;
   userName: string;
-  line_text: string;
+  chat_line: string;
+  type: string;
   sendTime: string;
 }

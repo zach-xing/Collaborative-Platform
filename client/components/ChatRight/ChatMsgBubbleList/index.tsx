@@ -4,6 +4,8 @@ import React from "react";
 import { io } from "socket.io-client";
 import useLocalStorage from "../../../hooks/use-localStorage";
 import { IChatLine, IUser } from "../../../types";
+import ImageComp from "../ChatMsgType/Image";
+import Text from "../ChatMsgType/Text";
 
 import styles from "./index.module.scss";
 
@@ -14,6 +16,7 @@ const ChatMsgBubbleList = (props: { chatRoomId: string; socket: any }) => {
   const [user, _] = useLocalStorage<IUser>("user", {} as any);
   // const ioRef = React.useRef<any>(io("ws://127.0.0.1:8888", { path: "/chat" }));
   const [chatLineList, setChatLineList] = React.useState<Array<IChatLine>>([]);
+  const toEndRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     handleFetch();
@@ -24,6 +27,18 @@ const ChatMsgBubbleList = (props: { chatRoomId: string; socket: any }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // 因为 useEffect 的返回值的执行时机是在下次渲染之前调用，达到 vue 中的 nextTick 的效果
+  React.useEffect(() => {
+    return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      toEndRef.current!.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+        inline: "nearest",
+      });
+    };
+  });
+
   const handleFetch = () => {
     props.socket.emit("fetchChat", props.chatRoomId, (val: any) => {
       setChatLineList([...val]);
@@ -33,14 +48,12 @@ const ChatMsgBubbleList = (props: { chatRoomId: string; socket: any }) => {
   // 接收到信息的操作
   const handleRecvChat = (val: IChatLine) => {
     if (props.chatRoomId === val.chatId) {
-      const arr = [...chatLineList];
-      arr.push(val);
-      setChatLineList(arr);
+      setChatLineList((prev) => [...prev, val]);
     }
   };
 
   return (
-    <>
+    <div ref={toEndRef}>
       {chatLineList?.map((item, idx) => (
         <div
           key={item.id}
@@ -50,25 +63,23 @@ const ChatMsgBubbleList = (props: { chatRoomId: string; socket: any }) => {
             {item.userName[0]}
           </Avatar>
           <div style={{ width: "100%" }}>
-            {item.userName}
-            <Popover
-              position="right"
-              content={
-                <div style={{ padding: 5 }}>
-                  {dayjs(item.sendTime).format("YYYY-MM-DD HH:mm:ss")}
-                </div>
-              }
-            >
-              {item.userId === user.id ? (
-                <div className={styles.myMsg}>{item.line_text}</div>
+            <div>
+              <span style={{ fontWeight: "bold", marginRight: "10px" }}>
+                {item.userName}
+              </span>
+              {dayjs(item.sendTime).format("YYYY-MM-DD HH:mm")}
+            </div>
+            <div>
+              {item.type === "text" ? (
+                <Text isMe={item.userId === user.id} value={item.chat_line} />
               ) : (
-                <div className={styles.msg}>{item.line_text}</div>
+                <ImageComp value={item.chat_line} />
               )}
-            </Popover>
+            </div>
           </div>
         </div>
       ))}
-    </>
+    </div>
   );
 };
 

@@ -12,6 +12,7 @@
     "@douyinfe/semi-icons": "^2.14.0",
     "@douyinfe/semi-next": "^2.14.0",
     "@douyinfe/semi-ui": "^2.14.0",
+    "ali-oss": "^6.17.1",
     "axios": "^0.27.2",
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.3",
@@ -30,6 +31,7 @@
     "yjs": "^13.5.39"
   },
   "devDependencies": {
+    "@types/ali-oss": "^6.16.4",
     "@types/crypto-js": "^4.1.1",
     "@types/js-cookie": "^3.0.2",
     "@types/node": "18.0.3",
