@@ -84,9 +84,12 @@ const CloudDocumentEditor = () => {
           </Button>
           <div onClick={handleOpenModal}>
             <AvatarGroup maxCount={2} size="small">
+              <Avatar color="blue" alt={user.name}>
+                {user.name[0]}
+              </Avatar>
               {documentData?.collaboratorArr.map((item) => (
                 <Avatar key={item.id} color="blue" alt={item.name}>
-                  {item.name}
+                  {item.name[0]}
                 </Avatar>
               ))}
             </AvatarGroup>
@@ -137,7 +140,13 @@ const CloudDocumentEditor = () => {
             dataSource={documentData?.collaboratorArr}
             style={{ margin: "20px 0" }}
             renderItem={(item) => (
-              <List.Item header={<Avatar color="blue">{item.name[0]}</Avatar>}>
+              <List.Item
+                header={
+                  <Avatar color="blue" size="small">
+                    {item.name[0]}
+                  </Avatar>
+                }
+              >
                 {item.name}
               </List.Item>
             )}

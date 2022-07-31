@@ -70,6 +70,7 @@ const CollaborateEditor: React.FC<IProps> = ({
     return () => {
       event.off(SAVE_FILE_CONTENT, handleSave);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const initConnect = (room: string, isGetInitData: boolean) => {
