@@ -25,13 +25,13 @@ const ChatMsgBubbleList = (props: { chatRoomId: string; socket: any }) => {
       props.socket.off("recvChat", handleRecvChat);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [props.chatRoomId]);
 
   // 因为 useEffect 的返回值的执行时机是在下次渲染之前调用，达到 vue 中的 nextTick 的效果
   React.useEffect(() => {
     return () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      toEndRef.current!.scrollIntoView({
+      toEndRef.current?.scrollIntoView({
         behavior: "smooth",
         block: "end",
         inline: "nearest",
@@ -40,9 +40,14 @@ const ChatMsgBubbleList = (props: { chatRoomId: string; socket: any }) => {
   });
 
   const handleFetch = () => {
-    props.socket.emit("fetchChat", props.chatRoomId, (val: any) => {
-      setChatLineList([...val]);
-    });
+    props.socket.emit(
+      "fetchChat",
+      { chatRoomId: props.chatRoomId },
+      (val: any) => {
+        console.log(props.chatRoomId, val);
+        setChatLineList([...val]);
+      }
+    );
   };
 
   // 接收到信息的操作

@@ -21,12 +21,27 @@ const MoreOptionsModal: React.FC<IProps> = (props) => {
     io("ws://127.0.0.1:8888", { path: "/message" })
   );
   const [user, _] = useLocalStorage<IUser>("user", {} as any);
-  const { friendList } = useFetchFriends(user.id);
+  const { friendList, refetch } = useFetchFriends(user.id);
+
+  React.useEffect(() => {
+    return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      optSocketRef.current?.disconnect();
+    };
+  }, []);
+
+  // 若是创建群组，并且是已打开了 Modal，就获取 firend 列表
+  if (props.title === "create-group" && visible === true) {
+    refetch();
+  }
 
   const handleSubmit = async (value: any) => {
     try {
       if (title === "create-group") {
-        await createGroup(value);
+        await createGroup({
+          ids: [...value.ids, user.id],
+          name: value.name,
+        });
       } else {
         optSocketRef.current.emit("sendMessage", {
           sendId: user.id,
@@ -66,7 +81,7 @@ const MoreOptionsModal: React.FC<IProps> = (props) => {
               field="ids"
               rules={[
                 { required: true, message: "必填项" },
-                { type: "array", min: 3, message: "最少三个" },
+                { type: "array", min: 2, message: "最少加入两个" },
               ]}
             >
               {friendList?.map((item) => (
