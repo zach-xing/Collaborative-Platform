@@ -8,6 +8,9 @@ export class SendChatDto {
   chat_line: string;
 
   @IsString()
+  type: string;
+
+  @IsString()
   userId: string;
 
   @IsString()

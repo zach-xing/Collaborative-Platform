@@ -25,9 +25,10 @@ export class ChatService {
     return await this.prisma.chat_Line.create({
       data: {
         chatId: body.chatRoomId,
-        line_text: body.chat_line,
+        chat_line: body.chat_line,
         userId: body.userId,
         userName: body.userName,
+        type: body.type,
       },
     });
   }

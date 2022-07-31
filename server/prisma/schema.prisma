@@ -32,7 +32,8 @@ model User {
 
 model Chat_Line {
   id        String   @id @default(uuid())
-  line_text String   @db.Text
+  chat_line String   @db.Text
+  type      String
   sendTime  DateTime @default(now())
   chatRoom  ChatRoom @relation(fields: [chatId], references: [id])
   chatId    String
