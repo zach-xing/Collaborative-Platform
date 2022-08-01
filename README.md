@@ -12,6 +12,8 @@
 
 前端使用 [NextJS 12.2.0](https://nextjs.org/)，后端使用 [NestJS 8.0](https://nestjs.com/)
 
+[详细介绍](https://github.com/Zeekg-zk/Collaborative-Platform/wiki/Document)
+
 
 
 ## 技术栈
@@ -90,7 +92,7 @@ yarn start:dev # 后端
 
 ### 协同编辑
 
-<img alt="协同编辑" src="./doc/img/collaboration-edit.gif" />
+<img alt="协同编辑" src="./doc/gif/collaboration-edit.gif" />
 
 
 
