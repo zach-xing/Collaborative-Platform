@@ -87,7 +87,7 @@ const CloudDocumentEditor = () => {
               <Avatar color="blue" alt={user.name}>
                 {user.name[0]}
               </Avatar>
-              {documentData?.collaboratorArr.map((item) => (
+              {documentData?.collaboratorArr?.map((item) => (
                 <Avatar key={item.id} color="blue" alt={item.name}>
                   {item.name[0]}
                 </Avatar>

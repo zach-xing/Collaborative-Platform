@@ -12,26 +12,25 @@ import { io } from "socket.io-client";
 import useLocalStorage from "../../hooks/use-localStorage";
 import { IMessageItem, IUser } from "../../types";
 
+const bellSocket = io("ws://127.0.0.1:8888", { path: "/message" });
+
 /**
  * 实时通知的 Bell
  */
 const Bell = () => {
-  const bellSocketRef = React.useRef<any>(
-    io("ws://127.0.0.1:8888", { path: "/message" })
-  );
   const [user, _] = useLocalStorage<IUser>("user", {} as any);
   const [visible, setVisible] = React.useState(false);
   const [messageArr, setMessageArr] = React.useState<Array<IMessageItem>>([]);
 
   React.useEffect(() => {
     handleFetchMessage();
-    bellSocketRef.current.on("recvMssage", handleRecvMessage);
+    bellSocket.on("recvMssage", handleRecvMessage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // 处理获取 Message 信息
   const handleFetchMessage = () => {
-    bellSocketRef.current.emit("fetchMessage", user.id, (response: any) => {
+    bellSocket.emit("fetchMessage", user.id, (response: any) => {
       setMessageArr([...response]);
     });
   };
@@ -45,7 +44,7 @@ const Bell = () => {
 
   // 处理反馈的信息
   const handleFeedBack = (id: string, state: "agree" | "reject") => {
-    bellSocketRef.current.emit("feedbackMessage", { id, state }, (res: any) => {
+    bellSocket.emit("feedbackMessage", { id, state }, (res: any) => {
       if (res.status) {
         Toast.error(res.message);
       } else {
@@ -58,7 +57,7 @@ const Bell = () => {
 
   // 删除的信息
   const handleDelete = (id: string) => {
-    bellSocketRef.current.emit("deleteMessage", { id }, (res: any) => {
+    bellSocket.emit("deleteMessage", { id }, (res: any) => {
       if (res.status) {
         Toast.error(res.message);
       } else {

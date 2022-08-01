@@ -1,14 +1,16 @@
 import React from "react";
 import { useRouter } from "next/router";
-import { Avatar, Button, Nav } from "@douyinfe/semi-ui";
+import { Avatar, Button, Dropdown, Nav, Toast } from "@douyinfe/semi-ui";
 import { IconSemiLogo } from "@douyinfe/semi-icons";
 import { isLogin } from "../utils/auth";
 import Login from "../components/Login";
 import Register from "../components/Register";
 import Bell from "../components/Bell";
+import { useUser } from "../data/user";
 
 const Header = () => {
   const router = useRouter();
+  const { logout } = useUser();
   // 1 表示在首页时登录状态、2表示不在首页时登录状态、3表示未登录
   const [renderEl, setRenderEl] = React.useState<1 | 2 | 3>(1);
   const [loginVisible, setLoginVisible] = React.useState(false);
@@ -25,6 +27,13 @@ const Header = () => {
       setRenderEl(3);
     }
   }, [router.route]);
+
+  // 退出登录
+  const handleLogout = () => {
+    logout();
+    router.replace("/");
+    Toast.success("退出成功");
+  };
 
   return (
     <>
@@ -43,18 +52,30 @@ const Header = () => {
                 style={{ marginRight: 8 }}
               >
                 进入空间
-              </Button>{" "}
+              </Button>
               <Avatar color="orange" size="small">
-                YJ
+                U
               </Avatar>
             </>
           ) : renderEl === 2 ? (
-            <>
+            <div>
               <Bell />
-              <Avatar color="orange" size="small">
-                YJ
-              </Avatar>
-            </>
+              <Dropdown
+                trigger={"click"}
+                position={"bottomRight"}
+                render={
+                  <Dropdown.Menu>
+                    <Dropdown.Item onClick={handleLogout}>
+                      退出登录
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                }
+              >
+                <Avatar color="orange" size="small">
+                  U
+                </Avatar>
+              </Dropdown>
+            </div>
           ) : (
             <>
               <Button

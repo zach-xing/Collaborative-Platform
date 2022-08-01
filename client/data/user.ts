@@ -1,8 +1,7 @@
 import { Toast } from "@douyinfe/semi-ui";
 import React from "react";
-import { useQuery } from "react-query";
 import { IUser } from "../types";
-import { setCookie } from "../utils/cookie";
+import { setCookie, removeCookie } from "../utils/cookie";
 import request from "../utils/request";
 
 interface ILogin {
@@ -35,6 +34,9 @@ export function useUser() {
     }
   }, []);
 
+  /**
+   * 注册
+   */
   const register = React.useCallback(async (data: IRegister) => {
     try {
       await request({
@@ -48,8 +50,17 @@ export function useUser() {
     }
   }, []);
 
+  /**
+   * 退出登录
+   */
+  const logout = React.useCallback(() => {
+    removeCookie("token");
+    window.localStorage.removeItem("user");
+  }, []);
+
   return {
     login,
     register,
+    logout,
   };
 }
