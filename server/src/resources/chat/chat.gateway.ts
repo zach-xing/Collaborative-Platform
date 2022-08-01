@@ -30,7 +30,7 @@ export class ChatGateway {
    */
   @SubscribeMessage('fetchChat')
   async fetchChat(@MessageBody() body: { chatRoomId: string }) {
-    return this.chatService.fetchChat(body.chatRoomId);
+    return await this.chatService.fetchChat(body.chatRoomId);
   }
 
   /**

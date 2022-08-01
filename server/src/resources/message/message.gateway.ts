@@ -38,6 +38,7 @@ export class MessageGateway {
     // 接收信息，并存数据库，并返回给客户端
     const data = await this.messageService.sendMessage(body);
     this.ws.emit('recvMssage', data);
+    return data;
   }
 
   /**

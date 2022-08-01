@@ -33,7 +33,7 @@ export class MessageService {
       where: { email: body.email },
     });
     if (user === null) {
-      throw new HttpException('此邮箱不存在', HttpStatus.BAD_REQUEST);
+      return new HttpException('此邮箱不存在', HttpStatus.BAD_REQUEST);
     }
     const tmp = await this.prisma.user.findUnique({
       where: { id: body.sendId },
