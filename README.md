@@ -76,7 +76,7 @@ yarn start:dev # 后端
 
 ### 在线聊天
 
-<img alt="在线聊天" src="./doc/img/chat.png" />
+<img alt="在线聊天" src="./doc/gif/chat.gif" />
 
 ### 工作台
 
