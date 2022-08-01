@@ -2,6 +2,7 @@ import { Button, Form, Toast } from "@douyinfe/semi-ui";
 import React from "react";
 import { sendReport } from "../../../data/workbench";
 import useLocalStorage from "../../../hooks/use-localStorage";
+import { IUser } from "../../../types";
 
 const infoArr = [
   { title1: "今日总结", title2: "明日计划" },
@@ -18,7 +19,7 @@ interface IProps {
  */
 const SendReportForm: React.FC<IProps> = (props) => {
   const { flag } = props;
-  const [user, _] = useLocalStorage("user", "");
+  const [user, _] = useLocalStorage<IUser>("user", {} as any);
 
   const handleSubmit = async (value: any) => {
     try {
