@@ -21,6 +21,7 @@ const ChatRight = () => {
     chatRoomId: string;
   } | null>(null);
 
+  // 处理自定义 evnet
   React.useEffect(() => {
     const handle = (val: any) => {
       setCurChatRoom(val);

@@ -3,7 +3,7 @@ import Quill from "quill";
 import QuillCursors from "quill-cursors";
 import React from "react";
 import { Modal, Notification, Toast } from "@douyinfe/semi-ui";
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import { QuillBinding } from "y-quill";
 import { event, SAVE_FILE_CONTENT } from "../../../events";
 import { IDocument, IUser } from "../../../types";
@@ -28,32 +28,30 @@ const CollaborateEditor: React.FC<IProps> = ({
   fetchDocumentVersion,
 }) => {
   const { query } = useRouter();
-  const onlineSocketRef = React.useRef<any>(
-    io("ws://127.0.0.1:8888", { path: "/online" })
-  );
+  const onlineSocketRef = React.useRef<Socket | null>(null);
   const QuillRef = React.useRef<Quill>();
 
   // 这个 useEffect 和监听在线用户相关
   React.useEffect(() => {
-    onlineSocketRef.current.on("noticeEnter", handleNoticeEnter);
-    onlineSocketRef.current.on("noticeLeave", handleNoticeLeave);
+    const socket = io("ws://127.0.0.1:8888", { path: "/online" });
+    socket.on("noticeEnter", handleNoticeEnter);
+    socket.on("noticeLeave", handleNoticeLeave);
+    onlineSocketRef.current = socket;
     return () => {
-      onlineSocketRef.current.emit("leave", {
+      socket.emit("leave", {
         // 某用户退出后并通知服务端
         uid: user.id,
         uName: user.name,
         did: data.id,
       });
-      onlineSocketRef.current.off("noticeEnter", handleNoticeEnter);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      onlineSocketRef.current.off("noticeLeave", handleNoticeLeave);
+      socket.close();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {
     // 进入的时候通知服务端，并广播给其他用户
-    onlineSocketRef.current.emit(
+    onlineSocketRef.current?.emit(
       "enter",
       { uid: user.id, did: data.id, uName: user.name },
       (res: any) => {
@@ -70,7 +68,7 @@ const CollaborateEditor: React.FC<IProps> = ({
     return () => {
       event.off(SAVE_FILE_CONTENT, handleSave);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const initConnect = (room: string, isGetInitData: boolean) => {

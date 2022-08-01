@@ -1,6 +1,6 @@
 import { Modal, Form, Button, Toast } from "@douyinfe/semi-ui";
 import React from "react";
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import { createGroup } from "../../../data/chatroom";
 import { useFetchFriends } from "../../../data/friend";
 import useLocalStorage from "../../../hooks/use-localStorage";
@@ -17,22 +17,21 @@ interface IProps {
  */
 const MoreOptionsModal: React.FC<IProps> = (props) => {
   const { title, visible, setVisible } = props;
-  const optSocketRef = React.useRef<any>(
-    io("ws://127.0.0.1:8888", { path: "/message" })
-  );
+  const optSocketRef = React.useRef<Socket | null>(null);
   const [user, _] = useLocalStorage<IUser>("user", {} as any);
-  const { friendList, refetch } = useFetchFriends(user.id);
+  const { friendList, refetchFriend } = useFetchFriends(user.id);
 
   React.useEffect(() => {
+    const socket = io("ws://127.0.0.1:8888", { path: "/message" });
+    optSocketRef.current = socket;
     return () => {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      optSocketRef.current?.disconnect();
+      socket.close();
     };
   }, []);
 
   // 若是创建群组，并且是已打开了 Modal，就获取 firend 列表
   if (props.title === "create-group" && visible === true) {
-    refetch();
+    refetchFriend();
   }
 
   const handleSubmit = async (value: any) => {
@@ -43,7 +42,7 @@ const MoreOptionsModal: React.FC<IProps> = (props) => {
           name: value.name,
         });
       } else {
-        optSocketRef.current.emit("sendMessage", {
+        optSocketRef.current?.emit("sendMessage", {
           sendId: user.id,
           email: value.email,
         });

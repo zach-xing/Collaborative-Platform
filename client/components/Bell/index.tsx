@@ -8,29 +8,35 @@ import {
   Toast,
 } from "@douyinfe/semi-ui";
 import React from "react";
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import useLocalStorage from "../../hooks/use-localStorage";
 import { IMessageItem, IUser } from "../../types";
 
-const bellSocket = io("ws://127.0.0.1:8888", { path: "/message" });
+// const bellSocket = io("ws://127.0.0.1:8888", { path: "/message" });
 
 /**
  * 实时通知的 Bell
  */
 const Bell = () => {
+  const bellSocketRef = React.useRef<Socket | null>(null);
   const [user, _] = useLocalStorage<IUser>("user", {} as any);
   const [visible, setVisible] = React.useState(false);
   const [messageArr, setMessageArr] = React.useState<Array<IMessageItem>>([]);
 
   React.useEffect(() => {
+    const socket = io("ws://127.0.0.1:8888", { path: "/message" });
     handleFetchMessage();
-    bellSocket.on("recvMssage", handleRecvMessage);
+    socket.on("recvMssage", handleRecvMessage);
+    bellSocketRef.current = socket;
+    return () => {
+      socket.close();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // 处理获取 Message 信息
   const handleFetchMessage = () => {
-    bellSocket.emit("fetchMessage", user.id, (response: any) => {
+    bellSocketRef.current?.emit("fetchMessage", user.id, (response: any) => {
       setMessageArr([...response]);
     });
   };
@@ -44,20 +50,24 @@ const Bell = () => {
 
   // 处理反馈的信息
   const handleFeedBack = (id: string, state: "agree" | "reject") => {
-    bellSocket.emit("feedbackMessage", { id, state }, (res: any) => {
-      if (res.status) {
-        Toast.error(res.message);
-      } else {
-        Toast.success("反馈成功");
+    bellSocketRef.current?.emit(
+      "feedbackMessage",
+      { id, state },
+      (res: any) => {
+        if (res.status) {
+          Toast.error(res.message);
+        } else {
+          Toast.success("反馈成功");
+        }
+        handleFetchMessage();
+        setVisible(false);
       }
-      handleFetchMessage();
-      setVisible(false);
-    });
+    );
   };
 
   // 删除的信息
   const handleDelete = (id: string) => {
-    bellSocket.emit("deleteMessage", { id }, (res: any) => {
+    bellSocketRef.current?.emit("deleteMessage", { id }, (res: any) => {
       if (res.status) {
         Toast.error(res.message);
       } else {

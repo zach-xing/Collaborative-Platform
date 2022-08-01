@@ -22,6 +22,8 @@ export function useFetchChatUserList(id: string) {
     () => fetchChatUserList(id),
     {
       refetchInterval: false,
+      refetchIntervalInBackground: false,
+      refetchOnWindowFocus: false,
     }
   );
 

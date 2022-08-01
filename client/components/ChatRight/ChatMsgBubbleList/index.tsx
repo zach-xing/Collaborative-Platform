@@ -1,7 +1,6 @@
-import { Avatar, Popover } from "@douyinfe/semi-ui";
+import { Avatar } from "@douyinfe/semi-ui";
 import dayjs from "dayjs";
 import React from "react";
-import { io } from "socket.io-client";
 import useLocalStorage from "../../../hooks/use-localStorage";
 import { IChatLine, IUser } from "../../../types";
 import ImageComp from "../ChatMsgType/Image";
@@ -14,7 +13,6 @@ import styles from "./index.module.scss";
  */
 const ChatMsgBubbleList = (props: { chatRoomId: string; socket: any }) => {
   const [user, _] = useLocalStorage<IUser>("user", {} as any);
-  // const ioRef = React.useRef<any>(io("ws://127.0.0.1:8888", { path: "/chat" }));
   const [chatLineList, setChatLineList] = React.useState<Array<IChatLine>>([]);
   const toEndRef = React.useRef<HTMLDivElement>(null);
 
@@ -44,7 +42,6 @@ const ChatMsgBubbleList = (props: { chatRoomId: string; socket: any }) => {
       "fetchChat",
       { chatRoomId: props.chatRoomId },
       (val: any) => {
-        console.log(props.chatRoomId, val);
         setChatLineList([...val]);
       }
     );

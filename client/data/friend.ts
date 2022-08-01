@@ -27,6 +27,6 @@ export function useFetchFriends(id: string) {
 
   return {
     friendList: data,
-    refetch,
+    refetchFriend: refetch,
   };
 }

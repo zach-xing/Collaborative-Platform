@@ -70,12 +70,12 @@ const SendReport = () => {
       </Row>
 
       <Modal
-        title="全屏对话框标题"
+        title="汇报"
         fullScreen
         visible={visible}
-        onOk={onClose}
         onCancel={onClose}
         bodyStyle={{ display: "flex", justifyContent: "center" }}
+        footer={null}
       >
         <SendReportForm flag={flag} />
       </Modal>
