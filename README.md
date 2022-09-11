@@ -12,6 +12,8 @@
 
 前端使用 [NextJS 12.2.0](https://nextjs.org/)，后端使用 [NestJS 8.0](https://nestjs.com/)
 
+后台管理界面使用 **`Ant Design Pro`**
+
 [详细介绍](https://github.com/Zeekg-zk/Collaborative-Platform/wiki/Document)
 
 
@@ -26,8 +28,7 @@
 
 - `client`：web端
 - `server`：服务端
-
-
+- `admin`：后台管理
 
 ## 项目启动
 
