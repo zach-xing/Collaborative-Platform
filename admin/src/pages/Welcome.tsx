@@ -41,6 +41,7 @@ const Welcome: React.FC = () => {
           </a>
         </Typography.Text>
         <CodePreview>yarn add @ant-design/pro-components</CodePreview>
+        <Typography.Text strong>这里打算做点可视化？就是搞点统计吧</Typography.Text>
       </Card>
     </PageContainer>
   );
