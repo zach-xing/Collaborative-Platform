@@ -1,0 +1,14 @@
+.root {
+  overflow: hidden;
+  height: 100vh;
+}
+
+.header {
+  background-color: white;
+}
+
+.content {
+  overflow: auto;
+  max-height: calc(100vh - 64px);
+  padding: 24px;
+}
