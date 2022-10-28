@@ -5,6 +5,12 @@
 
 .header {
   background-color: white;
+  display: flex;
+  justify-content: space-between;
+  .title {
+    font-size: 20px;
+    font-weight: bold;
+  }
 }
 
 .content {

@@ -31,11 +31,11 @@ const navArr: Array<{ itemKey: string; text: string; icon: React.ReactNode }> =
       text: "云文档",
       icon: <IconCloud size="large" />,
     },
-    {
-      itemKey: "calendar",
-      text: "日历",
-      icon: <IconCalendar size="large" />,
-    },
+    // {
+    //   itemKey: "calendar",
+    //   text: "日历",
+    //   icon: <IconCalendar size="large" />,
+    // },
   ];
 
 const Sidebar = () => {

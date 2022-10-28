@@ -31,7 +31,7 @@ const CloudDocumentEditor = () => {
   const [user, _] = useLocalStorage("user", {} as any);
   const { documentData, isLoading, saveDocument, fetchDocumentVersion } =
     useFetchDocument(router.query.id as string);
-  const { friendList, refetch } = useFetchFriends(user.id);
+  const { friendList, refetchFriend } = useFetchFriends(user.id);
   const [visible, setVisible] = React.useState(false);
 
   if (isLoading) {
@@ -52,7 +52,7 @@ const CloudDocumentEditor = () => {
 
   // 打开Modal，并获取 friend 信息
   const handleOpenModal = () => {
-    refetch();
+    refetchFriend();
     setVisible(true);
   };
 

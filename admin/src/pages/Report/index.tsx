@@ -1,12 +1,13 @@
-import { Button, Space, Table, Tag } from "antd";
+import { Button, Descriptions, Modal, Space, Table, Tag } from "antd";
 import React from "react";
+import { useFetchReport } from "../../data/report";
 
 const { Column } = Table;
 
 interface DataType {
   key: React.Key;
   id: string;
-  type: "week" | "day" | "month";
+  type: string;
   curReport: string;
   prevReport: string;
   otherReport: string;
@@ -15,46 +16,24 @@ interface DataType {
   name: string;
 }
 
-const data: DataType[] = [
-  {
-    key: "1",
-    id: "1",
-    name: "John",
-    curReport: "sdf",
-    prevReport: "sdfsdfsdfsd",
-    otherReport: "sfdsdf",
-    sendTime: "2022-10-24",
-    title: "123123",
-    type: "day",
-  },
-  {
-    key: "2",
-    id: "2",
-    name: "sdfsdf",
-    curReport: "sdf",
-    prevReport: "sdfsdfsdfsd",
-    otherReport: "sfdsdf",
-    sendTime: "2022-10-24",
-    title: "123123",
-    type: "week",
-  },
-  {
-    key: "3",
-    id: "3",
-    name: "qqqqqqq",
-    curReport: "sdf",
-    prevReport: "sdfsdfsdfsd",
-    otherReport: "sfdsdf",
-    sendTime: "2022-10-24",
-    title: "123123",
-    type: "month",
-  },
-];
-
 const Report = () => {
+  const { list, isLoading } = useFetchReport();
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [curData, setCurData] = React.useState<DataType>();
+
+  if (isLoading) {
+    return <>Loading...</>;
+  }
+
+  const handleOpen = (data: any) => {
+    setIsModalOpen(true);
+    console.log(data);
+    setCurData(data);
+  };
+
   return (
     <>
-      <Table dataSource={data}>
+      <Table dataSource={list}>
         <Column title="Id" dataIndex="id" key="id" />
         <Column title="姓名" dataIndex="name" key="name" />
         <Column title="标题" dataIndex="title" key="title" />
@@ -64,7 +43,7 @@ const Report = () => {
           key="type"
           render={(state: string) => (
             <Tag color="blue" key={state}>
-              {state === "day" ? "日报" : state === "week" ? "周报" : "月报"}
+              {state === "0" ? "日报" : state === "1" ? "周报" : "月报"}
             </Tag>
           )}
         />
@@ -74,11 +53,34 @@ const Report = () => {
           key="action"
           render={(_: any, record: DataType) => (
             <Space size="middle">
-              <Button>查看</Button>
+              <Button onClick={() => handleOpen(record)}>查看</Button>
             </Space>
           )}
         />
       </Table>
+
+      <Modal
+        title="查看"
+        open={isModalOpen}
+        onCancel={() => setIsModalOpen(false)}
+        width={1000}
+        footer={null}
+      >
+        <Descriptions title="" bordered>
+          <Descriptions.Item label="发布时间">
+            {curData?.sendTime}
+          </Descriptions.Item>
+          <Descriptions.Item label="当天/周/月">
+            {curData?.curReport}
+          </Descriptions.Item>
+          <Descriptions.Item label="明天/下周/下月">
+            {curData?.prevReport}
+          </Descriptions.Item>
+          <Descriptions.Item label="其他">
+            {curData?.otherReport}
+          </Descriptions.Item>
+        </Descriptions>
+      </Modal>
     </>
   );
 };

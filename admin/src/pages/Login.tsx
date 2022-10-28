@@ -14,7 +14,8 @@ export default function Login() {
   // 登录
   const onFinish = async (values: any) => {
     console.log(values);
-
+    navigate("/");
+    message.success("登录成功");
     // try {
     //   const data = await login(values);
     //   window.localStorage.setItem("user", JSON.stringify(data));

@@ -1,6 +1,6 @@
 import { Button, Space, Table } from "antd";
 import React from "react";
-import { fetchUser, useFetchUser } from "../../data/user";
+import { useFetchUser } from "../../data/user";
 
 const { Column } = Table;
 

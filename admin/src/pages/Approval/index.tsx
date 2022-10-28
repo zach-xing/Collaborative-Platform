@@ -1,5 +1,6 @@
-import { Button, Space, Table, Tag } from "antd";
+import { Button, Form, message, Modal, Radio, Space, Table, Tag } from "antd";
 import React from "react";
+import { updateApproval, useFetchApproval } from "../../data/approval";
 
 const { Column } = Table;
 
@@ -13,40 +14,29 @@ interface DataType {
   name: string;
 }
 
-const data: DataType[] = [
-  {
-    key: "1",
-    id: "1",
-    name: "John",
-    startTime: "2022-10-22",
-    endTime: "2022-10-23",
-    reason: "sdf",
-    state: "agree",
-  },
-  {
-    key: "2",
-    id: "2",
-    name: "sdfsdf",
-    startTime: "2022-10-22",
-    endTime: "2022-10-23",
-    reason: "sdf",
-    state: "reject",
-  },
-  {
-    key: "3",
-    id: "3",
-    name: "qqqqqqq",
-    startTime: "2022-10-22",
-    endTime: "2022-10-23",
-    reason: "sdf",
-    state: "pending",
-  },
-];
-
 const Approval = () => {
+  const { list, isLoading, refetch } = useFetchApproval();
+  const [curId, setCurId] = React.useState<string | undefined>();
+
+  if (isLoading) {
+    return <>Loading...</>;
+  }
+
+  const onFinish = async (values: any) => {
+    console.log("Success:", values);
+    try {
+      await updateApproval(curId as string, values.state);
+      refetch();
+      setCurId(undefined);
+      message.success("审批成功");
+    } catch (error) {
+      message.error("审批出错");
+    }
+  };
+
   return (
     <>
-      <Table dataSource={data}>
+      <Table dataSource={list}>
         <Column title="Id" dataIndex="id" key="id" />
         <Column title="姓名" dataIndex="name" key="name" />
         <Column title="开始时间" dataIndex="startTime" key="startTime" />
@@ -81,11 +71,43 @@ const Approval = () => {
           key="action"
           render={(_: any, record: DataType) => (
             <Space size="middle">
-              <Button>更改</Button>
+              <Button onClick={() => setCurId(record.id)}>更改状态</Button>
             </Space>
           )}
         />
       </Table>
+
+      <Modal
+        title="审批"
+        open={curId !== undefined}
+        onCancel={() => setCurId(undefined)}
+        footer={null}
+      >
+        <Form
+          name="basic"
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
+          onFinish={onFinish}
+          autoComplete="off"
+        >
+          <Form.Item
+            label="状态"
+            name="state"
+            rules={[{ required: true, message: "Please Select!" }]}
+          >
+            <Radio.Group>
+              <Radio value="agree"> 同意 </Radio>
+              <Radio value="reject"> 拒绝 </Radio>
+            </Radio.Group>
+          </Form.Item>
+
+          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
     </>
   );
 };

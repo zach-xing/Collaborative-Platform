@@ -3,7 +3,7 @@ import {
   NotificationOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu, MenuProps } from "antd";
+import { Button, Layout, Menu, MenuProps, message } from "antd";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./index.module.scss";
@@ -24,11 +24,23 @@ const LayoutComp: React.FC<IProps> = (props) => {
     navigate(e.key);
   };
 
+  const logout = () => {
+    navigate("/login");
+    message.success("退出成功");
+  };
+
   return (
     <Layout className={styles.root}>
       <Header className={styles.header}>
-        <div className="logo" />
-        后台管理系统
+        <div>
+          {/* <div className="logo" /> */}
+          <div className={styles.title}>后台管理系统</div>
+        </div>
+        <div>
+          <Button type="link" danger onClick={logout}>
+            退出登录
+          </Button>
+        </div>
       </Header>
       <Layout>
         <Sider width={200} className="site-layout-background">
@@ -46,12 +58,12 @@ const LayoutComp: React.FC<IProps> = (props) => {
               },
               {
                 key: "/approval",
-                icon: <UserOutlined />,
+                icon: <LaptopOutlined />,
                 label: `审批管理`,
               },
               {
                 key: "/report",
-                icon: <UserOutlined />,
+                icon: <NotificationOutlined />,
                 label: `报告管理`,
               },
             ]}

@@ -1,22 +1,22 @@
 import { useQuery } from "react-query";
 import request from "../utils/requset";
 
-function fetchUser() {
+function fetchReport() {
   return request({
-    url: "/user",
+    url: "/report",
     method: "GET",
   });
 }
 
 /**
- * 获取用户数据
+ * 获取汇报数据
  */
-export function useFetchUser() {
-  const { data, refetch, isLoading } = useQuery("user", fetchUser, {
+export function useFetchReport() {
+  const { data, refetch, isLoading } = useQuery("report", fetchReport, {
     refetchInterval: false,
     refetchIntervalInBackground: false,
     refetchOnWindowFocus: false,
   });
   const list = data?.map((v: any) => ({ ...v, key: v.id })) || [];
-  return { userList: list, refetch, isLoading };
+  return { list, refetch, isLoading };
 }
